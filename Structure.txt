@@ -1,0 +1,5 @@
+﻿ApecMovie sử dụng:
+
++> MicroServices và CleanArchitecture
++> Sử dụng Minio để lưu file.
++> Sử dụng Redis để lưu cache.

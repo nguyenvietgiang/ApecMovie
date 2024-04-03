@@ -1,0 +1,11 @@
+﻿Kế hoạc thực hiện (Dự kiến trong 4 tuần)
+
+Tuần 1:
++) Xem lại các kiến thức về SOLID & Design Patterns, Minio và MicroServices.
++) Tìm hiểu về Minio, Docker.
+Tuần 2:
++) Xây dựng UserServices và MovieServices.
+Tuần 3:
++) Xây dựng BookingServices.
+Tuần 4:
++) ApiGateways và triển khai với Doker.

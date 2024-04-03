@@ -1,0 +1,75 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34701.34
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Document", "Document", "{1B585B16-8451-4093-BDA2-B337AE2C4EFC}"
+	ProjectSection(SolutionItems) = preProject
+		Plan.txt = Plan.txt
+		Requirment.txt = Requirment.txt
+		Structure.txt = Structure.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Src", "Src", "{E6A9AA3D-E400-4D23-B26F-C686C2EF5898}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{61A14398-F7B1-449B-B7D5-E3B557E4B6C8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{4C7E27D1-8984-4D76-9990-BD1769862EBF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApiGateways", "ApiGateways", "{8C29C438-6264-4161-8238-742A64A0723C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UserServices", "UserServices", "{F766E42E-283D-4853-AE31-99E635791AEC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MovieServices", "MovieServices", "{0319279C-6B3F-4A4E-95E5-D182CE770D37}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TicketServices", "TicketServices", "{3BA492E6-184C-40B6-9F2C-96CA71762A87}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieServices.Domain", "MovieServices.Domain\MovieServices.Domain.csproj", "{AFA1AD27-168A-43F8-A46C-F824EF5D93F6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieServices.Infrastructure", "MovieServices.Infrastructure\MovieServices.Infrastructure.csproj", "{25143854-BF8E-4009-A06D-7AE52E920BFD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieServices.Application", "MovieServices.Application\MovieServices.Application.csproj", "{0513A6BB-62DC-4A59-A8C9-AEF65EDBDB25}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieServices.Api", "MovieServices.Api\MovieServices.Api.csproj", "{89EE8CEF-B1B3-405B-BABA-DB05CC1AE29C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AFA1AD27-168A-43F8-A46C-F824EF5D93F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFA1AD27-168A-43F8-A46C-F824EF5D93F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFA1AD27-168A-43F8-A46C-F824EF5D93F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFA1AD27-168A-43F8-A46C-F824EF5D93F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{25143854-BF8E-4009-A06D-7AE52E920BFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{25143854-BF8E-4009-A06D-7AE52E920BFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{25143854-BF8E-4009-A06D-7AE52E920BFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{25143854-BF8E-4009-A06D-7AE52E920BFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0513A6BB-62DC-4A59-A8C9-AEF65EDBDB25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0513A6BB-62DC-4A59-A8C9-AEF65EDBDB25}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0513A6BB-62DC-4A59-A8C9-AEF65EDBDB25}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0513A6BB-62DC-4A59-A8C9-AEF65EDBDB25}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89EE8CEF-B1B3-405B-BABA-DB05CC1AE29C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89EE8CEF-B1B3-405B-BABA-DB05CC1AE29C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89EE8CEF-B1B3-405B-BABA-DB05CC1AE29C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89EE8CEF-B1B3-405B-BABA-DB05CC1AE29C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4C7E27D1-8984-4D76-9990-BD1769862EBF} = {E6A9AA3D-E400-4D23-B26F-C686C2EF5898}
+		{8C29C438-6264-4161-8238-742A64A0723C} = {E6A9AA3D-E400-4D23-B26F-C686C2EF5898}
+		{F766E42E-283D-4853-AE31-99E635791AEC} = {4C7E27D1-8984-4D76-9990-BD1769862EBF}
+		{0319279C-6B3F-4A4E-95E5-D182CE770D37} = {4C7E27D1-8984-4D76-9990-BD1769862EBF}
+		{3BA492E6-184C-40B6-9F2C-96CA71762A87} = {4C7E27D1-8984-4D76-9990-BD1769862EBF}
+		{AFA1AD27-168A-43F8-A46C-F824EF5D93F6} = {0319279C-6B3F-4A4E-95E5-D182CE770D37}
+		{25143854-BF8E-4009-A06D-7AE52E920BFD} = {0319279C-6B3F-4A4E-95E5-D182CE770D37}
+		{0513A6BB-62DC-4A59-A8C9-AEF65EDBDB25} = {0319279C-6B3F-4A4E-95E5-D182CE770D37}
+		{89EE8CEF-B1B3-405B-BABA-DB05CC1AE29C} = {0319279C-6B3F-4A4E-95E5-D182CE770D37}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {779AF1C2-4212-456D-87EB-454DD8205177}
+	EndGlobalSection
+EndGlobal

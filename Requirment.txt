@@ -1,0 +1,10 @@
+﻿Dự án Demo tại APEC Group
+
+Tìm hiểu các công nghệ: Microservice, SOLID & Design Patterns, API Gateway, Minio, Docker, Redis, RabbitMQ.
+Xây dựng hệ thống microservice quản lý tài khoản và bán vé xem phim đáp ứng những yêu cầu sau (không cần làm chi tiết các trường dữ liệu chỉ cần làm để đáp ứng các yêu cầu)
++> Sử dụng API Gateway, Swagger doc, Unit test.
++> Sử dụng docker để triển khai.
++> Sử dụng Minio để lưu file.
++> Sử dụng Redis để lưu cache.
++> Sử dụng database PostgreSQL, Migration tạo cấu trức CSDL, Design Patterns Repository thao tác với CSDL.
++> Sử dụng RabbitMQ để nhận Queues và xử lý logic.
