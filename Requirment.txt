@@ -8,3 +8,6 @@ Xây dựng hệ thống microservice quản lý tài khoản và bán vé xem p
 +> Sử dụng Redis để lưu cache.
 +> Sử dụng database PostgreSQL, Migration tạo cấu trức CSDL, Design Patterns Repository thao tác với CSDL.
 +> Sử dụng RabbitMQ để nhận Queues và xử lý logic.
+
+- tuần 1: SOILD, MINIO, REDID, UNIT TEST, ưu, nhược điểm khi nào cần dùng. 
+tìm hiểu thêm grpc

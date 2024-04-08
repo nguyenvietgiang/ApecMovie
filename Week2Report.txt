@@ -1,0 +1,21 @@
+﻿Báo cáo tìm hiểu tuần thứ 2:
++ Tìm hiểu về gRPC
+Tổng quan
+- Được phát triển bởi Google sử dụng HTTP/2 làm phương tiện truyền tải và 
+Protocol Buffers (!= với Json và XML) làm định dạng dữ liệu nhị phân để giao tiếp giữa máy khách và chủ.
+Lợi thế khi dùng gRPC so với REST
+- Thường được sử dụng trong các hệ thống phân tán lớn giúp tăng hiệu năng và 
+
+Cấu trúc và các hoạt động của gRPC
+về cấu trúc:
+File Protobuf: Nơi định nghĩa CTDL và giao diện của dịch vụ gRPC. 
+File protobuf thường có phần mở rộng là .proto. Nơi có thể định nghĩa các message
+(loại dữ liệu nơi định nghĩa cách dữ liệu và cách truyền đi)
+
+cách triển khai
+viết protobuf
+viết services để xử lý yêu cầu từ client (có thể tiển khai cùng ef core và repo để xử lý chung)
+đăng ký map trong program.cs
+Sau đó triển khai client (cả client và server đều cần sử dụng File protobuf)
+
+

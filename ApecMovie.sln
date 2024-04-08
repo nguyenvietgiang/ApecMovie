@@ -8,6 +8,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Document", "Document", "{1B
 		Plan.txt = Plan.txt
 		Requirment.txt = Requirment.txt
 		Structure.txt = Structure.txt
+		Week2Report.txt = Week2Report.txt
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Src", "Src", "{E6A9AA3D-E400-4D23-B26F-C686C2EF5898}"
@@ -24,13 +25,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MovieServices", "MovieServi
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TicketServices", "TicketServices", "{3BA492E6-184C-40B6-9F2C-96CA71762A87}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieServices.Domain", "MovieServices.Domain\MovieServices.Domain.csproj", "{AFA1AD27-168A-43F8-A46C-F824EF5D93F6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieServices.Domain", "MovieServices.Domain\MovieServices.Domain.csproj", "{AFA1AD27-168A-43F8-A46C-F824EF5D93F6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieServices.Infrastructure", "MovieServices.Infrastructure\MovieServices.Infrastructure.csproj", "{25143854-BF8E-4009-A06D-7AE52E920BFD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieServices.Infrastructure", "MovieServices.Infrastructure\MovieServices.Infrastructure.csproj", "{25143854-BF8E-4009-A06D-7AE52E920BFD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieServices.Application", "MovieServices.Application\MovieServices.Application.csproj", "{0513A6BB-62DC-4A59-A8C9-AEF65EDBDB25}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieServices.Application", "MovieServices.Application\MovieServices.Application.csproj", "{0513A6BB-62DC-4A59-A8C9-AEF65EDBDB25}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieServices.Api", "MovieServices.Api\MovieServices.Api.csproj", "{89EE8CEF-B1B3-405B-BABA-DB05CC1AE29C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieServices.Api", "MovieServices.Api\MovieServices.Api.csproj", "{89EE8CEF-B1B3-405B-BABA-DB05CC1AE29C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApecMovieGateWay", "ApecMovieGateWay\ApecMovieGateWay.csproj", "{7AE18D12-8E9C-4175-A414-170799DE7F1D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -54,6 +57,10 @@ Global
 		{89EE8CEF-B1B3-405B-BABA-DB05CC1AE29C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{89EE8CEF-B1B3-405B-BABA-DB05CC1AE29C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{89EE8CEF-B1B3-405B-BABA-DB05CC1AE29C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7AE18D12-8E9C-4175-A414-170799DE7F1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7AE18D12-8E9C-4175-A414-170799DE7F1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7AE18D12-8E9C-4175-A414-170799DE7F1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7AE18D12-8E9C-4175-A414-170799DE7F1D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -68,6 +75,7 @@ Global
 		{25143854-BF8E-4009-A06D-7AE52E920BFD} = {0319279C-6B3F-4A4E-95E5-D182CE770D37}
 		{0513A6BB-62DC-4A59-A8C9-AEF65EDBDB25} = {0319279C-6B3F-4A4E-95E5-D182CE770D37}
 		{89EE8CEF-B1B3-405B-BABA-DB05CC1AE29C} = {0319279C-6B3F-4A4E-95E5-D182CE770D37}
+		{7AE18D12-8E9C-4175-A414-170799DE7F1D} = {8C29C438-6264-4161-8238-742A64A0723C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {779AF1C2-4212-456D-87EB-454DD8205177}
