@@ -3,3 +3,13 @@
 +> MicroServices và CleanArchitecture
 +> Sử dụng Minio để lưu file.
 +> Sử dụng Redis để lưu cache.
+
+MicroServices
++> Sử dụng gRPC để connect giữa các MicroServices
+
+CleanArchitecture
+
++> Domain
++> Application
++> Infrastructure
++> APIs

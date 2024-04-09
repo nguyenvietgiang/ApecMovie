@@ -18,4 +18,9 @@ viết services để xử lý yêu cầu từ client (có thể tiển khai cù
 đăng ký map trong program.cs
 Sau đó triển khai client (cả client và server đều cần sử dụng File protobuf)
 
++ Xây dựng MovieServices với kiến trúc Clean Architecture
+Cho phép thêm, sửa xóa, quản lý các bộ phim trên CSDL PostgreSQL
+Các công nghệ sử dụng.
+(PostgreSQL, FluantValidator, EF core, Redis, Minio, Serilog)
+
 
