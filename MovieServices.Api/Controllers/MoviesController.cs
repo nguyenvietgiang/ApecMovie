@@ -31,7 +31,7 @@ namespace MovieServices.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateMovie([FromBody] MovieDTO movieDTO)
+        public async Task<IActionResult> CreateMovie([FromForm] MovieDTO movieDTO)
         {
             var response = await _movieServices.CreateMovie(movieDTO);
             return StatusCode(response.StatusCode, response);

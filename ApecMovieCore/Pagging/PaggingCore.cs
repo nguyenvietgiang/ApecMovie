@@ -7,7 +7,6 @@ namespace ApecMovieCore.Pagging
         public int CurrentPage { get; set; }
         public int TotalPages { get; set; }
         public int PageSize { get; set; }
-        public int NumberOfRecords { get; set; }
         public int TotalRecords { get; set; }
         public IEnumerable<T> Content { get; set; }
         public string PreviousPageUrl { get; set; }
@@ -18,7 +17,6 @@ namespace ApecMovieCore.Pagging
             TotalRecords = totalRecords;
             CurrentPage = currentPage;
             PageSize = pageSize;
-            NumberOfRecords = content.Count();
             CalculateTotalPages();
             CalculatePreviousAndNextPages(httpContextAccessor, serviceRoute);
         }
