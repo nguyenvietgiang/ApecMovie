@@ -1,4 +1,7 @@
-﻿using AutoMapper;
+﻿using ApecMovieCore.BaseResponse;
+using ApecMovieCore.Pagging;
+using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Minio;
 using MovieServices.Application.ModelsDTO;
 using MovieServices.Domain.Interfaces;
@@ -19,27 +22,76 @@ namespace MovieServices.Application.BussinessServices
             _minioClient = minioClient;
         }
 
-        public async Task<IEnumerable<Movie>> GetAllMovies()
+        public async Task<Response<PaggingCore<Movie>>> GetAllMovies(int currentPage, int pageSize, string searchTitle, IHttpContextAccessor httpContextAccessor)
         {
-            return await _movieRepository.GetAllMovies();
+            var movies = await _movieRepository.GetAllMovies();
+
+            // Lọc danh sách phim nếu có searchTitle
+            if (!string.IsNullOrEmpty(searchTitle))
+            {
+                movies = movies.Where(m => m.Title.Contains(searchTitle, StringComparison.OrdinalIgnoreCase));
+            }
+
+            var totalRecords = movies.Count();
+            var content = movies.Skip((currentPage - 1) * pageSize).Take(pageSize);
+            var pagedMovies = new PaggingCore<Movie>(content, totalRecords, currentPage, pageSize, httpContextAccessor, "/api/movies");
+
+            return new Response<PaggingCore<Movie>>(200, "Success", pagedMovies);
         }
 
-        public async Task<Movie> GetMovieById(Guid id)
+        public async Task<Response<Movie>> GetMovieById(Guid id)
         {
-            return await _movieRepository.GetMovieById(id);
+            var movie = await _movieRepository.GetMovieById(id);
+            return movie != null
+                ? new Response<Movie>(200, "Success", movie)
+                : new Response<Movie>(404, "Movie not found", null);
         }
 
-        public async Task<Movie> CreateMovie(MovieDTO movieDTO)
+        public async Task<Response<Movie>> CreateMovie(MovieDTO movieDTO)
         {
             var movie = _mapper.Map<Movie>(movieDTO);
             movie.Id = Guid.NewGuid();
             movie.Status = true;
 
             string imageUrl = await SaveImageToMinio(movieDTO.Image);
+            if (string.IsNullOrEmpty(imageUrl))
+            {
+                return new Response<Movie>(500, "Failed to save image", null);
+            }
+
             movie.Image = imageUrl;
 
             await _movieRepository.AddMovie(movie);
-            return movie;
+            return new Response<Movie>(200, "Movie created successfully", movie);
+        }
+
+        public async Task<Response<bool>> UpdateMovie(Guid id, MovieDTO movieDTO)
+        {
+            var movie = _mapper.Map<Movie>(movieDTO);
+            movie.Id = id;
+
+            try
+            {
+                await _movieRepository.UpdateMovie(id, movie);
+                return new Response<bool>(200, "Movie updated successfully", true);
+            }
+            catch
+            {
+                return new Response<bool>(404, "Movie not found", false);
+            }
+        }
+
+        public async Task<Response<bool>> DeleteMovie(Guid id)
+        {
+            try
+            {
+                await _movieRepository.DeleteMovie(id);
+                return new Response<bool>(200, "Movie deleted successfully", true);
+            }
+            catch
+            {
+                return new Response<bool>(404, "Movie not found", false);
+            }
         }
 
         private async Task<string> SaveImageToMinio(Microsoft.AspNetCore.Http.IFormFile image)
@@ -68,19 +120,6 @@ namespace MovieServices.Application.BussinessServices
             }
 
             return null;
-        }
-
-        public async Task UpdateMovie(Guid id, MovieDTO movieDTO)
-        {
-            var movie = _mapper.Map<Movie>(movieDTO);
-            movie.Id = id;
-
-            await _movieRepository.UpdateMovie(id, movie);
-        }
-
-        public async Task DeleteMovie(Guid id)
-        {
-            await _movieRepository.DeleteMovie(id);
         }
     }
 }

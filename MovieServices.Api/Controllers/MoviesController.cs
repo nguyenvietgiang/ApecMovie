@@ -17,43 +17,38 @@ namespace MovieServices.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllMovies()
+        public async Task<IActionResult> GetAllMovies(int currentPage = 1, int pageSize = 10, string? searchTitle = null)
         {
-            var movies = await _movieServices.GetAllMovies();
-            return Ok(movies);
+            var response = await _movieServices.GetAllMovies(currentPage, pageSize, searchTitle, HttpContext.RequestServices.GetRequiredService<IHttpContextAccessor>());
+            return StatusCode(response.StatusCode, response);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetMovieById(Guid id)
         {
-            var movie = await _movieServices.GetMovieById(id);
-            if (movie == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(movie);
+            var response = await _movieServices.GetMovieById(id);
+            return StatusCode(response.StatusCode, response);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateMovie([FromForm] MovieDTO movieDTO)
+        public async Task<IActionResult> CreateMovie([FromBody] MovieDTO movieDTO)
         {
-            var movie = await _movieServices.CreateMovie(movieDTO);
-            return CreatedAtAction(nameof(GetMovieById), new { id = movie.Id }, movie);
+            var response = await _movieServices.CreateMovie(movieDTO);
+            return StatusCode(response.StatusCode, response);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateMovie(Guid id, [FromForm] MovieDTO movieDTO)
+        public async Task<IActionResult> UpdateMovie(Guid id, [FromBody] MovieDTO movieDTO)
         {
-            await _movieServices.UpdateMovie(id, movieDTO);
-            return NoContent();
+            var response = await _movieServices.UpdateMovie(id, movieDTO);
+            return StatusCode(response.StatusCode, response);
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteMovie(Guid id)
         {
-            await _movieServices.DeleteMovie(id);
-            return NoContent();
+            var response = await _movieServices.DeleteMovie(id);
+            return StatusCode(response.StatusCode, response);
         }
     }
 }

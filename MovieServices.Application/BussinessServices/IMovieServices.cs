@@ -1,14 +1,17 @@
-﻿using MovieServices.Application.ModelsDTO;
+﻿using ApecMovieCore.BaseResponse;
+using ApecMovieCore.Pagging;
+using Microsoft.AspNetCore.Http;
+using MovieServices.Application.ModelsDTO;
 using MovieServices.Domain.Models;
 
 namespace MovieServices.Application.BussinessServices
 {
     public interface IMovieServices
     {
-        Task<IEnumerable<Movie>> GetAllMovies();
-        Task<Movie> GetMovieById(Guid id);
-        Task<Movie> CreateMovie(MovieDTO movieDTO);
-        Task UpdateMovie(Guid id, MovieDTO movieDTO);
-        Task DeleteMovie(Guid id);
+        Task<Response<PaggingCore<Movie>>> GetAllMovies(int currentPage, int pageSize, string searchTitle, IHttpContextAccessor httpContextAccessor);
+        Task<Response<Movie>> GetMovieById(Guid id);
+        Task<Response<Movie>> CreateMovie(MovieDTO movieDTO);
+        Task<Response<bool>> UpdateMovie(Guid id, MovieDTO movieDTO);
+        Task<Response<bool>> DeleteMovie(Guid id);
     }
 }

@@ -21,7 +21,7 @@ namespace MovieServices.Infrastructure.Repository
 
         public async Task<IEnumerable<Movie>> GetAllMovies()
         {
-            return await _dbContext.Movies.ToListAsync();
+            return await _dbContext.Movies.AsNoTracking().ToListAsync();
         }
 
         public async Task<Movie> GetMovieById(Guid id)
