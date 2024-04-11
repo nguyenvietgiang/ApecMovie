@@ -21,6 +21,14 @@ Sau đó triển khai client (cả client và server đều cần sử dụng Fi
 + Xây dựng MovieServices với kiến trúc Clean Architecture
 Cho phép thêm, sửa xóa, quản lý các bộ phim trên CSDL PostgreSQL
 Các công nghệ sử dụng.
-(PostgreSQL, FluantValidator, EF core, Redis, Minio, Serilog)
+(PostgreSQL, Auto Mapper, FluantValidator, EF core, Redis, Minio, Serilog)
+
+JSON Patch:
+
+{
+  "patchDocument": [
+    { "op": "replace", "path": "/Title", "value": "Tên phim mới" }
+  ]
+}
 
 

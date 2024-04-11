@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using MovieServices.Application.BussinessServices;
 using MovieServices.Application.ModelsDTO;
@@ -15,7 +15,9 @@ namespace MovieServices.Api.Controllers
         {
             _movieServices = movieServices;
         }
-
+        /// <summary>
+        /// get all movie with pagging - no auth
+        /// </summary>
         [HttpGet]
         public async Task<IActionResult> GetAllMovies(int currentPage = 1, int pageSize = 10, string? searchTitle = null)
         {
@@ -23,6 +25,9 @@ namespace MovieServices.Api.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
+        /// <summary>
+        /// get movie with detail by id - no auth
+        /// </summary>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetMovieById(Guid id)
         {
@@ -30,6 +35,9 @@ namespace MovieServices.Api.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
+        /// <summary>
+        /// create new movie - admin
+        /// </summary>
         [HttpPost]
         public async Task<IActionResult> CreateMovie([FromForm] MovieDTO movieDTO)
         {
@@ -37,17 +45,33 @@ namespace MovieServices.Api.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
+        /// <summary>
+        /// update movie infomation - admin
+        /// </summary>
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateMovie(Guid id, [FromBody] MovieDTO movieDTO)
+        public async Task<IActionResult> UpdateMovie(Guid id, [FromForm] MovieDTO movieDTO)
         {
             var response = await _movieServices.UpdateMovie(id, movieDTO);
             return StatusCode(response.StatusCode, response);
         }
 
+        /// <summary>
+        /// delete movie - admin
+        /// </summary>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteMovie(Guid id)
         {
             var response = await _movieServices.DeleteMovie(id);
+            return StatusCode(response.StatusCode, response);
+        }
+
+        /// <summary>
+        /// patch movie with json document - admin
+        /// </summary>
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> PatchMovie(Guid id, [FromBody] JsonPatchDocument<MovieDTO> patchDocument)
+        {
+            var response = await _movieServices.PatchMovie(id, patchDocument);
             return StatusCode(response.StatusCode, response);
         }
     }

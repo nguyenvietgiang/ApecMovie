@@ -1,9 +1,5 @@
-﻿using MovieServices.Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.JsonPatch;
+using MovieServices.Domain.Models;
 
 namespace MovieServices.Domain.Interfaces
 {
@@ -14,5 +10,6 @@ namespace MovieServices.Domain.Interfaces
         Task AddMovie(Movie movie);
         Task UpdateMovie(Guid id, Movie movie);
         Task DeleteMovie(Guid id);
+        Task<Movie> PatchMovie(Guid id, JsonPatchDocument<Movie> patchDocument);
     }
 }

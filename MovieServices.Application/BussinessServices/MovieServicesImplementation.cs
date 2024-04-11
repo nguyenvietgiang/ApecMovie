@@ -2,10 +2,12 @@
 using ApecMovieCore.Pagging;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.JsonPatch;
 using Minio;
 using MovieServices.Application.ModelsDTO;
 using MovieServices.Domain.Interfaces;
 using MovieServices.Domain.Models;
+using static StackExchange.Redis.Role;
 
 namespace MovieServices.Application.BussinessServices
 {
@@ -121,5 +123,23 @@ namespace MovieServices.Application.BussinessServices
 
             return null;
         }
+
+        public async Task<Response<Movie>> PatchMovie(Guid id, JsonPatchDocument<MovieDTO> patchDocument)
+        {
+            var movie = await _movieRepository.GetMovieById(id);
+
+            if (movie == null)
+            {
+                return new Response<Movie>(404, "Movie not found", null);
+            }
+            var movieDTO = _mapper.Map<MovieDTO>(movie);
+            patchDocument.ApplyTo(movieDTO);
+            var updatedMovie = _mapper.Map<Movie>(movieDTO);
+            var moviePatchDocument = _mapper.Map<JsonPatchDocument<Movie>>(patchDocument);
+            var patchedMovie = await _movieRepository.PatchMovie(id, moviePatchDocument);
+
+            return new Response<Movie>(200, "Movie patched successfully", patchedMovie);
+        }
+
     }
 }

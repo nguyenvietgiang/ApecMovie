@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.EntityFrameworkCore;
 using MovieServices.Domain.Interfaces;
 using MovieServices.Domain.Models;
 using MovieServices.Infrastructure.Context;
@@ -58,6 +59,20 @@ namespace MovieServices.Infrastructure.Repository
 
             _dbContext.Movies.Remove(movieToDelete);
             await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task<Movie> PatchMovie(Guid id, JsonPatchDocument<Movie> patchDocument)
+        {
+            var movie = await _dbContext.Movies.FindAsync(id);
+            if (movie == null)
+            {
+                return null;
+            }
+
+            patchDocument.ApplyTo(movie);
+            await _dbContext.SaveChangesAsync();
+
+            return movie;
         }
     }
 }

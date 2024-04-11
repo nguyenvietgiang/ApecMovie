@@ -11,6 +11,7 @@ using MovieServices.Infrastructure.Repository;
 using Serilog.Events;
 using Serilog.Formatting.Json;
 using Serilog;
+using System.Reflection;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -34,7 +35,14 @@ builder.Services.AddLogging();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+builder.Services.AddSwaggerGen(c =>
+{
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    c.IncludeXmlComments(xmlPath);
+});
+
 
 var configuration = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json")
