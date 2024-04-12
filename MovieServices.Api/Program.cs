@@ -12,7 +12,7 @@ using Serilog.Events;
 using Serilog.Formatting.Json;
 using Serilog;
 using System.Reflection;
-
+using ApecMovieCore.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 // logging
@@ -84,6 +84,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseErrorHandlingMiddleware();
 
 app.UseHttpsRedirection();
 

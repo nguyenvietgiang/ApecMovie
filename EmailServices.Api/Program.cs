@@ -2,7 +2,7 @@ using EmailServices.Api.Services;
 using System.Reflection;
 using Hangfire;
 using Hangfire.MemoryStorage;
-
+using ApecMovieCore.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,6 +29,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseErrorHandlingMiddleware();
 
 app.UseHttpsRedirection();
 

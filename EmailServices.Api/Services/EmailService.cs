@@ -4,68 +4,32 @@ namespace EmailServices.Api.Services
 {
     public class EmailService : IEmailService
     {
-        public void SendEmail(string mail, string bodyString)
+        private readonly IWebHostEnvironment _env;
+        public EmailService(IWebHostEnvironment env)
         {
+            _env = env;
+        }
+
+        public void SendEmail(string toAddress, string subject, string bodyContent)
+        {
+            var webRootPath = _env.WebRootPath; 
+
+            var templatePath = Path.Combine(webRootPath, "EmailTemplate", "NomalTemplate.html");
+
+            var template = System.IO.File.ReadAllText(templatePath);
+            template = template.Replace("{{title}}", subject)
+                               .Replace("{{bodyContent}}", bodyContent)
+                               .Replace("{{logoUrl}}", "https://apecgroup.net/upload/news/Yc1i_logo-apec-group.jpg")
+                               .Replace("{{headerText}}", "Một sản phẩm của APEC Group")
+                               .Replace("{{senderName}}", "APEC MOVIE");
+
             var message = new MimeMessage();
             message.From.Add(MailboxAddress.Parse("takadishen@gmail.com"));
-            message.To.Add(MailboxAddress.Parse(mail));
-            message.Subject = "Rạp chiếu phim ApecMovie";
+            message.To.Add(MailboxAddress.Parse(toAddress));
+            message.Subject = subject;
 
             var bodyBuilder = new BodyBuilder();
-            bodyBuilder.HtmlBody = $@"
-                <html>
-                    <head>
-                        <title>Thông báo từ APEC Movie</title>
-                        <style>
-                            body {{
-                                font-family: Arial, sans-serif;
-                                font-size: 14px;
-                                line-height: 1.5;
-                            }}
-                            .container {{
-                                max-width: 600px;
-                                margin: 0 auto;
-                                padding: 20px;
-                                border: 1px solid #ccc;
-                                border-radius: 5px;
-                            }}
-                            .header {{
-                                text-align: center;
-                                margin-bottom: 20px;
-                            }}
-                            .logo {{
-                                max-width: 200px;
-                                max-height: 200px;
-                                display: block;
-                                margin: 0 auto;
-                            }}
-                            .content {{
-                                margin-bottom: 20px;
-                            }}
-                            .footer {{
-                                text-align: center;
-                            }}
-                        </style>
-                    </head>
-                    <body>
-                        <div class=""container"">
-                            <div class=""header"">
-                                <img class=""logo"" src=""https://apecgroup.net/upload/news/Yc1i_logo-apec-group.jpg"" alt=""Logo"">
-                                <h2>Rạp chiếu phim APEC Movie</h2>
-                            </div>
-                            <div class=""content"">
-                                <p>Xin chào!</p>
-                                <p>Dưới đây là nội dung email gửi từ APEC Movie.</p>
-                                <p>{bodyString}</p>
-                                <p>Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi!</p>
-                            </div>
-                            <div class=""footer"">
-                                <p>Trân trọng,</p>
-                                <p>Nguyễn Việt Giang</p>
-                            </div>
-                        </div>
-                    </body>
-                </html>";
+            bodyBuilder.HtmlBody = template;
 
             message.Body = bodyBuilder.ToMessageBody();
 
@@ -77,5 +41,6 @@ namespace EmailServices.Api.Services
                 client.Disconnect(true);
             }
         }
+
     }
 }

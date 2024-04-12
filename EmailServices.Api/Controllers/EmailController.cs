@@ -20,9 +20,9 @@ namespace EmailServices.Api.Controllers
         /// send email to user
         /// </summary>
         [HttpPost]
-        public IActionResult Send(string mail, string bodyString)
+        public IActionResult Send(string mail, string subject ,string bodyString)
         {
-            _backgroundJobClient.Enqueue(() => _emailService.SendEmail(mail, bodyString));
+            _backgroundJobClient.Enqueue(() => _emailService.SendEmail(mail,subject ,bodyString));
             return Ok();
         }
     }

@@ -66,7 +66,7 @@ namespace MovieServices.Api.Controllers
         }
 
         /// <summary>
-        /// patch movie with json document - admin
+        /// patch movie with json document (error handling) - admin
         /// </summary>
         [HttpPatch("{id}")]
         public async Task<IActionResult> PatchMovie(Guid id, [FromBody] JsonPatchDocument<MovieDTO> patchDocument)
