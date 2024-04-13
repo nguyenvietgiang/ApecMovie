@@ -18,6 +18,7 @@ namespace EmailServices.Api.Services
 
             var template = System.IO.File.ReadAllText(templatePath);
             template = template.Replace("{{title}}", subject)
+                               .Replace("{{userName}}", toAddress)
                                .Replace("{{bodyContent}}", bodyContent)
                                .Replace("{{logoUrl}}", "https://apecgroup.net/upload/news/Yc1i_logo-apec-group.jpg")
                                .Replace("{{headerText}}", "Một sản phẩm của APEC Group")
