@@ -9,6 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Document", "Document", "{1B
 		Requirment.txt = Requirment.txt
 		Structure.txt = Structure.txt
 		Week2Report.txt = Week2Report.txt
+		Week3Report.txt = Week3Report.txt
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Src", "Src", "{E6A9AA3D-E400-4D23-B26F-C686C2EF5898}"
@@ -61,7 +62,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserServices.Api", "UserSer
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EmailServices", "EmailServices", "{7427350B-A093-4C65-B119-CF41D7757066}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmailServices.Api", "EmailServices.Api\EmailServices.Api.csproj", "{18399C5F-26F7-4719-B90D-7CEA3BFBF76E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmailServices.Api", "EmailServices.Api\EmailServices.Api.csproj", "{18399C5F-26F7-4719-B90D-7CEA3BFBF76E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

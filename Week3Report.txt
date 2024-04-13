@@ -1,0 +1,11 @@
+﻿Báo cáo tuần 3
++ Tìm hiểu về RabbitMQ
+
++ Tìm hiểu về Connect gRPC giữa các MicroServcies
+
++ Thêm log cho phần MovieServices với NoSQL
+
++ Xây dựng EmailServices (Gửi email có thể chạy Backgroud job với Hangfile)
+
++ Xây dựng UserServices (Đăng nhập, đăng ký, phân quyền)
+(Công nghệ sử dụng: PostgreSQL, Auto Mapper, FluantValidator, EF core, Redis, Minio, Serilog, JWT)

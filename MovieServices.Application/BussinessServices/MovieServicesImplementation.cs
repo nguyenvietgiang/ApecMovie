@@ -36,7 +36,7 @@ namespace MovieServices.Application.BussinessServices
 
             var totalRecords = movies.Count();
             var content = movies.Skip((currentPage - 1) * pageSize).Take(pageSize);
-            var pagedMovies = new PaggingCore<Movie>(content, totalRecords, currentPage, pageSize, httpContextAccessor, "/api/movies");
+            var pagedMovies = new PaggingCore<Movie>(content, totalRecords, currentPage, pageSize, httpContextAccessor, "/v1/api/movies");
 
             return new Response<PaggingCore<Movie>>(200, "Success", pagedMovies);
         }

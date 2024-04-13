@@ -13,6 +13,7 @@ using Serilog.Formatting.Json;
 using Serilog;
 using System.Reflection;
 using ApecMovieCore.Middlewares;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 // logging
@@ -41,7 +42,16 @@ builder.Services.AddSwaggerGen(c =>
     var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
     c.IncludeXmlComments(xmlPath);
+
+    // Đặt tên và mô tả cho tài liệu Swagger
+    c.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Version = "1.0",
+        Title = "APEC Movie Services",
+        Description = "Movie Services for APEC Backend Microservices"
+    });
 });
+
 
 
 var configuration = new ConfigurationBuilder()
