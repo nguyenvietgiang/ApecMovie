@@ -14,6 +14,8 @@ using Serilog;
 using System.Reflection;
 using ApecMovieCore.Middlewares;
 using Microsoft.OpenApi.Models;
+using RabbitMQ.Connection;
+using RabbitMQ.Event;
 
 var builder = WebApplication.CreateBuilder(args);
 // logging
@@ -33,6 +35,8 @@ builder.Services.AddControllers()
 
 builder.Logging.AddSerilog();
 builder.Services.AddLogging();
+
+
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -57,6 +61,10 @@ builder.Services.AddSwaggerGen(c =>
 var configuration = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json")
     .Build();
+
+// message broker
+builder.Services.AddSingleton<IRabbitmqConnection>(new RabbitmqConnection());
+builder.Services.AddScoped<IMessageProducer, RabbitmqProducer>();
 
 // cấu hình minio
 var minioConfig = configuration.GetSection("Minio");

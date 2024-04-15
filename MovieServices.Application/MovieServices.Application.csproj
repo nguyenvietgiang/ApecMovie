@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MovieServices.Domain\MovieServices.Domain.csproj" />
+    <ProjectReference Include="..\RabbitMQ\RabbitMQ.csproj" />
   </ItemGroup>
 
 </Project>
