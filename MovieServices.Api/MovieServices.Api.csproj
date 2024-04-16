@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ApecCoreIdentity\ApecCoreIdentity.csproj" />
     <ProjectReference Include="..\IoCmanage\IoCmanage.csproj" />
   </ItemGroup>
 
