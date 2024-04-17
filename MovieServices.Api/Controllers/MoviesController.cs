@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.JsonPatch;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using MovieServices.Application.BussinessServices;
 using MovieServices.Application.ModelsDTO;
@@ -39,6 +40,7 @@ namespace MovieServices.Api.Controllers
         /// create new movie - admin
         /// </summary>
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateMovie([FromForm] MovieDTO movieDTO)
         {
             var response = await _movieServices.CreateMovie(movieDTO);
@@ -49,6 +51,7 @@ namespace MovieServices.Api.Controllers
         /// update movie infomation - admin
         /// </summary>
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateMovie(Guid id, [FromForm] MovieDTO movieDTO)
         {
             var response = await _movieServices.UpdateMovie(id, movieDTO);
@@ -59,6 +62,7 @@ namespace MovieServices.Api.Controllers
         /// delete movie - admin
         /// </summary>
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteMovie(Guid id)
         {
             var response = await _movieServices.DeleteMovie(id);
@@ -69,6 +73,7 @@ namespace MovieServices.Api.Controllers
         /// patch movie with json document (error handling) - admin
         /// </summary>
         [HttpPatch("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> PatchMovie(Guid id, [FromBody] JsonPatchDocument<MovieDTO> patchDocument)
         {
             var response = await _movieServices.PatchMovie(id, patchDocument);

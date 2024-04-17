@@ -4,9 +4,9 @@ using UserServices.Domain.Models;
 
 namespace UserServices.Application.Mapping
 {
-    public class MappingProfile : Profile
+    public class MappingUserProfile : Profile
     {
-        public MappingProfile()
+        public MappingUserProfile()
         {
             CreateMap<User, UserDTO>().ReverseMap();
         }

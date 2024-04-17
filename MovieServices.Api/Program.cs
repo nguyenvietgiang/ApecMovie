@@ -16,6 +16,10 @@ using ApecMovieCore.Middlewares;
 using Microsoft.OpenApi.Models;
 using RabbitMQ.Connection;
 using RabbitMQ.Event;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using ApecCoreIdentity;
 
 var builder = WebApplication.CreateBuilder(args);
 // logging
@@ -41,18 +45,56 @@ builder.Services.AddLogging();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidIssuer = JwtConfig.Issuer, 
+            ValidateAudience = true,
+            ValidAudience = JwtConfig.Audience, 
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JwtConfig.SecretKey)) 
+        };
+    });
+
 builder.Services.AddSwaggerGen(c =>
 {
     var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
     c.IncludeXmlComments(xmlPath);
 
-    // Đặt tên và mô tả cho tài liệu Swagger
     c.SwaggerDoc("v1", new OpenApiInfo
     {
         Version = "1.0",
         Title = "APEC Movie Services",
         Description = "Movie Services for APEC Backend Microservices"
+    });
+
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.ApiKey
+    });
+
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            Array.Empty<string>()
+        }
     });
 });
 
@@ -106,6 +148,13 @@ if (app.Environment.IsDevelopment())
 app.UseErrorHandlingMiddleware();
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication(); // Thêm middleware xác thực
+app.Use(async (context, next) =>
+{
+    var middleware = new JwtMiddleware();
+    await middleware.Invoke(context, next);
+});
 
 app.UseAuthorization();
 

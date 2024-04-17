@@ -16,6 +16,9 @@
     <ProjectReference Include="..\MovieServices.Application\MovieServices.Application.csproj" />
     <ProjectReference Include="..\MovieServices.Domain\MovieServices.Domain.csproj" />
     <ProjectReference Include="..\MovieServices.Infrastructure\MovieServices.Infrastructure.csproj" />
+    <ProjectReference Include="..\UserServices.Application\UserServices.Application.csproj" />
+    <ProjectReference Include="..\UserServices.Domain\UserServices.Domain.csproj" />
+    <ProjectReference Include="..\UserServices.Infrastructure\UserServices.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

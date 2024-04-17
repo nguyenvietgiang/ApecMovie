@@ -5,12 +5,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UserServices.Domain.Interfaces;
 using UserServices.Domain.Models;
 using UserServices.Infrastructure.Context;
 
 namespace UserServices.Infrastructure.Repository
 {
-    public class UserRepository : IRepository<User>
+    public class UserRepository : IRepository<User>, IUserRepository
     {
         private readonly UserDbContext _context;
 
@@ -45,6 +46,11 @@ namespace UserServices.Infrastructure.Repository
         {
             _context.Users.Remove(entity);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<User> GetByNameAsync(string name)
+        {
+            return await _context.Users.FirstOrDefaultAsync(u => u.Name == name);
         }
     }
 }

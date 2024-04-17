@@ -12,6 +12,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\ApecCoreIdentity\ApecCoreIdentity.csproj" />
 	  <ProjectReference Include="..\UserServices.Domain\UserServices.Domain.csproj" />
 	</ItemGroup>
 	
