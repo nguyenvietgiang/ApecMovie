@@ -20,6 +20,7 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\ApecMovieCore\ApecMovieCore.csproj" />
+	  <ProjectReference Include="..\RabbitMQ\RabbitMQ.csproj" />
 	</ItemGroup>
 
 </Project>

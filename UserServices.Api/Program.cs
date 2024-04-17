@@ -5,6 +5,8 @@ using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using RabbitMQ.Connection;
+using RabbitMQ.Event;
 using System.Reflection;
 using System.Text;
 using UserServices.Application.BussinessServices;
@@ -80,6 +82,9 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
+// message broker
+builder.Services.AddSingleton<IRabbitmqConnection>(new RabbitmqConnection());
+builder.Services.AddScoped<IMessageProducer, RabbitmqProducer>();
 
 builder.Services.AddDbContext<UserDbContext>();
 

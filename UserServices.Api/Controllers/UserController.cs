@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using RabbitMQ.Event;
 using UserServices.Application.BussinessServices;
 using UserServices.Application.ModelsDTO;
 
@@ -11,10 +12,11 @@ namespace UserServices.Api.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
-
-        public UserController(IUserService userService)
+        private readonly IMessageProducer _producer;
+        public UserController(IUserService userService , IMessageProducer messageProducer)
         {
             _userService = userService;
+            _producer = messageProducer;
         }
 
         /// <summary>
@@ -90,6 +92,18 @@ namespace UserServices.Api.Controllers
             {
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
+        }
+
+        // API này sẽ dùng RabbitMQ để thao tác với API gửi mail bên mail services
+        /// <summary>
+        /// send mail to user - admin
+        /// </summary>
+        [HttpPost("send-mail")]
+        public IActionResult PushToMailQueue(string mail, string subject, string bodyString)
+        {
+            var message = $"To: {mail}, Subject: {subject}, Body: {bodyString}";
+            _producer.SendMessage(message, "sendmail");
+            return Ok();
         }
 
     }
