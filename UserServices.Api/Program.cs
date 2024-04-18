@@ -2,13 +2,8 @@
 using ApecMovieCore.Interface;
 using FluentValidation;
 using FluentValidation.AspNetCore;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
 using RabbitMQ.Connection;
 using RabbitMQ.Event;
-using System.Reflection;
-using System.Text;
 using UserServices.Application.BussinessServices;
 using UserServices.Application.Mapping;
 using UserServices.Application.ModelsDTO;
@@ -17,6 +12,7 @@ using UserServices.Domain.Interfaces;
 using UserServices.Domain.Models;
 using UserServices.Infrastructure.Context;
 using UserServices.Infrastructure.Repository;
+using SwaggerDoc;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,57 +26,8 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
-    {
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = true,
-            ValidIssuer = JwtConfig.Issuer,
-            ValidateAudience = true,
-            ValidAudience = JwtConfig.Audience,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JwtConfig.SecretKey))
-        };
-    });
+builder.Services.ConfigureSwaggerAndAuth("APEC Authentication Services", "Authentication Services for APEC Backend Microservices");
 
-builder.Services.AddSwaggerGen(c =>
-{
-    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-    c.IncludeXmlComments(xmlPath);
-
-    c.SwaggerDoc("v1", new OpenApiInfo
-    {
-        Version = "1.0",
-        Title = "APEC Authentication Services",
-        Description = "Authentication Services for APEC Backend Microservices"
-    });
-
-    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-    {
-        Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
-        Name = "Authorization",
-        In = ParameterLocation.Header,
-        Type = SecuritySchemeType.ApiKey
-    });
-
-    c.AddSecurityRequirement(new OpenApiSecurityRequirement
-    {
-        {
-            new OpenApiSecurityScheme
-            {
-                Reference = new OpenApiReference
-                {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "Bearer"
-                }
-            },
-            Array.Empty<string>()
-        }
-    });
-});
 
 // message broker
 builder.Services.AddSingleton<IRabbitmqConnection>(new RabbitmqConnection());

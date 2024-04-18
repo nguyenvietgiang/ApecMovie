@@ -68,7 +68,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MessageQueue", "MessageQueu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RabbitMQ", "RabbitMQ\RabbitMQ.csproj", "{A8C8FE64-9090-4C19-90C1-DA9A86262197}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApecCoreIdentity", "ApecCoreIdentity\ApecCoreIdentity.csproj", "{41896787-C301-43D1-A5E7-0808D1E9932C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApecCoreIdentity", "ApecCoreIdentity\ApecCoreIdentity.csproj", "{41896787-C301-43D1-A5E7-0808D1E9932C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwaggerDoc", "SwaggerDoc\SwaggerDoc.csproj", "{A8BC44C0-7668-478E-B417-60CE6217BA2E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -140,6 +142,10 @@ Global
 		{41896787-C301-43D1-A5E7-0808D1E9932C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{41896787-C301-43D1-A5E7-0808D1E9932C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{41896787-C301-43D1-A5E7-0808D1E9932C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8BC44C0-7668-478E-B417-60CE6217BA2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8BC44C0-7668-478E-B417-60CE6217BA2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8BC44C0-7668-478E-B417-60CE6217BA2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8BC44C0-7668-478E-B417-60CE6217BA2E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -171,6 +177,7 @@ Global
 		{129D7E75-0A36-4E46-8DAD-7DAE5FF1AE8C} = {E6A9AA3D-E400-4D23-B26F-C686C2EF5898}
 		{A8C8FE64-9090-4C19-90C1-DA9A86262197} = {129D7E75-0A36-4E46-8DAD-7DAE5FF1AE8C}
 		{41896787-C301-43D1-A5E7-0808D1E9932C} = {BA9AE719-0AF2-49BB-8B6B-8651DB03E52C}
+		{A8BC44C0-7668-478E-B417-60CE6217BA2E} = {BA9AE719-0AF2-49BB-8B6B-8651DB03E52C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {779AF1C2-4212-456D-87EB-454DD8205177}

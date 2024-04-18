@@ -11,14 +11,11 @@ using MovieServices.Infrastructure.Repository;
 using Serilog.Events;
 using Serilog.Formatting.Json;
 using Serilog;
-using System.Reflection;
 using ApecMovieCore.Middlewares;
-using Microsoft.OpenApi.Models;
+using SwaggerDoc;
 using RabbitMQ.Connection;
 using RabbitMQ.Event;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
+
 using ApecCoreIdentity;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -45,64 +42,13 @@ builder.Services.AddLogging();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
-
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
-    {
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = true,
-            ValidIssuer = JwtConfig.Issuer, 
-            ValidateAudience = true,
-            ValidAudience = JwtConfig.Audience, 
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JwtConfig.SecretKey)) 
-        };
-    });
-
-builder.Services.AddSwaggerGen(c =>
-{
-    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-    c.IncludeXmlComments(xmlPath);
-
-    c.SwaggerDoc("v1", new OpenApiInfo
-    {
-        Version = "1.0",
-        Title = "APEC Movie Services",
-        Description = "Movie Services for APEC Backend Microservices"
-    });
-
-    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-    {
-        Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
-        Name = "Authorization",
-        In = ParameterLocation.Header,
-        Type = SecuritySchemeType.ApiKey
-    });
-
-    c.AddSecurityRequirement(new OpenApiSecurityRequirement
-    {
-        {
-            new OpenApiSecurityScheme
-            {
-                Reference = new OpenApiReference
-                {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "Bearer"
-                }
-            },
-            Array.Empty<string>()
-        }
-    });
-});
-
-
+builder.Services.ConfigureSwaggerAndAuth("APEC Movie Services", "Movie Services for APEC Backend Microservices");
 
 var configuration = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json")
     .Build();
+
+
 
 // message broker
 builder.Services.AddSingleton<IRabbitmqConnection>(new RabbitmqConnection());
