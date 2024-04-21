@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using ApecMovieCore.BaseResponse;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RabbitMQ.Event;
+using System.Security.Claims;
 using UserServices.Application.BussinessServices;
 using UserServices.Application.ModelsDTO;
 
@@ -19,45 +21,58 @@ namespace UserServices.Api.Controllers
             _producer = messageProducer;
         }
 
-        /// <summary>
-        /// get detail user by id - admin
-        /// </summary>
         [HttpGet("{id}")]
-        [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<UserDTO>> GetById(Guid id)
+        public async Task<ActionResult<Response<UserDTO>>> GetById(Guid id)
         {
             var user = await _userService.GetByIdAsync(id);
             if (user == null)
             {
-                return NotFound();
+                return NotFound(new Response<UserDTO>(404, "User not found", null));
             }
-            return user;
+            return Ok(new Response<UserDTO>(200, "Success", user));
         }
 
-        /// <summary>
-        /// get all user - admin
-        /// </summary>
+        [HttpGet("profile")]
+        public async Task<ActionResult<Response<UserDTO>>> GetProfile()
+        {
+            try
+            {
+                var userId = GetUserIdFromClaim();
+                var user = await _userService.GetByIdAsync(userId);
+
+                if (user == null)
+                {
+                    return NotFound(new Response<UserDTO>(404, "User not found", null));
+                }
+
+                return Ok(new Response<UserDTO>(200, "Success", user));
+            }
+            catch (UnauthorizedAccessException)
+            {
+                return Unauthorized(new Response<UserDTO>(401, "Unauthorized", null));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new Response<UserDTO>(500, $"Internal server error: {ex.Message}", null));
+            }
+        }
+
+
         [HttpGet]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<IEnumerable<UserDTO>>> GetAll()
+        public async Task<ActionResult<Response<IEnumerable<UserDTO>>>> GetAll()
         {
             var users = await _userService.GetAllAsync();
-            return Ok(users);
+            return Ok(new Response<IEnumerable<UserDTO>>(200, "Success", users));
         }
 
-        /// <summary>
-        /// register - no auth
-        /// </summary>
         [HttpPost("register")]
-        public async Task<ActionResult<UserDTO>> Add(UserDTO userDTO)
+        public async Task<ActionResult<Response<UserDTO>>> Add(UserDTO userDTO)
         {
             var newUserDTO = await _userService.AddAsync(userDTO);
-            return Ok(newUserDTO);
+            return Ok(new Response<UserDTO>(200, "Success", newUserDTO));
         }
 
-        /// <summary>
-        /// delete user by id - admin
-        /// </summary>
         [HttpDelete("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(Guid id)
@@ -65,7 +80,7 @@ namespace UserServices.Api.Controllers
             var user = await _userService.GetByIdAsync(id);
             if (user == null)
             {
-                return NotFound();
+                return NotFound(new Response<object>(404, "User not found", null));
             }
 
             await _userService.DeleteAsync(id);
@@ -73,11 +88,8 @@ namespace UserServices.Api.Controllers
             return NoContent();
         }
 
-        /// <summary>
-        /// login - no auth
-        /// </summary>
         [HttpPost("login")]
-        public async Task<ActionResult<LoginResponse>> Login(LoginRequest loginRequest)
+        public async Task<ActionResult<Response<LoginResponse>>> Login(LoginRequest loginRequest)
         {
             try
             {
@@ -86,11 +98,11 @@ namespace UserServices.Api.Controllers
             }
             catch (UnauthorizedAccessException ex)
             {
-                return Unauthorized(ex.Message);
+                return Unauthorized(new Response<LoginResponse>(401, ex.Message, null));
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
+                return StatusCode(500, new Response<LoginResponse>(500, $"Internal server error: {ex.Message}", null));
             }
         }
 
@@ -107,21 +119,29 @@ namespace UserServices.Api.Controllers
         }
 
         [HttpPost("refresh-tokens")]
-        public async Task<IActionResult> RefreshTokens([FromBody] RefreshTokenRequest request)
+        public async Task<ActionResult<Response<LoginResponse>>> RefreshTokens(RefreshTokenRequest Token)
         {
             try
             {
-                var response = await _userService.RefreshTokensAsync(request.RefreshToken);
+                var response = await _userService.RefreshTokensAsync(Token.RefreshToken);
                 return Ok(response);
             }
             catch (UnauthorizedAccessException ex)
             {
-                return Unauthorized(new { message = ex.Message });
+                return Unauthorized(new Response<LoginResponse>(401, ex.Message, null));
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new { message = "Đã xảy ra lỗi trong quá trình xử lý yêu cầu." });
+                return StatusCode(500, new Response<LoginResponse>(500, $"Internal server error: {ex.Message}", null));
             }
+        }
+
+        protected Guid GetUserIdFromClaim()
+        {
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+            if (userIdClaim == null || !Guid.TryParse(userIdClaim.Value, out Guid Id))
+                throw new UnauthorizedAccessException();
+            return Id;
         }
 
     }

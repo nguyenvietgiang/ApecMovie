@@ -1,4 +1,5 @@
-﻿using UserServices.Application.ModelsDTO;
+﻿using ApecMovieCore.BaseResponse;
+using UserServices.Application.ModelsDTO;
 
 namespace UserServices.Application.BussinessServices
 {
@@ -9,8 +10,8 @@ namespace UserServices.Application.BussinessServices
         Task<UserDTO> AddAsync(UserDTO userDTO);
         Task UpdateAsync(Guid id, UserDTO userDTO);
         Task DeleteAsync(Guid id);
-        Task<LoginResponse> LoginAsync(LoginRequest loginRequest);
-        Task<LoginResponse> RefreshTokensAsync(string refreshToken);
+        Task<Response<LoginResponse>> LoginAsync(LoginRequest loginRequest);
+        Task<Response<LoginResponse>> RefreshTokensAsync(string refreshToken);
     }
 
 }

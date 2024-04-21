@@ -5,6 +5,7 @@ using UserServices.Application.ModelsDTO;
 using UserServices.Domain.Models;
 using ApecMovieCore.CoreHasing;
 using UserServices.Domain.Interfaces;
+using ApecMovieCore.BaseResponse;
 
 namespace UserServices.Application.BussinessServices
 {
@@ -65,16 +66,70 @@ namespace UserServices.Application.BussinessServices
             await _userRepository.DeleteAsync(user);
         }
 
-
-        public async Task<LoginResponse> LoginAsync(LoginRequest loginModel)
+        public async Task<Response<LoginResponse>> LoginAsync(LoginRequest loginModel)
         {
-            var user = await _userRepository.GetByNameAsync(loginModel.Name);
-
-            if (user == null || user.Password != Encrypt.HashingCore(loginModel.Password))
+            try
             {
-                throw new UnauthorizedAccessException("Tên người dùng hoặc mật khẩu không chính xác");
-            }
+                var user = await _userRepository.GetByNameAsync(loginModel.Name);
 
+                if (user == null || user.Password != Encrypt.HashingCore(loginModel.Password))
+                {
+                    throw new UnauthorizedAccessException("Tên người dùng hoặc mật khẩu không chính xác");
+                }
+
+                var responseModel = await GenerateTokensAsync(user);
+
+                return new Response<LoginResponse>(200, "Success", responseModel);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return new Response<LoginResponse>(401, ex.Message, null);
+            }
+            catch (Exception ex)
+            {
+                return new Response<LoginResponse>(500, $"Internal server error: {ex.Message}", null);
+            }
+        }
+
+        public async Task<Response<LoginResponse>> RefreshTokensAsync(string refreshToken)
+        {
+            try
+            {
+                var existingRefreshToken = await _refreshTokenRepository.GetRefreshTokenAsync(refreshToken);
+
+                if (existingRefreshToken == null || !IsRefreshTokenValid(existingRefreshToken))
+                {
+                    throw new UnauthorizedAccessException("Refresh token không hợp lệ hoặc đã hết hạn.");
+                }
+
+                var user = await _userRepository.GetByIdAsync(existingRefreshToken.UserId);
+
+                if (user == null)
+                {
+                    throw new UnauthorizedAccessException("Người dùng không tồn tại.");
+                }
+
+                var responseModel = await GenerateTokensAsync(user);
+
+                // Cập nhật refresh token mới vào cơ sở dữ liệu
+                existingRefreshToken.RefeshToken = responseModel.RefreshToken;
+                existingRefreshToken.ExpirationTime = DateTime.UtcNow.AddMinutes(JwtTokenService.AccessTokenExpirationMinutes);
+                await _refreshTokenRepository.UpdateRefreshTokenAsync(existingRefreshToken);
+
+                return new Response<LoginResponse>(200, "Success", responseModel);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return new Response<LoginResponse>(401, ex.Message, null);
+            }
+            catch (Exception ex)
+            {
+                return new Response<LoginResponse>(500, $"Internal server error: {ex.Message}", null);
+            }
+        }
+
+        private async Task<LoginResponse> GenerateTokensAsync(User user)
+        {
             var claims = new ClaimsIdentity(new[]
             {
         new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
@@ -105,45 +160,6 @@ namespace UserServices.Application.BussinessServices
             return responseModel;
         }
 
-        public async Task<LoginResponse> RefreshTokensAsync(string refreshToken)
-        {
-            var existingRefreshToken = await _refreshTokenRepository.GetRefreshTokenAsync(refreshToken);
-
-            if (existingRefreshToken == null || !IsRefreshTokenValid(existingRefreshToken))
-            {
-                throw new UnauthorizedAccessException("Refresh token không hợp lệ hoặc đã hết hạn.");
-            }
-
-            var user = await _userRepository.GetByIdAsync(existingRefreshToken.UserId);
-
-            if (user == null)
-            {
-                throw new UnauthorizedAccessException("Người dùng không tồn tại.");
-            }
-
-            var claims = new ClaimsIdentity(new[]
-            {
-            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-            new Claim(ClaimTypes.Role, user.Role)
-        });
-
-            var (accessToken, newRefreshToken) = _jwtTokenService.GenerateTokens(claims);
-
-            // Cập nhật refresh token mới vào cơ sở dữ liệu
-            existingRefreshToken.RefeshToken = newRefreshToken;
-            existingRefreshToken.ExpirationTime = DateTime.UtcNow.AddMinutes(JwtTokenService.AccessTokenExpirationMinutes);
-            await _refreshTokenRepository.UpdateRefreshTokenAsync(existingRefreshToken);
-
-            var responseModel = new LoginResponse
-            {
-                AccessToken = accessToken,
-                RefreshToken = newRefreshToken,
-                UserId = user.Id,
-                Role = user.Role
-            };
-
-            return responseModel;
-        }
 
         private bool IsRefreshTokenValid(RefreshToken refreshToken)
         {
