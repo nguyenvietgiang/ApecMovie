@@ -10,6 +10,7 @@ namespace UserServices.Application.BussinessServices
         Task UpdateAsync(Guid id, UserDTO userDTO);
         Task DeleteAsync(Guid id);
         Task<LoginResponse> LoginAsync(LoginRequest loginRequest);
+        Task<LoginResponse> RefreshTokensAsync(string refreshToken);
     }
 
 }

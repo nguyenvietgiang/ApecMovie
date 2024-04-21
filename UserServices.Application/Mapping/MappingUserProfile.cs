@@ -9,6 +9,8 @@ namespace UserServices.Application.Mapping
         public MappingUserProfile()
         {
             CreateMap<User, UserDTO>().ReverseMap();
+
+            CreateMap<RefreshToken, RefeshTokenDTO>().ReverseMap();
         }
 
     }

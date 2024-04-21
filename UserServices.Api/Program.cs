@@ -39,6 +39,7 @@ builder.Services.AddTransient<IValidator<UserDTO>, UserDTOValidator>();
 
 builder.Services.AddScoped<IRepository<User>, UserRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
 
 builder.Services.AddAutoMapper(typeof(MappingUserProfile));
 

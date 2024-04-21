@@ -106,5 +106,23 @@ namespace UserServices.Api.Controllers
             return Ok();
         }
 
+        [HttpPost("refresh-tokens")]
+        public async Task<IActionResult> RefreshTokens([FromBody] RefreshTokenRequest request)
+        {
+            try
+            {
+                var response = await _userService.RefreshTokensAsync(request.RefreshToken);
+                return Ok(response);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Đã xảy ra lỗi trong quá trình xử lý yêu cầu." });
+            }
+        }
+
     }
 }
