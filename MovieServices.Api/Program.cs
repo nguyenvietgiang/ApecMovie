@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using FluentValidation.AspNetCore;
 using Minio;
 using MovieServices.Application.BussinessServices;
 using MovieServices.Application.Mapping;
@@ -13,10 +12,10 @@ using Serilog.Formatting.Json;
 using Serilog;
 using ApecMovieCore.Middlewares;
 using SwaggerDoc;
-using RabbitMQ.Connection;
-using RabbitMQ.Event;
+
 
 using ApecCoreIdentity;
+using IoCmanage;
 
 var builder = WebApplication.CreateBuilder(args);
 // logging
@@ -29,10 +28,7 @@ Log.Logger = new LoggerConfiguration()
     .CreateLogger();
 
 // Add services to the container.
-
-// thêm để add validator
-builder.Services.AddControllers()
-        .AddFluentValidation(fv => fv.ImplicitlyValidateChildProperties = true);
+builder.Services.AddCustomServices();
 
 builder.Logging.AddSerilog();
 builder.Services.AddLogging();
@@ -47,12 +43,6 @@ builder.Services.ConfigureSwaggerAndAuth("APEC Movie Services", "Movie Services 
 var configuration = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json")
     .Build();
-
-
-
-// message broker
-builder.Services.AddSingleton<IRabbitmqConnection>(new RabbitmqConnection());
-builder.Services.AddScoped<IMessageProducer, RabbitmqProducer>();
 
 // cấu hình minio
 var minioConfig = configuration.GetSection("Minio");
@@ -90,6 +80,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors("_myAllowSpecificOrigins");
 
 app.UseErrorHandlingMiddleware();
 

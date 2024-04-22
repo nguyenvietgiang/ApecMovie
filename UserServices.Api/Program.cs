@@ -1,9 +1,6 @@
 ﻿using ApecCoreIdentity;
 using ApecMovieCore.Interface;
 using FluentValidation;
-using FluentValidation.AspNetCore;
-using RabbitMQ.Connection;
-using RabbitMQ.Event;
 using UserServices.Application.BussinessServices;
 using UserServices.Application.Mapping;
 using UserServices.Application.ModelsDTO;
@@ -13,14 +10,13 @@ using UserServices.Domain.Models;
 using UserServices.Infrastructure.Context;
 using UserServices.Infrastructure.Repository;
 using SwaggerDoc;
+using IoCmanage;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// thêm để add validator
-builder.Services.AddControllers()
-        .AddFluentValidation(fv => fv.ImplicitlyValidateChildProperties = true);
-
 // Add services to the container.
+builder.Services.AddCustomServices();
+
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -28,10 +24,6 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.ConfigureSwaggerAndAuth("APEC Authentication Services", "Authentication Services for APEC Backend Microservices");
 
-
-// message broker
-builder.Services.AddSingleton<IRabbitmqConnection>(new RabbitmqConnection());
-builder.Services.AddScoped<IMessageProducer, RabbitmqProducer>();
 
 builder.Services.AddDbContext<UserDbContext>();
 
@@ -55,6 +47,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors("_myAllowSpecificOrigins");
 
 app.UseHttpsRedirection();
 app.UseAuthentication();

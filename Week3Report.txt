@@ -1,11 +1,13 @@
 ﻿Báo cáo tuần 3
-+ Tìm hiểu về RabbitMQ
++ Tìm hiểu về RabbitMQ (50%) và dùng trong connect các services.
 
-+ Tìm hiểu về Connect gRPC giữa các MicroServcies
+- Tìm hiểu về Connect gRPC giữa các MicroServcies
 
-+ Thêm log cho phần MovieServices với NoSQL
+- Thêm log cho phần MovieServices với NoSQL
 
 + Xây dựng EmailServices (Gửi email có thể chạy Backgroud job với Hangfile)
 
++ Xây dựng core cho Authentication
+
 + Xây dựng UserServices (Đăng nhập, đăng ký, phân quyền)
-(Công nghệ sử dụng: PostgreSQL, Auto Mapper, FluantValidator, EF core, Redis, Minio, Serilog, JWT)
+(Công nghệ sử dụng: PostgreSQL, Auto Mapper, FluantValidator, EF core, JWT)
