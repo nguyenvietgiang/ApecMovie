@@ -12,7 +12,7 @@ using Serilog.Formatting.Json;
 using Serilog;
 using ApecMovieCore.Middlewares;
 using SwaggerDoc;
-
+using CoreHeathCheck;
 
 using ApecCoreIdentity;
 using IoCmanage;
@@ -72,6 +72,8 @@ builder.Services.AddScoped<IMovieRepository, MovieRepository>();
 //Services
 builder.Services.AddScoped<IMovieServices, MovieServicesImplementation>();
 
+
+builder.Services.AddCustomHealthChecks();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -97,6 +99,8 @@ app.Use(async (context, next) =>
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapCustomHealthChecks();
 
 app.Run();
 

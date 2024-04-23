@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CoreHeathCheck\CoreHeathCheck.csproj" />
     <ProjectReference Include="..\IoCmanage\IoCmanage.csproj" />
     <ProjectReference Include="..\SwaggerDoc\SwaggerDoc.csproj" />
   </ItemGroup>
