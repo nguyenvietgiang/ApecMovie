@@ -51,48 +51,48 @@ namespace RabbitMQ.Event
         }
 
 
-        public void ReceiveMessage<T>(Action<T> messageHandler, string queueName)
-        {
-            if (string.IsNullOrWhiteSpace(queueName))
-            {
-                throw new ArgumentException("Không thể lắng nghe.", nameof(queueName));
-            }
+        //public void ReceiveMessage<T>(Action<T> messageHandler, string queueName)
+        //{
+        //    if (string.IsNullOrWhiteSpace(queueName))
+        //    {
+        //        throw new ArgumentException("Không thể lắng nghe.", nameof(queueName));
+        //    }
 
-            if (_connection.Connection == null)
-            {
-                throw new InvalidOperationException("Không kết nối được.");
-            }
+        //    if (_connection.Connection == null)
+        //    {
+        //        throw new InvalidOperationException("Không kết nối được.");
+        //    }
 
-            using (var channel = _connection.Connection.CreateModel())
-            {
-                try
-                {
-                    channel.QueueDeclare(queue: queueName,
-                                         durable: false,
-                                         exclusive: false,
-                                         autoDelete: false,
-                                         arguments: null);
+        //    using (var channel = _connection.Connection.CreateModel())
+        //    {
+        //        try
+        //        {
+        //            channel.QueueDeclare(queue: queueName,
+        //                                 durable: false,
+        //                                 exclusive: false,
+        //                                 autoDelete: false,
+        //                                 arguments: null);
 
-                    var consumer = new EventingBasicConsumer(channel);
-                    consumer.Received += (model, ea) =>
-                    {
-                        var body = ea.Body.ToArray();
-                        var message = JsonSerializer.Deserialize<T>(Encoding.UTF8.GetString(body));
-                        messageHandler(message);
-                    };
+        //            var consumer = new EventingBasicConsumer(channel);
+        //            consumer.Received += (model, ea) =>
+        //            {
+        //                var body = ea.Body.ToArray();
+        //                var message = JsonSerializer.Deserialize<T>(Encoding.UTF8.GetString(body));
+        //                messageHandler(message);
+        //            };
 
-                    channel.BasicConsume(queue: queueName,
-                                         autoAck: true,
-                                         consumer: consumer);
+        //            channel.BasicConsume(queue: queueName,
+        //                                 autoAck: true,
+        //                                 consumer: consumer);
 
-                    Console.WriteLine($"Waiting for messages in queue '{queueName}'.");
-                    Console.ReadLine(); // Để cho ứng dụng không kết thúc ngay sau khi nhận tin nhắn
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"có lỗi: {ex.Message}");
-                }
-            }
-        }
+        //            Console.WriteLine($"Waiting for messages in queue '{queueName}'.");
+        //            Console.ReadLine(); // Để cho ứng dụng không kết thúc ngay sau khi nhận tin nhắn
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            Console.WriteLine($"có lỗi: {ex.Message}");
+        //        }
+        //    }
+        //}
     }
 }

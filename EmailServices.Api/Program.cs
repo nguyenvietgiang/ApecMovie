@@ -34,8 +34,8 @@ builder.Services.AddHangfire(configuration => configuration.UseMemoryStorage());
 // Message broker
 builder.Services.AddSingleton<IRabbitmqConnection>(new RabbitmqConnection());
 builder.Services.AddScoped<IMessageProducer, RabbitmqProducer>();
+builder.Services.AddHostedService<ConsumerService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -55,22 +55,5 @@ app.MapControllers();
 app.UseHangfireServer();
 app.UseHangfireDashboard("/hangfire");
 
-app.Map("/process-emails", processApp =>
-{
-    processApp.Run(async context =>
-    {
-        var messageProducer = context.RequestServices.GetRequiredService<IMessageProducer>();
-        var emailService = context.RequestServices.GetRequiredService<IEmailService>();
-
-        messageProducer.ReceiveMessage<string>(message =>
-        {
-            var mailInfo = message.Split(", ");
-            var to = mailInfo[0].Split(": ")[1];
-            var subject = mailInfo[1].Split(": ")[1];
-            var body = mailInfo[2].Split(": ")[1];
-            emailService.SendEmail(to, subject, body);
-        }, "sendmail");
-    });
-});
 
 app.Run();

@@ -2,6 +2,7 @@
 using Hangfire;
 using Microsoft.AspNetCore.Mvc;
 
+
 namespace EmailServices.Api.Controllers
 {
     [Route("v1/api/[controller]")]
@@ -10,20 +11,22 @@ namespace EmailServices.Api.Controllers
     {
         private readonly IEmailService _emailService;
         private readonly IBackgroundJobClient _backgroundJobClient;
-        public EmailController(IBackgroundJobClient backgroundJobClient,IEmailService emailService)
+
+        public EmailController(IBackgroundJobClient backgroundJobClient, IEmailService emailService)
         {
             _backgroundJobClient = backgroundJobClient;
             _emailService = emailService;
         }
 
         /// <summary>
-        /// send email to user
+        /// Gửi email đến người dùng
         /// </summary>
         [HttpPost]
-        public IActionResult Send(string mail, string subject ,string bodyString)
+        public IActionResult Send(string mail, string subject, string bodyString)
         {
-            _backgroundJobClient.Enqueue(() => _emailService.SendEmail(mail,subject ,bodyString));
+            _backgroundJobClient.Enqueue(() => _emailService.SendEmail(mail, subject, bodyString));
             return Ok();
         }
+
     }
 }
