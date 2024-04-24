@@ -72,8 +72,9 @@ builder.Services.AddScoped<IMovieRepository, MovieRepository>();
 //Services
 builder.Services.AddScoped<IMovieServices, MovieServicesImplementation>();
 
+var dbconnection = "Server=localhost;Port=5432;Database=ApecMovieData;User Id=postgres;Password=vip1111;";
 
-builder.Services.AddCustomHealthChecks();
+builder.Services.AddCustomHealthChecks(dbconnection);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

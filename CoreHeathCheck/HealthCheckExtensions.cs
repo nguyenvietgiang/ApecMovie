@@ -7,8 +7,9 @@ namespace CoreHeathCheck
 {
     public static class HealthCheckExtensions
     {
-        public static IServiceCollection AddCustomHealthChecks(this IServiceCollection services)
+        public static IServiceCollection AddCustomHealthChecks(this IServiceCollection services, string connection)
         {
+            services.AddHealthChecks().AddNpgSql(connection);
             services.AddHealthChecks();
             services.AddHealthChecksUI().AddInMemoryStorage();
             return services;

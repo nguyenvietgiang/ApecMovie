@@ -1,0 +1,33 @@
+{
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "/v1/api/Movies",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7205
+        }
+      ],
+      "UpstreamPathTemplate": "/v1/api/movies",
+      "UpstreamHttpMethod": [ "Get" ],
+      "SwaggerKey": "movies"
+    }
+  ],
+  // use this link: https://localhost:7128/swagger/index.html 
+  "SwaggerEndPoints": [
+    {
+      "Key": "movies",
+      "Config": [
+        {
+          "Name": "APEC Movie Services APIs",
+          "Version": "v1",
+          "Url": "http://localhost:7128/swagger/v1/swagger.json"
+        }
+      ]
+    }
+  ],
+  "GlobalConfiguration": {
+    "BaseUrl": "https://localhost/7128"
+  }
+}
