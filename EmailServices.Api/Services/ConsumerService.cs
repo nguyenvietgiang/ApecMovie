@@ -1,22 +1,23 @@
 ﻿using RabbitMQ.Client.Events;
 using RabbitMQ.Client;
 using System.Text;
-using Microsoft.Extensions.Hosting;
+using System.Text.RegularExpressions;
 
-namespace RabbitMQ.Event
+namespace EmailServices.Api.Services
 {
     public class ConsumerService : IHostedService
     {
         private readonly ConnectionFactory _factory;
         private IConnection _connection;
         private IModel _channel;
-
-        public ConsumerService()
+        private readonly IEmailService _emailService;
+        public ConsumerService(IEmailService emailService)
         {
             _factory = new ConnectionFactory
             {
                 HostName = "localhost"
             };
+            _emailService = emailService;
         }
 
         public Task StartAsync(CancellationToken cancellationToken)
@@ -36,6 +37,19 @@ namespace RabbitMQ.Event
                 var body = ea.Body.ToArray();
                 var message = Encoding.UTF8.GetString(body);
                 Console.WriteLine("Received message: {0}", message);
+
+                // tách thông tin cần thiết từ Message
+                var toAddressPattern = @"To:\s*(.*?),";
+                var subjectPattern = @"Subject:\s*(.*?),";
+                var bodyPattern = @"Body:\s*(.*)$";
+
+                var toAddress = Regex.Match(message, toAddressPattern).Groups[1].Value.Trim();
+                var subject = Regex.Match(message, subjectPattern).Groups[1].Value.Trim();
+                var bodyContent = Regex.Match(message, bodyPattern).Groups[1].Value.Trim();
+
+                // Gửi email
+                _emailService.SendEmail(toAddress, subject, bodyContent);
+
             };
             _channel.BasicConsume(queue: "sendmail",
                                   autoAck: true,

@@ -35,7 +35,7 @@ builder.Services.AddHangfire(configuration => configuration.UseMemoryStorage());
 builder.Services.AddSingleton<IRabbitmqConnection>(new RabbitmqConnection());
 builder.Services.AddScoped<IMessageProducer, RabbitmqProducer>();
 builder.Services.AddHostedService<ConsumerService>();
-builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddSingleton<IEmailService, EmailService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
