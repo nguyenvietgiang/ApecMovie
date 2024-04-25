@@ -12,6 +12,32 @@
       "UpstreamPathTemplate": "/v1/api/movies",
       "UpstreamHttpMethod": [ "Get" ],
       "SwaggerKey": "movies"
+    },
+    {
+      "DownstreamPathTemplate": "/v1/api/User/register",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7089
+        }
+      ],
+      "UpstreamPathTemplate": "/v1/api/register",
+      "UpstreamHttpMethod": [ "Post" ],
+      "SwaggerKey": "authentication"
+    },
+    {
+      "DownstreamPathTemplate": "/v1/api/User/login",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7089
+        }
+      ],
+      "UpstreamPathTemplate": "/v1/api/login",
+      "UpstreamHttpMethod": [ "Post" ],
+      "SwaggerKey": "authentication"
     }
   ],
   // use this link: https://localhost:7128/swagger/index.html 
