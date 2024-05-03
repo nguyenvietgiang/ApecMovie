@@ -1,0 +1,22 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "GrpcEmailService";
+
+import "google/protobuf/empty.proto";
+
+package email;
+
+service EmailSender {
+  rpc SendEmail (EmailRequest) returns (EmailResponse);
+}
+
+message EmailRequest {
+  string to = 1;
+  string subject = 2;
+  string body = 3;
+}
+
+message EmailResponse {
+  string message = 1;
+}
+

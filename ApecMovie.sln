@@ -10,6 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Document", "Document", "{1B
 		Structure.txt = Structure.txt
 		Week2Report.txt = Week2Report.txt
 		Week3Report.txt = Week3Report.txt
+		Week4Report.txt = Week4Report.txt
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Src", "Src", "{E6A9AA3D-E400-4D23-B26F-C686C2EF5898}"
@@ -86,9 +87,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PaymentServices", "PaymentS
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "gRPC-server", "gRPC-server", "{9B18E059-9F4C-4457-9689-A3E813A6FF57}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gRPC-CoreServer", "gRPC-CoreServer\gRPC-CoreServer.csproj", "{B87877BE-7CB1-40E6-8126-10B2B446E2D4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "gRPC-CoreServer", "gRPC-CoreServer\gRPC-CoreServer.csproj", "{B87877BE-7CB1-40E6-8126-10B2B446E2D4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentServices.Api", "PaymentServices.Api\PaymentServices.Api.csproj", "{926307AB-6455-4CA7-8603-D5EC1BDA203A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PaymentServices.Api", "PaymentServices.Api\PaymentServices.Api.csproj", "{926307AB-6455-4CA7-8603-D5EC1BDA203A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,0 +1,6 @@
+﻿+ Xây dựng health check và api gateway (30%)
++ Sử dụng RabbitMQ và gRPC để giao tiếp giữa các microServices
+  Tiến hành demo và so sánh
+
+
++ Xây dựng hệ thống quản lý vé TicketServices (50%)
