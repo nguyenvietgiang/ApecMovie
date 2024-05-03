@@ -12,6 +12,7 @@
 	</PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\gRPC-CoreServer\gRPC-CoreServer.csproj" />
     <ProjectReference Include="..\IoCmanage\IoCmanage.csproj" />
     <ProjectReference Include="..\SwaggerDoc\SwaggerDoc.csproj" />
   </ItemGroup>

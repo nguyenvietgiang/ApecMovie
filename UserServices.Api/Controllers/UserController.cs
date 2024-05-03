@@ -1,4 +1,7 @@
 ﻿using ApecMovieCore.BaseResponse;
+using Grpc.Core;
+using Grpc.Net.Client;
+using GrpcEmailService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -15,10 +18,12 @@ namespace UserServices.Api.Controllers
     {
         private readonly IUserService _userService;
         private readonly IMessageProducer _producer;
-        public UserController(IUserService userService , IMessageProducer messageProducer)
+        private readonly EmailSender.EmailSenderClient _emailClient;
+        public UserController(IUserService userService , IMessageProducer messageProducer, EmailSender.EmailSenderClient emailClient)
         {
             _userService = userService;
             _producer = messageProducer;
+            _emailClient = emailClient;
         }
 
         [HttpGet("{id}")]
@@ -116,6 +121,21 @@ namespace UserServices.Api.Controllers
             var message = $"To: {mail}, Subject: {subject}, Body: {bodyString}";
             _producer.SendMessage(message, "sendmail");
             return Ok();
+        }
+
+        [HttpPost("send-mail-grpc")]
+        public async Task<IActionResult> SendEmailAsync(string to, string subject, string body)
+        {
+            try
+            {
+                var request = new EmailRequest { To = to, Subject = subject, Body = body };
+                var response = await _emailClient.SendEmailAsync(request);
+                return Ok(response.Message);
+            }
+            catch (RpcException ex)
+            {
+                return StatusCode((int)ex.StatusCode, ex.Status.Detail);
+            }
         }
 
         [HttpPost("refresh-tokens")]

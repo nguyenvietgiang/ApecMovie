@@ -6,6 +6,7 @@ using ApecMovieCore.Middlewares;
 using Microsoft.OpenApi.Models;
 using RabbitMQ.Connection;
 using RabbitMQ.Event;
+using GrpcEmailService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,6 +37,8 @@ builder.Services.AddSingleton<IRabbitmqConnection>(new RabbitmqConnection());
 builder.Services.AddScoped<IMessageProducer, RabbitmqProducer>();
 builder.Services.AddHostedService<ConsumerService>();
 builder.Services.AddSingleton<IEmailService, EmailService>();
+builder.Services.AddGrpc();
+builder.Services.AddSingleton<EmailSender.EmailSenderBase, EmailSenderService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

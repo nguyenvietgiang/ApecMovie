@@ -1,10 +1,13 @@
 ﻿using MimeKit;
 using MailKit.Net.Smtp;
+using GrpcEmailService;
 namespace EmailServices.Api.Services
 {
     public class EmailService : IEmailService
     {
         private readonly IWebHostEnvironment _env;
+       
+
         public EmailService(IWebHostEnvironment env)
         {
             _env = env;
@@ -42,6 +45,7 @@ namespace EmailServices.Api.Services
                 client.Disconnect(true);
             }
         }
+
 
     }
 }
