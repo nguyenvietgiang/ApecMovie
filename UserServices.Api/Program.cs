@@ -44,7 +44,7 @@ builder.Services.AddScoped<IUserService, UserServiceImplementation>();
 
 builder.Services.AddSingleton(services =>
 {
-    var channel = GrpcChannel.ForAddress("https://localhost:7299"); // Địa chỉ của gRPC Server
+    var channel = GrpcChannel.ForAddress("http://localhost:5001"); 
     return channel;
 });
 

@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Protobuf Include="..\GrpcServiceCore\Protos\sendmail.proto" GrpcServices="Client">
+    <Protobuf Include="..\GrpcServiceCore\Protos\sendmail.proto" GrpcServices="Both">
       <Link>Protos\sendmail.proto</Link>
     </Protobuf>
   </ItemGroup>

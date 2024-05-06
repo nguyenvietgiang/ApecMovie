@@ -17,11 +17,13 @@ namespace UserServices.Api.Controllers
         private readonly IUserService _userService;
         private readonly IMessageProducer _producer;
         private readonly EmailSenderClient _emailSenderClient;
-        public UserController(IUserService userService , IMessageProducer messageProducer, EmailSenderClient emailSenderClient)
+        private readonly ILogger<UserController> _logger;
+        public UserController(IUserService userService , IMessageProducer messageProducer, EmailSenderClient emailSenderClient, ILogger<UserController> logger)
         {
             _userService = userService;
             _producer = messageProducer;
             _emailSenderClient = emailSenderClient;
+            _logger = logger;
         }
 
         [HttpGet("{id}")]
@@ -126,12 +128,16 @@ namespace UserServices.Api.Controllers
         {
             try
             {
-                // Gọi hàm gửi email thông qua gRPC
+                _logger.LogInformation("Sending email: To={To}, Subject={Subject}, Body={Body}", to, subject, body);
                 var response = await _emailSenderClient.SendEmailAsync(to, subject, body);
+                _logger.LogInformation("Email sent successfully: {Message}", response.Message);
+
                 return Ok(response.Message);
             }
             catch (RpcException ex)
             {
+                // Ghi log khi có lỗi xảy ra
+                _logger.LogError(ex, "Error occurred while sending email");
                 return StatusCode((int)ex.StatusCode, ex.Status.Detail);
             }
         }

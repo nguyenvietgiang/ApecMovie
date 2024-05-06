@@ -7,7 +7,6 @@ using Microsoft.OpenApi.Models;
 using RabbitMQ.Connection;
 using RabbitMQ.Event;
 using GrpcEmailService;
-using Grpc.Net.Client;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -40,13 +39,13 @@ builder.Services.AddScoped<IMessageProducer, RabbitmqProducer>();
 builder.Services.AddHostedService<ConsumerService>();
 builder.Services.AddSingleton<IEmailService, EmailService>();
 
-builder.Services.AddGrpc();
 
 builder.Services.AddGrpcClient<GrpcEmailService.EmailSender.EmailSenderClient>(options =>
 {
-    options.Address = new Uri("https://localhost:7299");
+    options.Address = new Uri("http://localhost:5001"); // Địa chỉ của gRPC Server (Project 1)
 });
 
+builder.Services.AddGrpc();
 builder.Services.AddSingleton<EmailSender.EmailSenderBase, EmailServiceImpl>();
 
 var app = builder.Build();
@@ -65,8 +64,8 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+app.MapGrpcService<EmailServiceImpl>();
+
 app.UseHangfireServer();
 app.UseHangfireDashboard("/hangfire");
-
-
 app.Run();
