@@ -1,6 +1,5 @@
 ﻿using MimeKit;
 using MailKit.Net.Smtp;
-using GrpcEmailService;
 namespace EmailServices.Api.Services
 {
     public class EmailService : IEmailService

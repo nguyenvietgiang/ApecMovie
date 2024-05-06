@@ -7,6 +7,8 @@ using Microsoft.OpenApi.Models;
 using RabbitMQ.Connection;
 using RabbitMQ.Event;
 using GrpcEmailService;
+using Grpc.Net.Client;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,8 +39,16 @@ builder.Services.AddSingleton<IRabbitmqConnection>(new RabbitmqConnection());
 builder.Services.AddScoped<IMessageProducer, RabbitmqProducer>();
 builder.Services.AddHostedService<ConsumerService>();
 builder.Services.AddSingleton<IEmailService, EmailService>();
+
 builder.Services.AddGrpc();
-builder.Services.AddSingleton<EmailSender.EmailSenderBase, EmailSenderService>();
+
+builder.Services.AddGrpcClient<GrpcEmailService.EmailSender.EmailSenderClient>(options =>
+{
+    options.Address = new Uri("https://localhost:7299");
+});
+
+builder.Services.AddSingleton<EmailSender.EmailSenderBase, EmailServiceImpl>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

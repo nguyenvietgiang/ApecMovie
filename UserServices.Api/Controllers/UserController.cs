@@ -1,7 +1,5 @@
 ﻿using ApecMovieCore.BaseResponse;
 using Grpc.Core;
-using Grpc.Net.Client;
-using GrpcEmailService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -18,12 +16,12 @@ namespace UserServices.Api.Controllers
     {
         private readonly IUserService _userService;
         private readonly IMessageProducer _producer;
-        private readonly EmailSender.EmailSenderClient _emailClient;
-        public UserController(IUserService userService , IMessageProducer messageProducer, EmailSender.EmailSenderClient emailClient)
+        private readonly EmailSenderClient _emailSenderClient;
+        public UserController(IUserService userService , IMessageProducer messageProducer, EmailSenderClient emailSenderClient)
         {
             _userService = userService;
             _producer = messageProducer;
-            _emailClient = emailClient;
+            _emailSenderClient = emailSenderClient;
         }
 
         [HttpGet("{id}")]
@@ -124,12 +122,12 @@ namespace UserServices.Api.Controllers
         }
 
         [HttpPost("send-mail-grpc")]
-        public async Task<IActionResult> SendEmailAsync(string to, string subject, string body)
+        public async Task<IActionResult> SendEmail(string to, string subject, string body)
         {
             try
             {
-                var request = new EmailRequest { To = to, Subject = subject, Body = body };
-                var response = await _emailClient.SendEmailAsync(request);
+                // Gọi hàm gửi email thông qua gRPC
+                var response = await _emailSenderClient.SendEmailAsync(to, subject, body);
                 return Ok(response.Message);
             }
             catch (RpcException ex)

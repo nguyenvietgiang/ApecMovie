@@ -12,6 +12,15 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Protos\**" />
+	  <Content Remove="Protos\**" />
+	  <EmbeddedResource Remove="Protos\**" />
+	  <None Remove="Protos\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+	<PackageReference Include="Grpc.AspNetCore" Version="2.49.0" />
+	<PackageReference Include="Google.Protobuf" Version="3.21.12" />
 	<PackageReference Include="MailKit" Version="3.4.3" />
 	<PackageReference Include="Hangfire.AspNetCore" Version="1.8.4" />
 	<PackageReference Include="Hangfire.MemoryStorage" Version="1.8.0" />
@@ -20,8 +29,12 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\ApecMovieCore\ApecMovieCore.csproj" />
-	  <ProjectReference Include="..\gRPC-CoreServer\gRPC-CoreServer.csproj" />
 	  <ProjectReference Include="..\RabbitMQ\RabbitMQ.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Protobuf Include="..\GrpcServiceCore\Protos\sendmail.proto" GrpcServices="Both">
+	    <Link>Protos\sendmail.proto</Link>
+	  </Protobuf>
+	</ItemGroup>
 </Project>

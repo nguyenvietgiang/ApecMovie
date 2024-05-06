@@ -11,9 +11,10 @@ using UserServices.Infrastructure.Context;
 using UserServices.Infrastructure.Repository;
 using SwaggerDoc;
 using IoCmanage;
-using gRPC_CoreServer.Services;
-using Microsoft.Extensions.Options;
 using GrpcEmailService;
+using Grpc.Net.Client;
+
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,15 +42,15 @@ builder.Services.AddAutoMapper(typeof(MappingUserProfile));
 
 builder.Services.AddScoped<IUserService, UserServiceImplementation>();
 
-builder.Services.AddGrpc(o =>
+builder.Services.AddSingleton(services =>
 {
-    o.EnableDetailedErrors = true;
+    var channel = GrpcChannel.ForAddress("https://localhost:7299"); // Địa chỉ của gRPC Server
+    return channel;
 });
 
-builder.Services.AddGrpcClient<EmailSender.EmailSenderClient>(options =>
-{
-    options.Address = new Uri("https://localhost:7277"); // Thay đổi địa chỉ phù hợp với Services 2
-});
+// Đăng ký EmailSenderClient
+builder.Services.AddScoped<EmailSenderClient>();
+
 
 var app = builder.Build();
 
@@ -72,7 +73,5 @@ app.Use(async (context, next) =>
 app.UseAuthorization();
 
 app.MapControllers();
-
-app.MapGrpcService<EmailSenderService>();
 
 app.Run();

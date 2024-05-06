@@ -1,10 +1,9 @@
 ﻿using Grpc.Core;
 using GrpcEmailService;
 
-
-namespace gRPC_CoreServer.Services
+namespace GrpcServiceCore.Services
 {
-    public class EmailSenderService: GrpcEmailService.EmailSender.EmailSenderBase
+    public class EmailSenderService : EmailSender.EmailSenderBase
     {
         public override Task<EmailResponse> SendEmail(EmailRequest request, ServerCallContext context)
         {
