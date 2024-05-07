@@ -3,10 +3,21 @@
     {
       "DownstreamPathTemplate": "/v1/api/Movies",
       "DownstreamScheme": "https",
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection" // thuật cân bằng tải
+      },
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
           "Port": 7205
+        },
+        {
+          "Host": "localhost",
+          "Port": 7206
+        },
+        {
+          "Host": "localhost",
+          "Port": 7207
         }
       ],
       "UpstreamPathTemplate": "/v1/api/movies",
@@ -40,7 +51,6 @@
       "SwaggerKey": "authentication"
     }
   ],
-  // use this link: https://localhost:7128/swagger/index.html 
   "SwaggerEndPoints": [
     {
       "Key": "movies",
@@ -54,6 +64,7 @@
     }
   ],
   "GlobalConfiguration": {
-    "BaseUrl": "https://localhost/7128"
+    "BaseUrl": "https://localhost:7128"
   }
 }
+

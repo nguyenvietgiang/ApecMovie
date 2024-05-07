@@ -6,4 +6,14 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+	<ItemGroup>
+		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
+		<PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\TicketServices.Domain\TicketServices.Domain.csproj" />
+	  <ProjectReference Include="..\RabbitMQ\RabbitMQ.csproj" />
+	</ItemGroup>
+	
 </Project>

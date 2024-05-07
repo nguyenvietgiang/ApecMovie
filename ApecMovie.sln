@@ -6,6 +6,7 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Document", "Document", "{1B585B16-8451-4093-BDA2-B337AE2C4EFC}"
 	ProjectSection(SolutionItems) = preProject
 		gRPC_Document.txt = gRPC_Document.txt
+		LoadBalancing.txt = LoadBalancing.txt
 		Plan.txt = Plan.txt
 		Requirment.txt = Requirment.txt
 		Structure.txt = Structure.txt
