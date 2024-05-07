@@ -3,16 +3,13 @@ using GrpcEmailService;
 
 namespace EmailServices.Api.Services
 {
-    public class EmailServiceImpl : GrpcEmailService.EmailSender.EmailSenderBase
+    public class EmailSenderService : EmailSender.EmailSenderBase
     {
         private readonly IEmailService _emailService;
-        private readonly EmailSender.EmailSenderClient _client;
-        private readonly ILogger<EmailServiceImpl> _logger;
-
-        public EmailServiceImpl(IEmailService emailService, GrpcEmailService.EmailSender.EmailSenderClient client, ILogger<EmailServiceImpl> logger)
+        private readonly ILogger<EmailSenderService> _logger;
+        public EmailSenderService(IEmailService emailService, ILogger<EmailSenderService> logger)
         {
             _emailService = emailService;
-            _client = client;
             _logger = logger;
         }
 
@@ -27,5 +24,4 @@ namespace EmailServices.Api.Services
             return Task.FromResult(new EmailResponse { Message = "Email sent successfully" });
         }
     }
-
 }

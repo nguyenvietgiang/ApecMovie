@@ -1,0 +1,23 @@
+﻿Cơ chế hoạt động của gRPC trong microservers
+
+Lý thuyết tổng quan
+gRPC trong microservices (trong dự án này giữa user services và email servies)
+được sử dụng để giao tiếp giữa các services trong hệ thống
+
+gRPC là framework RPC mã nguồn mở, hiện đại và hiệu năng cao mà có thể chạy trên bất kỳ môi trường nào. 
+Framework này được Google khởi công phát triển vào năm 2015, đến 08/2016 thì được phát hành chính thức. 
+Đây được cho là một thế hệ tiếp theo của RPC (Remote Procedure Calls) đặc biệt là trong mô hình Microservices.
+
+Việc giao tiếp giữa các services khác nhau sử dụng Json
+Giao tiếp sử dụng giao thức nhị phân: Một số giao thức truyền thông như gRPC, 
+Protobuf sử dụng định dạng nhị phân thay vì JSON để trao đổi dữ liệu hiệu quả hơn, 
+giảm thiểu overhead encode/decode.
+
+Cách triển khai trong hệ thống Dotnet core Microservices và gRPC
+
+B1: Triển khai gRPC core server trong hệ thống core 
++ Tạo một dự án gRPC server trong đó định nghĩa các dịch vụ và message trong file .proto (client và server sẽ dùng chung)
++ Tạo Connect đến file proto này ở các services sử dụng với 1 bên làm client và một bên làm server
+B2: 
++ Triển khai services và khai báo trong server với file proto
++ Triển khai ở client để gọi và giao tiếp với server thông qua port https của server

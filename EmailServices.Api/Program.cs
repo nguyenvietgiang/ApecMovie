@@ -39,14 +39,7 @@ builder.Services.AddScoped<IMessageProducer, RabbitmqProducer>();
 builder.Services.AddHostedService<ConsumerService>();
 builder.Services.AddSingleton<IEmailService, EmailService>();
 
-
-builder.Services.AddGrpcClient<GrpcEmailService.EmailSender.EmailSenderClient>(options =>
-{
-    options.Address = new Uri("http://localhost:5001"); // Địa chỉ của gRPC Server (Project 1)
-});
-
 builder.Services.AddGrpc();
-builder.Services.AddSingleton<EmailSender.EmailSenderBase, EmailServiceImpl>();
 
 var app = builder.Build();
 
@@ -64,7 +57,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.MapGrpcService<EmailServiceImpl>();
+app.MapGrpcService<EmailSenderService>();
 
 app.UseHangfireServer();
 app.UseHangfireDashboard("/hangfire");

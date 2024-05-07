@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using TicketServices.Infrastructure.Context;
@@ -11,9 +12,11 @@ using TicketServices.Infrastructure.Context;
 namespace TicketServices.Infrastructure.Migrations
 {
     [DbContext(typeof(TicketDbContext))]
-    partial class TicketDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240507022611_AddTicketToken")]
+    partial class AddTicketToken
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -42,10 +45,6 @@ namespace TicketServices.Infrastructure.Migrations
 
                     b.Property<bool>("Status")
                         .HasColumnType("boolean");
-
-                    b.Property<string>("Token")
-                        .IsRequired()
-                        .HasColumnType("text");
 
                     b.Property<Guid>("UserID")
                         .HasColumnType("uuid");

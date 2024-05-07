@@ -5,6 +5,7 @@ VisualStudioVersion = 17.9.34701.34
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Document", "Document", "{1B585B16-8451-4093-BDA2-B337AE2C4EFC}"
 	ProjectSection(SolutionItems) = preProject
+		gRPC_Document.txt = gRPC_Document.txt
 		Plan.txt = Plan.txt
 		Requirment.txt = Requirment.txt
 		Structure.txt = Structure.txt
@@ -89,7 +90,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "gRPC-server", "gRPC-server"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PaymentServices.Api", "PaymentServices.Api\PaymentServices.Api.csproj", "{926307AB-6455-4CA7-8603-D5EC1BDA203A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrpcServiceCore", "GrpcServiceCore\GrpcServiceCore.csproj", "{2AAAAA55-8E43-4128-AA7D-64D5BA6569B4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GrpcServiceCore", "GrpcServiceCore\GrpcServiceCore.csproj", "{2AAAAA55-8E43-4128-AA7D-64D5BA6569B4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
