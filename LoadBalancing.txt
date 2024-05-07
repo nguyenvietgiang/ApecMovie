@@ -1,0 +1,14 @@
+﻿Cân Bằng Tải (Load Balancing):
+
+
+Các thuật toán , kỹ thuật cân bằng tải
++ 
++ 
+Lý thuyết:
+
+Các thành phần cấu hình:
+
+proxy:
+
+cách triển khai (trong dự án này)
+
