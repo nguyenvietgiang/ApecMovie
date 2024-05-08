@@ -1,14 +1,32 @@
 ﻿Cân Bằng Tải (Load Balancing):
+Cân bằng tải là một phương pháp phân phối khối lượng tải trên nhiều máy tính hoặc một cụm máy tính
+để có thể tối ưu các nguồn lực, tối đa hóa thông lượng, giảm thời gian đáp ứng và tránh tình trạng quá tải trên máy chủ. 
 
-
-Các thuật toán , kỹ thuật cân bằng tải
-+ 
-+ 
+Các thuật toán , kỹ thuật cân bằng tải thường dùng
++ Round Robin: sẽ lựa chọn server theo tuần tự. Bộ cân bằng tải sẽ chọn server đầu trong danh sách cho yêu cầu đầu, 
+sau đó di chuyển xuống server tiếp theo trong danh sách theo thứ tự và bắt đầu lại từ đầu khi hết danh sách.
++ Least Connections: Gửi yêu cầu mới đến máy chủ có ít kết nối đang hoạt động nhất, 
+giúp cân bằng tải trọng dựa trên số lượng kết nối.
 Lý thuyết:
++ proxy: Đóng vai trò trung gian giữa client và server.
+Client kết nối đến proxy, sau đó proxy kết nối đến server thực sự.
+Mục đích chính là bảo vệ danh tính client, caching, điều khiển truy cập.
 
-Các thành phần cấu hình:
++ reverd proxy:Đóng vai trò trung gian giữa client và nhiều server backend.
+Client kết nối trực tiếp đến reverse proxy, sau đó reverse proxy chuyển tiếp yêu cầu đến server backend phù hợp.
+Mục đích chính là làm cân bằng tải, bảo mật bằng cách che giấu chi tiết hệ thống backend, caching, điều khiển truy cập.
 
-proxy:
+Reverse Proxy: Thường được sử dụng để điều phối lưu lượng đến các dịch vụ web truyền thống, 
+không quá tập trung vào kiến trúc microservices hay API.
+API Gateway: Được thiết kế đặc biệt cho kiến trúc microservices và tập trung vào việc quản lý, 
+định tuyến và xử lý các API. Nó cung cấp một lớp trừu tượng hóa cho các API backend.
+
+Tuy nhiên, trong thực tế, nhiều dự án sử dụng các thuật ngữ "reverse proxy" và "API gateway" 
+để chỉ cùng một thành phần, vì chúng có chức năng tương tự nhau.
+
+xem tại: https://www.devopsschool.com/blog/load-balancers-vs-api-gateway-vs-reverse-proxy/ 
 
 cách triển khai (trong dự án này)
++ Để có thể cấu hình cân bằng tải trong một hệ thống với Ocelot như trong dự án này sử dụng:
+
 

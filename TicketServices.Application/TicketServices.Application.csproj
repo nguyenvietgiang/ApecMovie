@@ -15,5 +15,12 @@
 	  <ProjectReference Include="..\TicketServices.Domain\TicketServices.Domain.csproj" />
 	  <ProjectReference Include="..\RabbitMQ\RabbitMQ.csproj" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Mapping\" />
+	  <Folder Include="ModelsDTO\" />
+	  <Folder Include="BussinessServices\" />
+	  <Folder Include="Validator\" />
+	</ItemGroup>
 	
 </Project>
