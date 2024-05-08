@@ -11,7 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
+    <ProjectReference Include="..\IoCmanage\IoCmanage.csproj" />
+    <ProjectReference Include="..\SwaggerDoc\SwaggerDoc.csproj" />
   </ItemGroup>
 
 </Project>
