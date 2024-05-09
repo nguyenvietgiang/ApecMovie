@@ -17,23 +17,24 @@ namespace TicketServices.Application.BussinessServices
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<TicketDTO>> GetAllTicketsAsync()
+        public async Task<IEnumerable<Ticket>> GetAllTicketsAsync()
         {
             var tickets = await _ticketRepository.GetAllTicketsAsync();
-            return _mapper.Map<IEnumerable<TicketDTO>>(tickets);
+            return tickets;
         }
 
-        public async Task<TicketDTO> GetTicketByIdAsync(Guid id)
+        public async Task<Ticket> GetTicketByIdAsync(Guid id)
         {
             var ticket = await _ticketRepository.GetTicketByIdAsync(id);
-            return _mapper.Map<TicketDTO>(ticket);
+            return ticket;
         }
 
-        public async Task<Guid> AddTicketAsync(TicketDTO ticketDTO)
+        public async Task<Guid> AddTicketAsync(TicketDTO ticketDTO,Guid UserID)
         {
             var ticket = _mapper.Map<Ticket>(ticketDTO);
             ticket.Id = Guid.NewGuid();
             ticket.Status = false;
+            ticket.UserID = UserID;
             ticket.PaymentStatus = PaymentStatus.Unpaid;
             ticket.Token = Generator.GenerateSixDigitRandomNumber().ToString(); 
             await _ticketRepository.AddTicketAsync(ticket);
@@ -51,6 +52,24 @@ namespace TicketServices.Application.BussinessServices
             var updatedTicket = _mapper.Map(ticketDTO, existingTicket);
             await _ticketRepository.UpdateTicketAsync(updatedTicket);
         }
+
+        public async Task<bool> ConfirmTicketAsync(Guid ticketId, string token)
+        {
+            var ticket = await _ticketRepository.GetTicketByIdAsync(ticketId);
+            // Kiểm tra xem vé có tồn tại không
+            if (ticket == null)
+            {
+                throw new ArgumentException("Ticket not found");
+            }
+            if (ticket.Token != token)
+            {
+                throw new ArgumentException("Invalid token");
+            }
+            ticket.Status = true;
+            await _ticketRepository.UpdateTicketAsync(ticket);
+            return true;
+        }
+
 
         public async Task DeleteTicketAsync(Guid id)
         {

@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace TicketServices.Application.ModelsDTO
 {
-    public class TicketDTO
+    public class TicketConfirmationDTO
     {
-        public Guid MovieID { get; set; }
-        public int SeatNumber { get; set; }
-        public DateTime ShowTime { get; set; }
+        public Guid TicketId { get; set; }
+        public string Token { get; set; }
     }
 
 }
