@@ -8,10 +8,12 @@ using TicketServices.Domain.Interface;
 using TicketServices.Infrastructure.Context;
 using TicketServices.Infrastructure.Repository;
 using SwaggerDoc;
+using IoCmanage;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Thêm customservices từ IocManager.
+builder.Services.AddCustomServices();
 
 builder.Services.AddAutoMapper(typeof(MappingTicketProfile));
 

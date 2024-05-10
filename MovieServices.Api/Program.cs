@@ -28,6 +28,7 @@ Log.Logger = new LoggerConfiguration()
     .CreateLogger();
 
 // Add services to the container.
+// Thêm customservices từ IocManager.
 builder.Services.AddCustomServices();
 
 builder.Logging.AddSerilog();
