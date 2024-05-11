@@ -3,6 +3,8 @@
 Ứng dụng nguồn chỉ việc gửi message đến các queue trong message broker. 
 Consumer chỉ việc đăng ký nhận message từ các queue này.
 
+Loạt video về cách hoạt động của rabbitMQ: https://www.youtube.com/playlist?list=PLw0w5s5b9NK4V21Tv0_OTHxvwDFRihC0R 
+
 Các thành phần cần quan tâm khi sử dụng rabbitMQ
 
 + Exchange
