@@ -37,7 +37,7 @@ namespace RabbitMQ.Event
                     var json = JsonSerializer.Serialize(message);
                     var body = Encoding.UTF8.GetBytes(json);
 
-                    channel.BasicPublish(exchange: "",
+                    channel.BasicPublish(exchange: "Apec-Message",
                                          routingKey: queueName, 
                                          basicProperties: null,
                                          body: body);

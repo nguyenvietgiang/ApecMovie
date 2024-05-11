@@ -8,6 +8,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Document", "Document", "{1B
 		gRPC_Document.txt = gRPC_Document.txt
 		LoadBalancing.txt = LoadBalancing.txt
 		Plan.txt = Plan.txt
+		RabbitMQ_Document.txt = RabbitMQ_Document.txt
 		Requirment.txt = Requirment.txt
 		Structure.txt = Structure.txt
 		Week2Report.txt = Week2Report.txt

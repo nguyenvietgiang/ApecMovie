@@ -9,6 +9,7 @@
   <ItemGroup>
 	  <PackageReference Include="MMLib.SwaggerForOcelot" Version="8.2.0" />
 	  <PackageReference Include="Ocelot" Version="21.0.0" />
+	  <PackageReference Include="Ocelot.Provider.Polly" Version="21.0.0" />
   </ItemGroup>
 
 </Project>

@@ -64,7 +64,8 @@
     }
   ],
   "GlobalConfiguration": {
-    "BaseUrl": "https://localhost:7128"
+    "BaseUrl": "https://localhost:7128",
+    "RequestIdKey": "OcRequestId"
   }
 }
 

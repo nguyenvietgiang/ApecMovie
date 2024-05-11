@@ -1,0 +1,45 @@
+﻿Tác dụng của RabbitMQ
+Để các ứng dụng phân tán có thể giao tiếp được với nhau mà không cần biết chi tiết về nhau
+Ứng dụng nguồn chỉ việc gửi message đến các queue trong message broker. 
+Consumer chỉ việc đăng ký nhận message từ các queue này.
+
+Các thành phần cần quan tâm khi sử dụng rabbitMQ
+
++ Exchange
+Các loại Exchange trong Rabbitmq : direct, topic, fanout, headers.
+
+Direct exchange: Chức năng: Gửi tin nhắn đến một queue cụ thể dựa trên sự
+khớp nối trực tiếp giữa routing key của tin nhắn và routing key của queue.
+Cách sử dụng:
+Routing key của tin nhắn phải khớp chính xác với routing key của queue.
+Thường được sử dụng cho các trường hợp cần gửi tin nhắn đến một queue duy nhất.
+Ví dụ:
+Exchange "donhang" được sử dụng để phân phối tin nhắn đặt mua đến các queue khác nhau dựa trên loại sản phẩm được đặt mua.
+Ví dụ: tin nhắn đặt mua áo thun được gửi đến queue "aothun", tin nhắn đặt mua quần jean được gửi đến queue "quanjean".
+
+Topic exchange: Gửi tin nhắn đến nhiều queue dựa trên pattern matching giữa routing key của tin nhắn và pattern của queue.
+Cách sử dụng:
+Routing key của tin nhắn có thể sử dụng wildcard (*) và hash (#) để khớp với nhiều queue.
+Thường được sử dụng cho các trường hợp cần gửi tin nhắn đến nhiều queue dựa trên một tiêu chí chung.
+Consumer có thể đăng ký những topic mà nó quan tâm
+Ví dụ:
+Exchange "tinnhan" được sử dụng để phân phối tin nhắn đến các queue dựa trên chủ đề của tin nhắn. 
+Ví dụ: tin nhắn có chủ đề "banhang" được gửi đến queue "banhang", 
+tin nhắn có chủ đề "khuyenmai" được gửi đến queue "khuyenmai".
+
+
+
+Cách phân biệt các loại exchange:
+
+Dựa vào cách sử dụng routing key:
+Direct exchange: Routing key phải khớp chính xác với routing key của queue.
+Topic exchange: Routing key có thể sử dụng wildcard (*) và hash (#) để khớp với nhiều queue.
+Fanout exchange: Không sử dụng routing key để định tuyến tin nhắn.
+Headers exchange: Routing key không được sử dụng để định tuyến tin nhắn.
+Dựa vào mục đích sử dụng:
+Direct exchange: Gửi tin nhắn đến một queue cụ thể.
+Topic exchange: Gửi tin nhắn đến nhiều queue dựa trên một tiêu chí chung.
+Fanout exchange: Broadcast tin nhắn đến tất cả các queue.
+Headers exchange: Gửi tin nhắn đến các queue dựa trên các thuộc tính cụ thể của tin nhắn.
+
+
