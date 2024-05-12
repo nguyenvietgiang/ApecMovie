@@ -29,17 +29,23 @@ namespace TicketServices.Application.BussinessServices
             return ticket;
         }
 
-        public async Task<Guid> AddTicketAsync(TicketDTO ticketDTO,Guid UserID)
+        public async Task<Ticket> AddTicketAsync(TicketDTO ticketDTO, Guid userID)
         {
+            if (await _ticketRepository.IsTicketExistsAsync(ticketDTO.MovieID, ticketDTO.SeatNumber, ticketDTO.ShowTime))
+            {
+                throw new InvalidOperationException("Vé này đã được đặt rồi.");
+            }
+
             var ticket = _mapper.Map<Ticket>(ticketDTO);
             ticket.Id = Guid.NewGuid();
             ticket.Status = false;
-            ticket.UserID = UserID;
+            ticket.UserID = userID;
             ticket.PaymentStatus = PaymentStatus.Unpaid;
-            ticket.Token = Generator.GenerateSixDigitRandomNumber().ToString(); 
+            ticket.Token = Generator.GenerateSixDigitRandomNumber().ToString();
             await _ticketRepository.AddTicketAsync(ticket);
-            return ticket.Id;
+            return ticket;
         }
+
 
         public async Task UpdateTicketAsync(Guid id, TicketDTO ticketDTO)
         {

@@ -42,6 +42,12 @@ namespace TicketServices.Infrastructure.Repository
             _context.Tickets.Remove(ticket);
             await _context.SaveChangesAsync();
         }
+
+        public async Task<bool> IsTicketExistsAsync(Guid movieId, int seatNumber, DateTime showTime)
+        {
+            return await _context.Tickets.AnyAsync(t =>
+                t.MovieID == movieId && t.SeatNumber == seatNumber && t.ShowTime == showTime);
+        }
     }
 
 }

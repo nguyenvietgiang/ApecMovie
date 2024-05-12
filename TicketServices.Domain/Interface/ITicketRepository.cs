@@ -9,5 +9,6 @@ namespace TicketServices.Domain.Interface
         Task AddTicketAsync(Ticket ticket);
         Task UpdateTicketAsync(Ticket ticket);
         Task DeleteTicketAsync(Guid id);
+        Task<bool> IsTicketExistsAsync(Guid movieId, int seatNumber, DateTime showTime);
     }
 }

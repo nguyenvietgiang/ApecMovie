@@ -38,12 +38,24 @@ namespace TicketServices.Api.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<ActionResult<Guid>> AddTicketAsync([FromBody] TicketDTO ticketDTO)
+        public async Task<ActionResult<Ticket>> AddTicketAsync([FromBody] TicketDTO ticketDTO)
         {
-            var userId = GetUserIdFromClaim();
-            var ticketId = await _ticketService.AddTicketAsync(ticketDTO, userId);
-            return ticketId;
+            try
+            {
+                var userId = GetUserIdFromClaim();
+                var ticket = await _ticketService.AddTicketAsync(ticketDTO, userId);
+                return ticket;
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(ex.Message); 
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error"); 
+            }
         }
+
 
 
         [HttpPut("{id}")]
@@ -89,5 +101,14 @@ namespace TicketServices.Api.Controllers
                 throw new UnauthorizedAccessException();
             return Id;
         }
+
+        protected string GetUserEmailFromClaim()
+        {
+            var userEmailClaim = User.FindFirst(ClaimTypes.Email);
+            if (userEmailClaim == null || string.IsNullOrEmpty(userEmailClaim.Value))
+                throw new UnauthorizedAccessException("Email claim not found in token.");
+            return userEmailClaim.Value;
+        }
+
     }
 }
