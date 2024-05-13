@@ -38,18 +38,34 @@ namespace EmailServices.Api.Services
                 var message = Encoding.UTF8.GetString(body);
                 Console.WriteLine("Received message: {0}", message);
 
-                // tách thông tin cần thiết từ Message
-                var toAddressPattern = @"To:\s*(.*?),";
-                var subjectPattern = @"Subject:\s*(.*?),";
-                var bodyPattern = @"Body:\s*(.*)$";
+                // Biểu thức chính quy để tách thông tin
+                var toAddressPattern = @"To:\s*(.+?),";
+                var subjectPattern = @"Subject:\s*(.+?),";
+                var bodyPattern = @"Body:\s*(.*)(?="")";
 
-                var toAddress = Regex.Match(message, toAddressPattern).Groups[1].Value.Trim();
-                var subject = Regex.Match(message, subjectPattern).Groups[1].Value.Trim();
-                var bodyContent = Regex.Match(message, bodyPattern).Groups[1].Value.Trim();
+                var toAddressMatch = Regex.Match(message, toAddressPattern);
+                var subjectMatch = Regex.Match(message, subjectPattern);
+                var bodyMatch = Regex.Match(message, bodyPattern);
 
-                // Gửi email
-                _emailService.SendEmail(toAddress, subject, bodyContent);
+                if (toAddressMatch.Success && subjectMatch.Success && bodyMatch.Success)
+                {
+                    var toAddress = toAddressMatch.Groups[1].Value.Trim();
+                    var subject = subjectMatch.Groups[1].Value.Trim();
+                    var bodyContent = bodyMatch.Groups[1].Value;
 
+                    // Loại bỏ dấu ngoặc kép ở cuối chuỗi body (nếu có)
+                    if (bodyContent.EndsWith("\""))
+                    {
+                        bodyContent = bodyContent.TrimEnd('"');
+                    }
+
+                    // Gửi email
+                    _emailService.SendEmail(toAddress, subject, bodyContent);
+                }
+                else
+                {
+                    Console.WriteLine("Invalid message format.");
+                }
             };
             _channel.BasicConsume(queue: "sendmail",
                                   autoAck: true,
