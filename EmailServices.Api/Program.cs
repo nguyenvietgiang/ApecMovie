@@ -6,7 +6,6 @@ using ApecMovieCore.Middlewares;
 using Microsoft.OpenApi.Models;
 using RabbitMQ.Connection;
 using RabbitMQ.Event;
-using GrpcEmailService;
 
 
 var builder = WebApplication.CreateBuilder(args);

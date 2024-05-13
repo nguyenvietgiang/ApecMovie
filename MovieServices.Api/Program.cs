@@ -7,9 +7,6 @@ using MovieServices.Application.Validator;
 using MovieServices.Domain.Interfaces;
 using MovieServices.Infrastructure.Context;
 using MovieServices.Infrastructure.Repository;
-using Serilog.Events;
-using Serilog.Formatting.Json;
-using Serilog;
 using ApecMovieCore.Middlewares;
 using SwaggerDoc;
 using CoreHeathCheck;
@@ -18,23 +15,10 @@ using ApecCoreIdentity;
 using IoCmanage;
 
 var builder = WebApplication.CreateBuilder(args);
-// logging
-Log.Logger = new LoggerConfiguration()
-    .MinimumLevel.Debug()
-    .MinimumLevel.Override("Microsoft", LogEventLevel.Error)
-    .Enrich.FromLogContext()
-    .WriteTo.File(new JsonFormatter(), "logs/log.txt", rollingInterval: RollingInterval.Day)
-    // .WriteTo.Sink(new MongoDBSink(database, "LogEntries"))
-    .CreateLogger();
 
 // Add services to the container.
 // Thêm customservices từ IocManager.
 builder.Services.AddCustomServices();
-
-builder.Logging.AddSerilog();
-builder.Services.AddLogging();
-
-
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

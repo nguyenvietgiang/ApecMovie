@@ -2,6 +2,9 @@
 using Microsoft.Extensions.DependencyInjection;
 using RabbitMQ.Connection;
 using RabbitMQ.Event;
+using Serilog.Events;
+using Serilog.Formatting.Json;
+using Serilog;
 
 namespace IoCmanage
 {
@@ -9,6 +12,20 @@ namespace IoCmanage
     {
         public static IServiceCollection AddCustomServices(this IServiceCollection services)
         {
+            // cấu hình để logging chung
+     Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Debug()
+    .MinimumLevel.Override("Microsoft", LogEventLevel.Error)
+    .Enrich.FromLogContext()
+    .WriteTo.File(new JsonFormatter(), "logs/log.txt", rollingInterval: RollingInterval.Day)
+    .CreateLogger();
+
+            services.AddLogging(loggingBuilder =>
+            {
+                loggingBuilder.AddSerilog();
+            });
+
+
             var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
             // cấu hình CROS

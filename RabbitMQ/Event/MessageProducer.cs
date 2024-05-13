@@ -28,7 +28,7 @@ namespace RabbitMQ.Event
                 try
                 {
                     channel.QueueDeclare(queue: queueName, // Sử dụng tên hàng đợi được truyền vào
-                                         durable: false,
+                                         durable: false,   // True để khi server bị sập sẽ không bị mất tin 
                                          exclusive: false,
                                          autoDelete: false,
                                          arguments: null);
