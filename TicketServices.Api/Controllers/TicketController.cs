@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using RabbitMQ.Event;
+using System.Reactive.Subjects;
 using System.Security.Claims;
 using TicketServices.Application.BussinessServices;
 using TicketServices.Application.ModelsDTO;
@@ -12,10 +14,12 @@ namespace TicketServices.Api.Controllers
     public class TicketController : ControllerBase
     {
         private readonly ITicketService _ticketService;
+        private readonly IMessageProducer _producer;
 
-        public TicketController(ITicketService ticketService)
+        public TicketController(ITicketService ticketService, IMessageProducer messageProducer)
         {
             _ticketService = ticketService;
+            _producer = messageProducer;
         }
 
         [HttpGet]
@@ -43,7 +47,13 @@ namespace TicketServices.Api.Controllers
             try
             {
                 var userId = GetUserIdFromClaim();
+                var email = GetUserEmailFromClaim();
+                string subject = "Thanh you from APEC MOVIE";
                 var ticket = await _ticketService.AddTicketAsync(ticketDTO, userId);
+
+                var message = $"To: {email}, Subject: {subject}, TickedID: {ticket.Id}, Token:{ticket.Token}";
+                _producer.SendMessage(message, "verifyticket");
+
                 return ticket;
             }
             catch (InvalidOperationException ex)

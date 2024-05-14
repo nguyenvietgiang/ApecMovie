@@ -36,6 +36,7 @@ builder.Services.AddHangfire(configuration => configuration.UseMemoryStorage());
 builder.Services.AddSingleton<IRabbitmqConnection>(new RabbitmqConnection());
 builder.Services.AddScoped<IMessageProducer, RabbitmqProducer>();
 builder.Services.AddHostedService<ConsumerService>();
+builder.Services.AddHostedService<VerifyTicketConsumeService>();
 builder.Services.AddSingleton<IEmailService, EmailService>();
 
 builder.Services.AddGrpc();
