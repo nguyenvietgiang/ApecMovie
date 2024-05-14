@@ -16,7 +16,7 @@ namespace EmailServices.Api.Services
         public void SendEmail(string toAddress, string subject, string bodyContent)
         {
             var template = GetEmailTemplate("NomalTemplate.html");
-            template = ReplacePlaceholders(template, subject, toAddress, bodyContent: bodyContent);
+            template = ReplacePlaceholders(template, subject, toAddress, bodyContent,"","");
 
             SendEmailWithTemplate(toAddress, subject, template);
         }
@@ -24,7 +24,7 @@ namespace EmailServices.Api.Services
         public void VerifyEmail(string toAddress, string subject, string ticketID, string token)
         {
             var template = GetEmailTemplate("VerifyTemplate.html");
-            template = ReplacePlaceholders(template, subject, toAddress, ticketID, token);
+            template = ReplacePlaceholders(template, subject, toAddress, "Thank you" ,ticketID, token);
 
             SendEmailWithTemplate(toAddress, subject, template);
         }

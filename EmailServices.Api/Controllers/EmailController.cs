@@ -27,14 +27,16 @@ namespace EmailServices.Api.Controllers
             _backgroundJobClient.Enqueue(() => _emailService.SendEmail(mail, subject, bodyString));
             return Ok();
         }
-
         /// <summary>
         /// Gửi email verify đến người dùng
         /// </summary>
         [HttpPost("verify")]
         public IActionResult Sendverify(string mail, string subject, string TickedID, string Token)
         {
-            _backgroundJobClient.Enqueue(() => _emailService.VerifyEmail(mail, subject, TickedID, Token));
+            // Ghi nhật ký giá trị các tham số
+            Console.WriteLine($"Sendverify: mail={mail}, subject={subject}, TickedID={TickedID}, Token={Token}");
+
+            _emailService.VerifyEmail(mail, subject, TickedID, Token);
             return Ok();
         }
     }
