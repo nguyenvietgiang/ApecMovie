@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Đăng nhập hệ thống";
+    ViewData["Title"] = "Đăng ký tài khoản";
 }
 
 <!-- Login Section Begin -->
@@ -8,25 +8,29 @@
         <div class="row">
             <div class="col-lg-6">
                 <div class="login__form">
-                    <h3>Đăng Nhập</h3>
+                    <h3>Đăng Ký Tài Khoản</h3>
                     <form action="#">
                         <div class="input__item">
                             <input type="text" placeholder="Tên tài khoản">
                             <span><i class="fa-regular fa-user"></i></span>
                         </div>
                         <div class="input__item">
+                            <input type="email" placeholder="Địa chỉ email">
+                            <span><i class="fa-solid fa-envelope"></i></span>
+                        </div>
+                        <div class="input__item">
                             <input type="password" placeholder="Mật khẩu">
                             <span><i class="fa-solid fa-lock"></i></span>
                         </div>
-                        <button type="submit" class="site-btn">Đăng nhập</button>
+                        <button type="submit" class="site-btn">Đăng Ký</button>
                     </form>
                     <a href="#" class="forget_pass">Quên mật khẩu?</a>
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="login__register">
-                    <h3>Chưa có tài khoản?</h3>
-                    <a asp-action="Register" class="primary-btn">Đăng ký ngay</a>
+                    <h3>Đã Có Tài Khoản?</h3>
+                    <a asp-action="Login" class="primary-btn">Đăng nhập ngay</a>
                 </div>
             </div>
         </div>
