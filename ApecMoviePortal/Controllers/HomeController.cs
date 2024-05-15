@@ -1,4 +1,5 @@
 ﻿using ApecMoviePortal.Models;
+using ApecMoviePortal.Services.MovieServices;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -7,9 +8,11 @@ namespace ApecMoviePortal.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IMovieService _movieService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IMovieService movieService)
         {
+            _movieService = movieService;
             _logger = logger;
         }
 
@@ -18,10 +21,11 @@ namespace ApecMoviePortal.Controllers
             return View();
         }
 
-        public IActionResult Moive()
+        public async Task<IActionResult> Moive()
         {
-            return View();
-        }
+            var movieResponse = await _movieService.GetMoviesAsync();
+            return View(movieResponse.Content);
+        } 
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

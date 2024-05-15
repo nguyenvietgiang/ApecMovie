@@ -1,7 +1,11 @@
+using ApecMoviePortal.Services.MovieServices;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddHttpClient<IMovieService, MovieService>();
+
 
 var app = builder.Build();
 
