@@ -49,6 +49,19 @@
       "UpstreamPathTemplate": "/v1/api/login",
       "UpstreamHttpMethod": [ "Post" ],
       "SwaggerKey": "authentication"
+    },
+    {
+      "DownstreamPathTemplate": "/api/Ticket/confirm",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7246
+        }
+      ],
+      "UpstreamPathTemplate": "/v1/api/confirm",
+      "UpstreamHttpMethod": [ "Post" ],
+      "SwaggerKey": "ticket"
     }
   ],
   "SwaggerEndPoints": [

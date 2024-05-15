@@ -1,0 +1,35 @@
+﻿@{
+    ViewData["Title"] = "Xác nhận đặt vé";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Xác nhận đặt vé</h2>
+                </div>
+                <div class="card-body">
+                    <p>@ViewBag.Message</p>
+
+                    <div class="ticket-info">
+                        <h5>Thông tin vé</h5>
+                        <p><strong>Tên phim:</strong> Godzila vs Kong</p>
+                        <p><strong>Ghế:</strong> 5</p>
+                        <p><strong>Ngày chiếu:</strong> 20/5/2024</p>
+                    </div>
+
+                    <form method="post" asp-controller="Ticket" asp-action="ConfirmTicket">
+                        <input type="hidden" name="ticketId" value="@ViewBag.TicketId" />
+                        <input type="hidden" name="token" value="@ViewBag.Token" />
+                        <button type="submit" class="btn btn-primary">Xác nhận</button>
+                    </form>
+                </div>
+                <div class="card-footer">
+                    <p>Chúc bạn xem phim vui vẻ!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
