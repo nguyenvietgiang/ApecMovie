@@ -1,4 +1,10 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http
+
+@{
+    var accessToken = Context.Request.Cookies["AccessToken"];
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -41,8 +47,17 @@
                             <ul>
                                 <li><a asp-controller="Home" asp-action="Index">Trang Chủ</a></li>
                                 <li><a asp-controller="Home" asp-action="Moive">Đang Chiếu</a></li>
-                                <li><a asp-controller="Auth" asp-action="Login">Đăng nhập</a></li>
-                                <li><a asp-controller="Auth" asp-action="Register">Đăng ký</a></li>
+                                @if (accessToken != null)
+                                {
+                                    <li><a asp-controller="Auth" asp-action="Info">Xin chào</a></li>
+                                    <li><a asp-controller="Auth" asp-action="Logout">Đăng xuất</a></li>
+                                }
+                                else
+                                {
+                                    <li><a asp-controller="Auth" asp-action="Login">Đăng nhập</a></li>
+                                    <li><a asp-controller="Auth" asp-action="Register">Đăng ký</a></li>
+                                }
+
                             </ul>
                         </nav>
                     </div>

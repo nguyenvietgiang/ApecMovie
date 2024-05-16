@@ -1,3 +1,4 @@
+using ApecMoviePortal.Middleware;
 using ApecMoviePortal.Services.AuthServices;
 using ApecMoviePortal.Services.MovieServices;
 using ApecMoviePortal.Services.TicketServices;
@@ -26,6 +27,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseMiddleware<TokenMiddleware>();
 app.UseAuthorization();
 
 app.MapControllerRoute(

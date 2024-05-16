@@ -1,21 +1,27 @@
-﻿@{
+﻿@model LoginDto
+
+@{
     ViewData["Title"] = "Đăng nhập hệ thống";
 }
 
 <!-- Login Section Begin -->
 <section class="login spad">
     <div class="container">
+        @if (ViewBag.Message != null)
+        {
+            <div class="alert alert-success">@ViewBag.Message</div>
+        }
         <div class="row">
             <div class="col-lg-6">
                 <div class="login__form">
                     <h3>Đăng Nhập</h3>
-                    <form action="#">
+                    <form asp-action="Login" method="post">
                         <div class="input__item">
-                            <input type="text" placeholder="Tên tài khoản">
+                            <input asp-for="Name" type="text" placeholder="Tên tài khoản">
                             <span><i class="fa-regular fa-user"></i></span>
                         </div>
                         <div class="input__item">
-                            <input type="password" placeholder="Mật khẩu">
+                            <input asp-for="Password" type="password" placeholder="Mật khẩu">
                             <span><i class="fa-solid fa-lock"></i></span>
                         </div>
                         <button type="submit" class="site-btn">Đăng nhập</button>
@@ -27,6 +33,8 @@
                 <div class="login__register">
                     <h3>Chưa có tài khoản?</h3>
                     <a asp-action="Register" class="primary-btn">Đăng ký ngay</a>
+                    <div><span asp-validation-for="Name" class="text-danger"></span></div>
+                    <div><span asp-validation-for="Password" class="text-danger"></span></div>
                 </div>
             </div>
         </div>

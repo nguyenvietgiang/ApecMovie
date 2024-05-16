@@ -18,6 +18,29 @@ namespace ApecMoviePortal.Controllers
             return View();
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginDto loginDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(loginDto);
+            }
+
+            var response = await _authService.LoginAsync(loginDto);
+            if (response.StatusCode == 200)
+            {
+                // Save tokens to cookies
+                Response.Cookies.Append("AccessToken", response.Data.AccessToken, new CookieOptions { HttpOnly = true, Secure = true });
+                Response.Cookies.Append("RefreshToken", response.Data.RefreshToken, new CookieOptions { HttpOnly = true, Secure = true });
+                return RedirectToAction("Index", "Home");
+            }
+
+            ViewBag.Message = "Đăng nhập thất bại, Hãy thử lại sau!";
+            return View();
+        }
+
+
+
         public IActionResult Register()
         {
 
@@ -41,6 +64,12 @@ namespace ApecMoviePortal.Controllers
                 }
             }
             return View(registerUserDto);
+        }
+        public IActionResult Logout()
+        {
+            Response.Cookies.Delete("AccessToken");
+            Response.Cookies.Delete("RefreshToken");
+            return RedirectToAction("Login", "Auth");
         }
     }
 }
