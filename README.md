@@ -13,7 +13,7 @@
 
 ## Prerequisite
 
-![Overview](Overview.png)
+![Overview](OverView.png)
 
 - Dotnet Core Version 6.0
 - Docker
