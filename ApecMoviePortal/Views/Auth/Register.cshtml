@@ -1,36 +1,43 @@
-﻿@{
+﻿@model RegisterUserDto
+@{
     ViewData["Title"] = "Đăng ký tài khoản";
 }
 
 <!-- Login Section Begin -->
 <section class="login spad">
     <div class="container">
+        @if (ViewBag.Message != null)
+        {
+            <div class="alert alert-success">@ViewBag.Message</div>
+        }
         <div class="row">
             <div class="col-lg-6">
                 <div class="login__form">
                     <h3>Đăng Ký Tài Khoản</h3>
-                    <form action="#">
+                    <form asp-action="Register" method="post">
                         <div class="input__item">
-                            <input type="text" placeholder="Tên tài khoản">
-                            <span><i class="fa-regular fa-user"></i></span>
+                            <input asp-for="Name" placeholder="Tên tài khoản" />
+                            <span><i class="fa-regular fa-user"></i></span>     
                         </div>
                         <div class="input__item">
-                            <input type="email" placeholder="Địa chỉ email">
+                            <input asp-for="Email" placeholder="Địa chỉ email">
                             <span><i class="fa-solid fa-envelope"></i></span>
                         </div>
                         <div class="input__item">
-                            <input type="password" placeholder="Mật khẩu">
+                            <input asp-for="Password" type="password" placeholder="Mật khẩu">
                             <span><i class="fa-solid fa-lock"></i></span>
                         </div>
                         <button type="submit" class="site-btn">Đăng Ký</button>
                     </form>
-                    <a href="#" class="forget_pass">Quên mật khẩu?</a>
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="login__register">
                     <h3>Đã Có Tài Khoản?</h3>
                     <a asp-action="Login" class="primary-btn">Đăng nhập ngay</a>
+                    <div><span asp-validation-for="Name" class="text-danger"></span></div>
+                    <div><span asp-validation-for="Email" class="text-danger"></span></div>
+                    <div><span asp-validation-for="Password" class="text-danger"></span></div>
                 </div>
             </div>
         </div>

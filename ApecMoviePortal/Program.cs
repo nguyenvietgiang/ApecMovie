@@ -1,3 +1,4 @@
+using ApecMoviePortal.Services.AuthServices;
 using ApecMoviePortal.Services.MovieServices;
 using ApecMoviePortal.Services.TicketServices;
 
@@ -8,7 +9,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddHttpClient();
 builder.Services.AddScoped<ITicketService, TicketService>();
 builder.Services.AddHttpClient<IMovieService, MovieService>();
-
+builder.Services.AddHttpClient<IAuthService, AuthService>();
 
 var app = builder.Build();
 
