@@ -51,6 +51,19 @@
       "SwaggerKey": "authentication"
     },
     {
+      "DownstreamPathTemplate": "/v1/api/User/profile",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7089
+        }
+      ],
+      "UpstreamPathTemplate": "/v1/api/profile",
+      "UpstreamHttpMethod": [ "Get" ],
+      "SwaggerKey": "authentication"
+    },
+    {
       "DownstreamPathTemplate": "/api/Ticket/confirm",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [

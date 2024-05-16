@@ -27,6 +27,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+//app.UseTokenValidation();
 app.UseMiddleware<TokenMiddleware>();
 app.UseAuthorization();
 

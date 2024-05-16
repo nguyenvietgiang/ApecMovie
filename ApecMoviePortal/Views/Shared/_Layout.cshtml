@@ -1,7 +1,15 @@
-﻿@using Microsoft.AspNetCore.Http
+﻿@using ApecMoviePortal.Services.AuthServices
+@using Microsoft.AspNetCore.Http
+@inject IAuthService AuthService
 
 @{
     var accessToken = Context.Request.Cookies["AccessToken"];
+    UserInfoDto userInfo = null;
+
+    if (!string.IsNullOrEmpty(accessToken))
+    {
+        userInfo = await AuthService.GetUserInfoAsync(accessToken);
+    }
 }
 
 <!DOCTYPE html>
@@ -47,11 +55,12 @@
                             <ul>
                                 <li><a asp-controller="Home" asp-action="Index">Trang Chủ</a></li>
                                 <li><a asp-controller="Home" asp-action="Moive">Đang Chiếu</a></li>
-                                @if (accessToken != null)
+                                @if (userInfo != null)
                                 {
-                                    <li><a asp-controller="Auth" asp-action="Info">Xin chào</a></li>
+                                    <li><a asp-controller="User" asp-action="Info">Xin chào, @userInfo.Name</a></li>
                                     <li><a asp-controller="Auth" asp-action="Logout">Đăng xuất</a></li>
                                 }
+
                                 else
                                 {
                                     <li><a asp-controller="Auth" asp-action="Login">Đăng nhập</a></li>

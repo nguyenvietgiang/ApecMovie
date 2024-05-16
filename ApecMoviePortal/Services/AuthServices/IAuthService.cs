@@ -7,5 +7,7 @@ namespace ApecMoviePortal.Services.AuthServices
         Task<bool> RegisterUserAsync(RegisterUserDto registerUserDto);
 
         Task<ApiResponse<LoginResponse>> LoginAsync(LoginDto loginDto);
+
+        Task<UserInfoDto> GetUserInfoAsync(string token);
     }
 }

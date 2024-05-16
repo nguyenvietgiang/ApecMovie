@@ -1,4 +1,6 @@
 ﻿using ApecMoviePortal.Models;
+using Newtonsoft.Json;
+using System.Net.Http.Headers;
 
 namespace ApecMoviePortal.Services.AuthServices
 {
@@ -25,5 +27,17 @@ namespace ApecMoviePortal.Services.AuthServices
             response.EnsureSuccessStatusCode();
             return await response.Content.ReadFromJsonAsync<ApiResponse<LoginResponse>>();
         }
+
+        public async Task<UserInfoDto> GetUserInfoAsync(string token)
+        {
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var response = await _httpClient.GetAsync($"{_apiBaseUrl}/profile");
+            response.EnsureSuccessStatusCode();
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var result = JsonConvert.DeserializeObject<ApiResponse<UserInfoDto>>(responseContent);
+            return result.Data;
+        }
+
     }
 }

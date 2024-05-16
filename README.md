@@ -6,12 +6,14 @@
 \____|__  /   __/ \___  >\___  >  \______  /__|   \____/|____/|   __/
         \/|__|        \/     \/          \/                   |__|
 
-   Người hướng dẫn: Phan Đình Lai
-   Người thực hiện: Nguyễn Việt Giang
    Dự án ApecMovie sử dụng MicroServices
 ```
 
+## Overview
+
 ## Prerequisite
+
+![Overview](Overview.png)
 
 - Dotnet Core Version 6.0
 - Docker
