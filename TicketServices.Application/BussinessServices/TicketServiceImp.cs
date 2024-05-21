@@ -65,11 +65,11 @@ namespace TicketServices.Application.BussinessServices
             // Kiểm tra xem vé có tồn tại không
             if (ticket == null)
             {
-                throw new ArgumentException("Ticket not found");
+                throw new ArgumentException("Vé không khả dụng");
             }
             if (ticket.Token != token)
             {
-                throw new ArgumentException("Invalid token");
+                throw new ArgumentException("Đã hết thời hạn đặt vé, hãy đặt lại");
             }
             ticket.Status = true;
             await _ticketRepository.UpdateTicketAsync(ticket);

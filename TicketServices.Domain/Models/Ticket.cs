@@ -8,8 +8,8 @@ namespace TicketServices.Domain.Models
         public int SeatNumber { get; set; }
         public DateTime ShowTime { get; set; }
         public PaymentStatus PaymentStatus { get; set; }
-        public string Token { get; set; }
-        public Guid UserID { get; set; }
+        public string? Token { get; set; }
+        public Guid? UserID { get; set; }
     }
 }
 

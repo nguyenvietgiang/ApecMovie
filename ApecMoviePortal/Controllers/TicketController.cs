@@ -32,7 +32,7 @@ namespace ApecMoviePortal.Controllers
                 }
                 else
                 {
-                    ViewBag.Message = "Xác nhận vé thất bại!";
+                    ViewBag.Message = "Thời gian xác thực đã hết, hãy thử lại!";
                 }
             }
             else

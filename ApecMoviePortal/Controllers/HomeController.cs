@@ -25,7 +25,12 @@ namespace ApecMoviePortal.Controllers
         {
             var movieResponse = await _movieService.GetMoviesAsync();
             return View(movieResponse.Content);
-        } 
+        }
+
+        public IActionResult DetailMovie()
+        {
+            return View(); 
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
