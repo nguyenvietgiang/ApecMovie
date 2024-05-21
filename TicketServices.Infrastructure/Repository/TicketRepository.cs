@@ -46,7 +46,17 @@ namespace TicketServices.Infrastructure.Repository
         public async Task<bool> IsTicketExistsAsync(Guid movieId, int seatNumber, DateTime showTime)
         {
             return await _context.Tickets.AnyAsync(t =>
-                t.MovieID == movieId && t.SeatNumber == seatNumber && t.ShowTime == showTime);
+                t.MovieID == movieId && t.SeatNumber == seatNumber && t.ShowTime == showTime && t.Status == true);
+        }
+
+        public async Task<Ticket?> GetAvailableTicketAsync(Guid movieId, int seatNumber, DateTime showTime)
+        {
+            return await _context.Tickets.FirstOrDefaultAsync(t => t.MovieID == movieId && t.SeatNumber == seatNumber && t.ShowTime == showTime && t.UserID == null && t.Token == null && t.Status == false);
+        }
+
+        public async Task<Ticket?> GetPendingTicketAsync(Guid movieId, int seatNumber, DateTime showTime)
+        {
+            return await _context.Tickets.FirstOrDefaultAsync(t => t.MovieID == movieId && t.SeatNumber == seatNumber && t.ShowTime == showTime && t.UserID != null && t.Token != null && t.Status == false);
         }
     }
 

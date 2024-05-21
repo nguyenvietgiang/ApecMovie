@@ -14,6 +14,16 @@ namespace ApecMoviePortal.Services.MovieServices
             _apiUrl = configuration["BackendApiUrl"];
         }
 
+        public async Task<Movie> GetMovieByIdAsync(Guid id)
+        {
+            var response = await _httpClient.GetAsync($"{_apiUrl}/movies/{id}"); ;
+            response.EnsureSuccessStatusCode();
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var result = JsonConvert.DeserializeObject<ApiResponse<Movie>>(responseContent);
+            return result.Data;
+        }
+
         public async Task<PaginatedResponse<Movie>> GetMoviesAsync()
         {
             var response = await _httpClient.GetAsync($"{_apiUrl}/movies");
@@ -24,5 +34,7 @@ namespace ApecMoviePortal.Services.MovieServices
 
             return apiResponse.Data;
         }
+
+
     }
 }

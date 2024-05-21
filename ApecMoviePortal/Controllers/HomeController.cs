@@ -27,9 +27,10 @@ namespace ApecMoviePortal.Controllers
             return View(movieResponse.Content);
         }
 
-        public IActionResult DetailMovie()
+        public async Task<IActionResult> DetailMovie(Guid id)
         {
-            return View(); 
+            var movie = await _movieService.GetMovieByIdAsync(id);
+            return View(movie);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

@@ -31,22 +31,56 @@ namespace TicketServices.Application.BussinessServices
 
         public async Task<Ticket> AddTicketAsync(TicketDTO ticketDTO, Guid userID)
         {
-            if (await _ticketRepository.IsTicketExistsAsync(ticketDTO.MovieID, ticketDTO.SeatNumber, ticketDTO.ShowTime))
+            try
             {
-                throw new InvalidOperationException("Vé này đã được đặt rồi.");
+                // Kiểm tra xem vé đã tồn tại và đã được xác nhận hay chưa
+                if (await _ticketRepository.IsTicketExistsAsync(ticketDTO.MovieID, ticketDTO.SeatNumber, ticketDTO.ShowTime))
+                {
+                    throw new InvalidOperationException("Vé này đã được đặt rồi.");
+                }
+                // Kiểm tra xem có vé nào phù hợp nhưng chưa được xác nhận hay không
+                var existingTicket = await _ticketRepository.GetAvailableTicketAsync(ticketDTO.MovieID, ticketDTO.SeatNumber, ticketDTO.ShowTime);
+                if (existingTicket != null)
+                {
+                    // Nếu có, cập nhật thông tin người dùng và token mới
+                    existingTicket.UserID = userID;
+                    existingTicket.Token = Generator.GenerateSixDigitRandomNumber().ToString();
+                    existingTicket.PaymentStatus = PaymentStatus.Unpaid;
+                    await _ticketRepository.UpdateTicketAsync(existingTicket);
+                    return existingTicket;
+                }
+                else
+                {
+                    // Kiểm tra xem có vé đang đợi xác nhận hay không
+                    var pendingTicket = await _ticketRepository.GetPendingTicketAsync(ticketDTO.MovieID, ticketDTO.SeatNumber, ticketDTO.ShowTime);
+
+                    if (pendingTicket != null)
+                    {
+                        throw new InvalidOperationException("Vé này đang chờ xác nhận.");
+                    }
+                    else
+                    {
+                        // Nếu không, tạo vé mới
+                        var ticket = _mapper.Map<Ticket>(ticketDTO);
+                        ticket.Id = Guid.NewGuid();
+                        ticket.Status = false;
+                        ticket.UserID = userID;
+                        ticket.PaymentStatus = PaymentStatus.Unpaid;
+                        ticket.Token = Generator.GenerateSixDigitRandomNumber().ToString();
+                        await _ticketRepository.AddTicketAsync(ticket);
+                        return ticket;
+                    }
+                }
             }
-
-            var ticket = _mapper.Map<Ticket>(ticketDTO);
-            ticket.Id = Guid.NewGuid();
-            ticket.Status = false;
-            ticket.UserID = userID;
-            ticket.PaymentStatus = PaymentStatus.Unpaid;
-            ticket.Token = Generator.GenerateSixDigitRandomNumber().ToString();
-            await _ticketRepository.AddTicketAsync(ticket);
-            return ticket;
+            catch (InvalidOperationException)
+            {
+                throw; 
+            }
+            catch (Exception)
+            {
+                throw new Exception("Có lỗi trong quá trình đặt vé, hãy thử lại.");
+            }
         }
-
-
         public async Task UpdateTicketAsync(Guid id, TicketDTO ticketDTO)
         {
             var existingTicket = await _ticketRepository.GetTicketByIdAsync(id);

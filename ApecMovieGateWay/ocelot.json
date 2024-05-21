@@ -25,6 +25,30 @@
       "SwaggerKey": "movies"
     },
     {
+      "DownstreamPathTemplate": "/v1/api/Movies/{id}",
+      "DownstreamScheme": "https",
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection" // thuật cân bằng tải
+      },
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7205
+        },
+        {
+          "Host": "localhost",
+          "Port": 7206
+        },
+        {
+          "Host": "localhost",
+          "Port": 7207
+        }
+      ],
+      "UpstreamPathTemplate": "/v1/api/movies/{id}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "SwaggerKey": "movies"
+    },
+    {
       "DownstreamPathTemplate": "/v1/api/User/register",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
