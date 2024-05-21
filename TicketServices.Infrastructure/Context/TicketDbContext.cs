@@ -1,9 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TicketServices.Domain.Models;
 
 namespace TicketServices.Infrastructure.Context
@@ -23,7 +18,7 @@ namespace TicketServices.Infrastructure.Context
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=ApecTicketData;User Id=postgres;Password=vip1111;");
+                optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=postgres;User Id=postgres;Password=vip1111;");
             }
         }
 

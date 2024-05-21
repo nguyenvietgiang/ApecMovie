@@ -6,7 +6,7 @@
 \____|__  /   __/ \___  >\___  >  \______  /__|   \____/|____/|   __/
         \/|__|        \/     \/          \/                   |__|
 
-   Dự án ApecMovie sử dụng MicroServices
+   ApecMovie project with MicroServices
 ```
 
 ## Overview
@@ -15,9 +15,12 @@
 
 ![Overview](OverView.png)
 
+![Architechture](CleanArch.png)
+
 - Dotnet Core Version 6.0
 - Docker
 - Rabbit MQ
+- gRPC
 - Minio
 - Swagger Doc
 - Postgre SQL
@@ -26,13 +29,14 @@
 
 - C#
 - ASP.NET CORE web API
+- ASP.NET CORE MVC
 - Blazor
 
 ---
 
 ## Features
 
-- Đăng ký, đăng nhập, phân quyền (JWT)
-- Quản lý Movie
-- Quản lý vé
-- Quản lý user
+- Register, login, authen & author (JWT).
+- Moive manangerment.
+- Ticket managerment.
+- User managerment.
