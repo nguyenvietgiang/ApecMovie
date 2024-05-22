@@ -99,6 +99,32 @@
       "UpstreamPathTemplate": "/v1/api/confirm",
       "UpstreamHttpMethod": [ "Post" ],
       "SwaggerKey": "ticket"
+    },
+    {
+      "DownstreamPathTemplate": "/api/Ticket/unpaid-ticket",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7246
+        }
+      ],
+      "UpstreamPathTemplate": "/v1/api/unpaid-ticket",
+      "UpstreamHttpMethod": [ "Get" ],
+      "SwaggerKey": "ticket"
+    },
+    {
+      "DownstreamPathTemplate": "/api/Ticket/markAsPaid/{id}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7246
+        }
+      ],
+      "UpstreamPathTemplate": "/v1/api/markAsPaid/{id}",
+      "UpstreamHttpMethod": [ "Post" ],
+      "SwaggerKey": "ticket"
     }
   ],
   "SwaggerEndPoints": [

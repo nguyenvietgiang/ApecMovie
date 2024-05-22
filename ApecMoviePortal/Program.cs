@@ -1,3 +1,4 @@
+using ApecMoviePortal.Client;
 using ApecMoviePortal.Middleware;
 using ApecMoviePortal.Services.AuthServices;
 using ApecMoviePortal.Services.MovieServices;
@@ -11,6 +12,15 @@ builder.Services.AddHttpClient();
 builder.Services.AddScoped<ITicketService, TicketService>();
 builder.Services.AddHttpClient<IMovieService, MovieService>();
 builder.Services.AddHttpClient<IAuthService, AuthService>();
+
+// paypal client configuration
+builder.Services.AddSingleton(x =>
+    new PaypalClient(
+        builder.Configuration["PayPalOptions:ClientId"],
+        builder.Configuration["PayPalOptions:ClientSecret"],
+        builder.Configuration["PaypalOptions:Mode"]
+    )
+);
 
 var app = builder.Build();
 

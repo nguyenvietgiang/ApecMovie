@@ -12,5 +12,7 @@ namespace TicketServices.Domain.Interface
         Task<bool> IsTicketExistsAsync(Guid movieId, int seatNumber, DateTime showTime);
         Task<Ticket?> GetAvailableTicketAsync(Guid movieId, int seatNumber, DateTime showTime);
         Task<Ticket?> GetPendingTicketAsync(Guid movieId, int seatNumber, DateTime showTime);
+        Task<IEnumerable<Ticket>> GetUnpaidTicketsByUserAsync(Guid userId);
+        Task<bool> UpdatePaymentStatusAsync(Guid ticketId, PaymentStatus newStatus);
     }
 }

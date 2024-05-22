@@ -58,6 +58,36 @@ namespace TicketServices.Infrastructure.Repository
         {
             return await _context.Tickets.FirstOrDefaultAsync(t => t.MovieID == movieId && t.SeatNumber == seatNumber && t.ShowTime == showTime && t.UserID != null && t.Token != null && t.Status == false);
         }
+
+        public async Task<IEnumerable<Ticket>> GetUnpaidTicketsByUserAsync(Guid userId)
+        {
+            return await _context.Set<Ticket>()
+                .Where(t => t.UserID == userId && t.Status==true && t.PaymentStatus == PaymentStatus.Unpaid)
+                .ToListAsync();
+        }
+
+        public async Task<bool> UpdatePaymentStatusAsync(Guid ticketId, PaymentStatus newStatus)
+        {
+            var ticket = await _context.Set<Ticket>().FindAsync(ticketId);
+            if (ticket == null || ticket.PaymentStatus != PaymentStatus.Unpaid || ticket.Status != true)
+            {
+                return false;
+            }
+
+            ticket.PaymentStatus = newStatus;
+            _context.Entry(ticket).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
     }
 
 }

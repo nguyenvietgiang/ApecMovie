@@ -2,7 +2,7 @@
 using System.Text.Json;
 using System.Text;
 
-namespace PaymentServices.Api.Client
+namespace ApecMoviePortal.Client
 {
         public sealed class PaypalClient
         {

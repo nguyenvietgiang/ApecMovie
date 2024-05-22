@@ -110,6 +110,15 @@ namespace TicketServices.Application.BussinessServices
             return true;
         }
 
+        public async Task<IEnumerable<Ticket>> GetUnpaidTicketsByUserAsync(Guid userId)
+        {
+            return await _ticketRepository.GetUnpaidTicketsByUserAsync(userId);
+        }
+
+        public async Task<bool> MarkTicketAsPaidAsync(Guid ticketId)
+        {
+            return await _ticketRepository.UpdatePaymentStatusAsync(ticketId, PaymentStatus.Paid);
+        }
 
         public async Task DeleteTicketAsync(Guid id)
         {

@@ -104,6 +104,30 @@ namespace TicketServices.Api.Controllers
             }
         }
 
+        [HttpGet("unpaid-ticket")]
+        [Authorize]
+        public async Task<IActionResult> GetUnpaidTickets()
+        {
+            var userId = GetUserIdFromClaim();
+            var tickets = await _ticketService.GetUnpaidTicketsByUserAsync(userId);
+            if (tickets == null)
+            {
+                return NotFound();
+            }
+            return Ok(tickets);
+        }
+
+        [HttpPost("markAsPaid/{ticketId}")]
+        public async Task<IActionResult> MarkTicketAsPaid(Guid ticketId)
+        {
+            var result = await _ticketService.MarkTicketAsPaidAsync(ticketId);
+            if (!result)
+            {
+                return BadRequest("Failed to update ticket status.");
+            }
+            return Ok("Ticket status updated successfully.");
+        }
+
         protected Guid GetUserIdFromClaim()
         {
             var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
