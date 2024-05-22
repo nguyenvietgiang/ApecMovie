@@ -1,4 +1,5 @@
 ﻿using ApecMoviePortal.Client;
+using ApecMoviePortal.Services.TicketServices;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ApecMoviePortal.Controllers
@@ -6,18 +7,25 @@ namespace ApecMoviePortal.Controllers
     public class PaymentController : Controller
     {
         private readonly PaypalClient _paypalClient;
-
-        public PaymentController(PaypalClient paypalClient)
+        private readonly ITicketService _ticketService;
+        public PaymentController(PaypalClient paypalClient, ITicketService ticketService)
         {
             this._paypalClient = paypalClient;
+            _ticketService = ticketService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            var token = Request.Cookies["AccessToken"];
+            if (string.IsNullOrEmpty(token))
+            {
+                return RedirectToAction("Login", "Auth");
+            }
+
+            var ticket = await _ticketService.GetUnpaidTicketsAsync(token);
             // ViewBag.ClientId is used to get the Paypal Checkout javascript SDK
             ViewBag.ClientId = _paypalClient.ClientId;
-
-            return View();
+            return View(ticket);
         }
 
         [HttpPost]
@@ -25,11 +33,22 @@ namespace ApecMoviePortal.Controllers
         {
             try
             {
-                // set the transaction price and currency
-                var price = "100.00";
+                var token = Request.Cookies["AccessToken"];
+                if (string.IsNullOrEmpty(token))
+                {
+                    return RedirectToAction("Login", "Auth");
+                }
+
+                var tickets = await _ticketService.GetUnpaidTicketsAsync(token);
+                if (tickets == null || !tickets.Any())
+                {
+                    return BadRequest("No unpaid tickets available.");
+                }
+
+                var ticket = tickets.First();
+                var price = "100.00"; // Or calculate based on the ticket details
                 var currency = "USD";
-                // "reference" is the transaction key
-                var reference = "INV001";
+                var reference = ticket.Id.ToString();
 
                 var response = await _paypalClient.CreateOrder(price, currency, reference);
 
@@ -46,6 +65,7 @@ namespace ApecMoviePortal.Controllers
             }
         }
 
+
         public async Task<IActionResult> Capture(string orderId, CancellationToken cancellationToken)
         {
             try
@@ -54,8 +74,20 @@ namespace ApecMoviePortal.Controllers
 
                 var reference = response.purchase_units[0].reference_id;
 
-                // Put your logic to save the transaction here
-                // You can use the "reference" variable as a transaction key
+                // Assuming reference_id is the ticket ID
+                Guid ticketId;
+                if (Guid.TryParse(reference, out ticketId))
+                {
+                    var markAsPaidResult = await _ticketService.MarkTicketAsPaidAsync(ticketId);
+                    if (!markAsPaidResult)
+                    {
+                        return BadRequest("Failed to update ticket status.");
+                    }
+                }
+                else
+                {
+                    return BadRequest("Invalid ticket reference ID.");
+                }
 
                 return Ok(response);
             }
@@ -69,6 +101,7 @@ namespace ApecMoviePortal.Controllers
                 return BadRequest(error);
             }
         }
+
 
         public IActionResult Success()
         {
