@@ -1,4 +1,19 @@
 ﻿@{
-    ViewData["Title"] = "Hoàn tất thủ tục thanh toán";
+    ViewData["Title"] = "Cảm ơn";
 }
+
+<div class="container mt-5">
+    <div class="vh-100 d-flex justify-content-center align-items-center">
+        <div class="card col-md-4 bg-white shadow-md p-5">
+            <div class="mb-4 text-center">
+                
+            </div>
+            <div class="text-center">
+                <h1>Cảm ơn bạn đã sử dụng dịch vụ!</h1>
+                <p>@TempData["Message"]</p>
+                <a asp-controller="Home" asp-action="Index" class="btn btn-outline-success">Trang chủ</a>
+            </div>
+        </div>
+</div>
+
 

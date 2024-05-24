@@ -5,9 +5,11 @@ VisualStudioVersion = 17.9.34701.34
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Document", "Document", "{1B585B16-8451-4093-BDA2-B337AE2C4EFC}"
 	ProjectSection(SolutionItems) = preProject
+		Docker.txt = Docker.txt
 		gRPC_Document.txt = gRPC_Document.txt
 		LoadBalancing.txt = LoadBalancing.txt
 		Plan.txt = Plan.txt
+		PostgreJob.txt = PostgreJob.txt
 		RabbitMQ_Document.txt = RabbitMQ_Document.txt
 		Requirment.txt = Requirment.txt
 		Structure.txt = Structure.txt
@@ -92,7 +94,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PaymentServices.Api", "Paym
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GrpcServiceCore", "GrpcServiceCore\GrpcServiceCore.csproj", "{2AAAAA55-8E43-4128-AA7D-64D5BA6569B4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApecMoviePortal", "ApecMoviePortal\ApecMoviePortal.csproj", "{1B104ECF-C93F-4118-8C8B-FAF3891755B7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApecMoviePortal", "ApecMoviePortal\ApecMoviePortal.csproj", "{1B104ECF-C93F-4118-8C8B-FAF3891755B7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

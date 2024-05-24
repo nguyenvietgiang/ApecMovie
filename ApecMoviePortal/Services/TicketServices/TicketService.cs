@@ -56,6 +56,16 @@ namespace ApecMoviePortal.Services.TicketServices
             return response.IsSuccessStatusCode;
         }
 
+        public async Task<bool> BookTicketAsync(TicketViewModel ticket, string token)
+        {
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var json = JsonConvert.SerializeObject(ticket);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.PostAsync("https://localhost:7246/api/Ticket", content);
+
+            return response.IsSuccessStatusCode;
+        }
     }
 
 }
