@@ -1,0 +1,28 @@
+﻿Các khái niệm khi sử dụng docker:
+
+Image :
+Là bản mẫu chỉ đọc chứa tất cả thông tin cần thiết để chạy một ứng dụng, bao gồm hệ điều hành, thư viện, phần mềm và dữ liệu cấu hình.
+Được tạo ra từ Dockerfile, một tập lệnh mô tả cách xây dựng image.
+Có thể được chia sẻ và lưu trữ dễ dàng trên Docker Hub hoặc các registry khác.
+
+Container:
+Là một phiên bản chạy của image Docker.
+Cánh biệt với máy ảo (VM) ở chỗ nó chia sẻ kernel của hệ điều hành host, giúp tiết kiệm tài nguyên hệ thống.
+Có thể được khởi động, dừng, di chuyển và quản lý dễ dàng bằng các lệnh Docker.
+Cung cấp môi trường cô lập cho ứng dụng, đảm bảo ứng dụng chạy ổn định bất kể môi trường nào.
+
+Dockerfile:
+Là tập lệnh mô tả cách xây dựng image Docker.
+Gồm các hướng dẫn để cài đặt phần mềm, cấu hình hệ thống và chuẩn bị môi trường cho ứng dụng.
+Giúp đảm bảo tính nhất quán và tái tạo của image.
+
+Docker Hub:
+Là registry lưu trữ image Docker công khai.
+Cho phép người dùng tìm kiếm, tải xuống và sử dụng image của người khác một cách dễ dàng.
+Cũng hỗ trợ việc lưu trữ và quản lý image riêng.
+
+Docker Compose:
+Công cụ giúp quản lý nhiều container liên quan đến nhau.
+Dùng để định nghĩa cấu trúc ứng dụng và cách các container tương tác với nhau trong một file YAML.
+Giúp đơn giản hóa việc triển khai và quản lý ứng dụng phức tạp.
+

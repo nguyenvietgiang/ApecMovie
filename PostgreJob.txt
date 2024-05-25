@@ -1,0 +1,14 @@
+﻿PostgreSQL Agent:
+Là một phần mở rộng của PostgreSQL giúp tự động hóa các tác vụ quản trị và lập trình.
+Cho phép bạn tạo và quản lý các job để thực thi các lệnh SQL, script, hoặc chương trình bên ngoài.
+Cung cấp giao diện đồ họa và dòng lệnh để quản lý job.
+
+
+Job:
+Là một đơn vị công việc được định nghĩa trong PostgreSQL Agent.
+Gồm các thông tin như: tên job, lệnh cần thực thi, lịch trình chạy, điều kiện kích hoạt, thông báo lỗi, v.v.
+Có thể được tạo và quản lý thông qua giao diện đồ họa hoặc dòng lệnh.
+
+PostgreSQL Agent Scheduler:
+Quản lý việc thực thi các job theo lịch trình.
+Chạy trên máy chủ PostgreSQL và đảm bảo job được thực thi đúng thời hạn.

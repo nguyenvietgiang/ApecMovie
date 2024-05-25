@@ -59,6 +59,16 @@ builder.Services.AddScoped<IMovieServices, MovieServicesImplementation>();
 
 var dbconnection = "Server=localhost;Port=5432;Database=ApecMovieData;User Id=postgres;Password=vip1111;";
 
+
+// Đọc cấu hình Redis từ appsettings.json
+var redisConfiguration = builder.Configuration.GetSection("RedisCache");
+
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = redisConfiguration["Server"];
+    options.InstanceName = redisConfiguration["InstanceName"];
+});
+
 builder.Services.AddCustomHealthChecks(dbconnection);
 var app = builder.Build();
 

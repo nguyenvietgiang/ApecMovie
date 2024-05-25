@@ -3,11 +3,13 @@ using ApecMovieCore.Pagging;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.Extensions.Caching.Distributed;
 using Minio;
 using MovieServices.Application.ModelsDTO;
 using MovieServices.Domain.Interfaces;
 using MovieServices.Domain.Models;
-using static StackExchange.Redis.Role;
+using System.Text.Json;
+using System.Linq;
 
 namespace MovieServices.Application.BussinessServices
 {
@@ -15,20 +17,36 @@ namespace MovieServices.Application.BussinessServices
     {
         private readonly IMovieRepository _movieRepository;
         private readonly IMapper _mapper;
+        private readonly IDistributedCache _cache;
         private readonly MinioClient _minioClient;
 
-        public MovieServicesImplementation(IMovieRepository movieRepository, IMapper mapper, MinioClient minioClient)
+        public MovieServicesImplementation(IMovieRepository movieRepository, IMapper mapper, MinioClient minioClient, IDistributedCache distributedCache)
         {
             _movieRepository = movieRepository;
             _mapper = mapper;
             _minioClient = minioClient;
+            _cache = distributedCache;
         }
 
         public async Task<Response<PaggingCore<Movie>>> GetAllMovies(int currentPage, int pageSize, string searchTitle, IHttpContextAccessor httpContextAccessor)
         {
-            var movies = await _movieRepository.GetAllMovies();
+            string cacheKey = "AllMovies";
+            var cachedMovies = await _cache.GetStringAsync(cacheKey);
+            IEnumerable<Movie> movies;
 
-            // Lọc danh sách phim nếu có searchTitle
+            if (!string.IsNullOrEmpty(cachedMovies))
+            {
+                movies = JsonSerializer.Deserialize<IEnumerable<Movie>>(cachedMovies);
+            }
+            else
+            {
+                movies = await _movieRepository.GetAllMovies();
+                await _cache.SetStringAsync(cacheKey, JsonSerializer.Serialize(movies), new DistributedCacheEntryOptions
+                {
+                    AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5)
+                });
+            }
+
             if (!string.IsNullOrEmpty(searchTitle))
             {
                 movies = movies.Where(m => m.Title.Contains(searchTitle, StringComparison.OrdinalIgnoreCase));
@@ -36,17 +54,33 @@ namespace MovieServices.Application.BussinessServices
 
             var totalRecords = movies.Count();
             var content = movies.Skip((currentPage - 1) * pageSize).Take(pageSize);
-            var pagedMovies = new PaggingCore<Movie>(content, totalRecords, currentPage, pageSize, httpContextAccessor, "/v1/api/movies");
+            var pagedMoviesResult = new PaggingCore<Movie>(content, totalRecords, currentPage, pageSize, httpContextAccessor, "/v1/api/movies");
 
-            return new Response<PaggingCore<Movie>>(200, "Success", pagedMovies);
+            return new Response<PaggingCore<Movie>>(200, "Success", pagedMoviesResult);
         }
 
         public async Task<Response<Movie>> GetMovieById(Guid id)
         {
-            var movie = await _movieRepository.GetMovieById(id);
-            return movie != null
-                ? new Response<Movie>(200, "Success", movie)
-                : new Response<Movie>(404, "Movie not found", null);
+            string cacheKey = $"GetMovieById_{id}";
+            var cachedMovie = await _cache.GetStringAsync(cacheKey);
+
+            if (!string.IsNullOrEmpty(cachedMovie))
+            {
+                var movie = JsonSerializer.Deserialize<Movie>(cachedMovie);
+                return new Response<Movie>(200, "Success", movie);
+            }
+
+            var movieFromDb = await _movieRepository.GetMovieById(id);
+            if (movieFromDb != null)
+            {
+                await _cache.SetStringAsync(cacheKey, JsonSerializer.Serialize(movieFromDb), new DistributedCacheEntryOptions
+                {
+                    AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5)
+                });
+                return new Response<Movie>(200, "Success", movieFromDb);
+            }
+
+            return new Response<Movie>(404, "Movie not found", null);
         }
 
         public async Task<Response<Movie>> CreateMovie(MovieDTO movieDTO)
@@ -64,6 +98,10 @@ namespace MovieServices.Application.BussinessServices
             movie.Image = imageUrl;
 
             await _movieRepository.AddMovie(movie);
+
+            // Invalidate cache
+            await _cache.RemoveAsync("AllMovies");
+
             return new Response<Movie>(200, "Movie created successfully", movie);
         }
 
@@ -75,6 +113,11 @@ namespace MovieServices.Application.BussinessServices
             try
             {
                 await _movieRepository.UpdateMovie(id, movie);
+
+                // Invalidate cache
+                await _cache.RemoveAsync("AllMovies");
+                await _cache.RemoveAsync($"GetMovieById_{id}");
+
                 return new Response<bool>(200, "Movie updated successfully", true);
             }
             catch
@@ -88,6 +131,11 @@ namespace MovieServices.Application.BussinessServices
             try
             {
                 await _movieRepository.DeleteMovie(id);
+
+                // Invalidate cache
+                await _cache.RemoveAsync("AllMovies");
+                await _cache.RemoveAsync($"GetMovieById_{id}");
+
                 return new Response<bool>(200, "Movie deleted successfully", true);
             }
             catch
@@ -96,7 +144,7 @@ namespace MovieServices.Application.BussinessServices
             }
         }
 
-        private async Task<string> SaveImageToMinio(Microsoft.AspNetCore.Http.IFormFile image)
+        private async Task<string> SaveImageToMinio(IFormFile image)
         {
             if (image != null && image.Length > 0)
             {
@@ -132,14 +180,26 @@ namespace MovieServices.Application.BussinessServices
             {
                 return new Response<Movie>(404, "Movie not found", null);
             }
+
             var movieDTO = _mapper.Map<MovieDTO>(movie);
             patchDocument.ApplyTo(movieDTO);
             var updatedMovie = _mapper.Map<Movie>(movieDTO);
-            var moviePatchDocument = _mapper.Map<JsonPatchDocument<Movie>>(patchDocument);
-            var patchedMovie = await _movieRepository.PatchMovie(id, moviePatchDocument);
 
-            return new Response<Movie>(200, "Movie patched successfully", patchedMovie);
+            try
+            {
+                await _movieRepository.UpdateMovie(id, updatedMovie);
+
+                // Invalidate cache
+                await _cache.RemoveAsync("AllMovies");
+                await _cache.RemoveAsync($"GetMovieById_{id}");
+
+                return new Response<Movie>(200, "Movie patched successfully", updatedMovie);
+            }
+            catch
+            {
+                return new Response<Movie>(404, "Movie not found", null);
+            }
         }
-
     }
 }
+
