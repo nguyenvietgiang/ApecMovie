@@ -2,49 +2,49 @@
 using Microsoft.Extensions.DependencyInjection;
 using RabbitMQ.Connection;
 using RabbitMQ.Event;
+using Serilog;
 using Serilog.Events;
 using Serilog.Formatting.Json;
-using Serilog;
 
 namespace IoCmanage
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddCustomServices(this IServiceCollection services)
+        public static IServiceCollection AddCustomServices(this IServiceCollection services, string collectionName)
         {
-            // cấu hình để logging chung
-     Log.Logger = new LoggerConfiguration()
-    .MinimumLevel.Debug()
-    .MinimumLevel.Override("Microsoft", LogEventLevel.Error)
-    .Enrich.FromLogContext()
-    .WriteTo.File(new JsonFormatter(), "logs/log.txt", rollingInterval: RollingInterval.Day)
-    .CreateLogger();
+            // Configure Serilog
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Debug()
+                .MinimumLevel.Override("Microsoft", LogEventLevel.Error)
+                .Enrich.FromLogContext()
+                .WriteTo.File(new JsonFormatter(), "logs/log.txt", rollingInterval: Serilog.RollingInterval.Day)
+                .WriteTo.MongoDB("mongodb://localhost:27017/ApecMovielogs", collectionName: collectionName)
+                .CreateLogger();
 
             services.AddLogging(loggingBuilder =>
             {
                 loggingBuilder.AddSerilog();
             });
 
-
             var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
-            // cấu hình CROS
+            // Configure CORS
             services.AddCors(options =>
             {
                 options.AddPolicy(name: MyAllowSpecificOrigins,
-                               policy =>
-                               {
-                                   policy.AllowAnyOrigin()
-                                         .AllowAnyMethod()
-                                         .AllowAnyHeader();
-                               });
+                    policy =>
+                    {
+                        policy.AllowAnyOrigin()
+                            .AllowAnyMethod()
+                            .AllowAnyHeader();
+                    });
             });
 
-            // Đăng ký FluentValidation
+            // Register FluentValidation
             services.AddControllers()
                 .AddFluentValidation(fv => fv.ImplicitlyValidateChildProperties = true);
 
-            // Đăng ký RabbitMQ
+            // Register RabbitMQ
             services.AddSingleton<IRabbitmqConnection>(new RabbitmqConnection());
             services.AddScoped<IMessageProducer, RabbitmqProducer>();
 
@@ -52,3 +52,4 @@ namespace IoCmanage
         }
     }
 }
+

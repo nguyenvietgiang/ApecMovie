@@ -13,7 +13,7 @@ using IoCmanage;
 var builder = WebApplication.CreateBuilder(args);
 
 // Thêm customservices từ IocManager.
-builder.Services.AddCustomServices();
+builder.Services.AddCustomServices("TicketLogs");
 
 builder.Services.AddAutoMapper(typeof(MappingTicketProfile));
 

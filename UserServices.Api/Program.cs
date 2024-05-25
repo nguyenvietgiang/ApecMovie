@@ -19,7 +19,7 @@ using Grpc.Net.Client;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddCustomServices();
+builder.Services.AddCustomServices("AuthLogs");
 
 
 builder.Services.AddControllers();
