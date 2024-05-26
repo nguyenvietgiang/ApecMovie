@@ -16,7 +16,7 @@ namespace ApecMoviePortal.Services.TicketServices
             _apiUrl = configuration["BackendApiUrl"];
         }
 
-        public async Task<bool> ConfirmTicketAsync(Guid ticketId, string token)
+        public async Task<bool> ConfirmTicketAsync(Guid ticketId, string token, string userToken)
         {
             var confirmationDto = new TicketConfirmationDTO
             {
@@ -25,6 +25,7 @@ namespace ApecMoviePortal.Services.TicketServices
             };
 
             var content = new StringContent(JsonConvert.SerializeObject(confirmationDto), Encoding.UTF8, "application/json");
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", userToken);
             var response = await _httpClient.PostAsync($"{_apiUrl}/confirm", content);
 
             return response.IsSuccessStatusCode;

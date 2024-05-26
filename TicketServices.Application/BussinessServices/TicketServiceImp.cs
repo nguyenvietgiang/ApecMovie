@@ -93,13 +93,17 @@ namespace TicketServices.Application.BussinessServices
             await _ticketRepository.UpdateTicketAsync(updatedTicket);
         }
 
-        public async Task<bool> ConfirmTicketAsync(Guid ticketId, string token)
+        public async Task<bool> ConfirmTicketAsync(Guid ticketId, string token, Guid Userid)
         {
             var ticket = await _ticketRepository.GetTicketByIdAsync(ticketId);
             // Kiểm tra xem vé có tồn tại không
             if (ticket == null)
             {
                 throw new ArgumentException("Vé không khả dụng");
+            }
+            if (ticket.UserID != Userid)
+            {
+                throw new ArgumentException("Vé đã được đặt bởi một tài khoản khác");
             }
             if (ticket.Token != token)
             {

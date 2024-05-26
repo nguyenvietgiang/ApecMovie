@@ -10,7 +10,7 @@ namespace TicketServices.Application.BussinessServices
         Task<Ticket> AddTicketAsync(TicketDTO ticketDTO, Guid UserID);
         Task UpdateTicketAsync(Guid id, TicketDTO ticketDTO);
         Task DeleteTicketAsync(Guid id);
-        Task<bool> ConfirmTicketAsync(Guid ticketId, string token);
+        Task<bool> ConfirmTicketAsync(Guid ticketId, string token, Guid Userid);
 
         Task<IEnumerable<Ticket>> GetUnpaidTicketsByUserAsync(Guid userId);
         Task<bool> MarkTicketAsPaidAsync(Guid ticketId);

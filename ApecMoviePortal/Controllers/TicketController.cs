@@ -15,6 +15,11 @@ namespace ApecMoviePortal.Controllers
         [HttpGet]
         public IActionResult Confirm(string ticketId, string token)
         {
+            var accestoken = Request.Cookies["AccessToken"];
+            if (string.IsNullOrEmpty(accestoken))
+            {
+                return RedirectToAction("Login", "Auth");
+            }
             ViewBag.TicketId = ticketId;
             ViewBag.Token = token;
             return View();
@@ -25,7 +30,8 @@ namespace ApecMoviePortal.Controllers
         {
             if (Guid.TryParse(ticketId, out var parsedTicketId))
             {
-                var result = await _ticketService.ConfirmTicketAsync(parsedTicketId, token);
+                var userToken = Request.Cookies["AccessToken"];
+                var result = await _ticketService.ConfirmTicketAsync(parsedTicketId, token,userToken);
                 if (result)
                 {
                     ViewBag.Message = "Xác nhận vé thành công!";

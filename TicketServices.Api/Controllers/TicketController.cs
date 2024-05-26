@@ -91,9 +91,11 @@ namespace TicketServices.Api.Controllers
         }
 
         [HttpPost("confirm")]
+        [Authorize]
         public async Task<IActionResult> ConfirmTicket([FromBody] TicketConfirmationDTO confirmation)
         {
-            var confirmationResult = await _ticketService.ConfirmTicketAsync(confirmation.TicketId, confirmation.Token);
+            var userId = GetUserIdFromClaim();
+            var confirmationResult = await _ticketService.ConfirmTicketAsync(confirmation.TicketId, confirmation.Token, userId);
             if (confirmationResult)
             {
                 return Ok("Ticket confirmed successfully");
