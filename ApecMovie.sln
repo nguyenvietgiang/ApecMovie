@@ -5,6 +5,7 @@ VisualStudioVersion = 17.9.34701.34
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Document", "Document", "{1B585B16-8451-4093-BDA2-B337AE2C4EFC}"
 	ProjectSection(SolutionItems) = preProject
+		BlazorDocument.txt = BlazorDocument.txt
 		Docker.txt = Docker.txt
 		gRPC_Document.txt = gRPC_Document.txt
 		LoadBalancing.txt = LoadBalancing.txt
@@ -95,6 +96,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GrpcServiceCore", "GrpcServiceCore\GrpcServiceCore.csproj", "{2AAAAA55-8E43-4128-AA7D-64D5BA6569B4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApecMoviePortal", "ApecMoviePortal\ApecMoviePortal.csproj", "{1B104ECF-C93F-4118-8C8B-FAF3891755B7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApecMovieManager", "ApecMovieManager\ApecMovieManager.csproj", "{EFCF6C72-E157-44B8-92E4-D48031DC1344}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -198,6 +201,10 @@ Global
 		{1B104ECF-C93F-4118-8C8B-FAF3891755B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1B104ECF-C93F-4118-8C8B-FAF3891755B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1B104ECF-C93F-4118-8C8B-FAF3891755B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EFCF6C72-E157-44B8-92E4-D48031DC1344}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFCF6C72-E157-44B8-92E4-D48031DC1344}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EFCF6C72-E157-44B8-92E4-D48031DC1344}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EFCF6C72-E157-44B8-92E4-D48031DC1344}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -239,6 +246,7 @@ Global
 		{926307AB-6455-4CA7-8603-D5EC1BDA203A} = {D0CBBE3F-E1C9-46AC-9868-1C49084131DC}
 		{2AAAAA55-8E43-4128-AA7D-64D5BA6569B4} = {9B18E059-9F4C-4457-9689-A3E813A6FF57}
 		{1B104ECF-C93F-4118-8C8B-FAF3891755B7} = {1A357578-A89D-4276-94CA-46BE51710183}
+		{EFCF6C72-E157-44B8-92E4-D48031DC1344} = {1A357578-A89D-4276-94CA-46BE51710183}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {779AF1C2-4212-456D-87EB-454DD8205177}

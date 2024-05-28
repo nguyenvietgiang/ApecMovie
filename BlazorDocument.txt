@@ -1,0 +1,17 @@
+﻿Blazor đơn giản là một FE framework như angular nhung dùng thuần C#
+
+UI cho blazor: https://www.infragistics.com/ 
+Khóa học Blazor căn bản: https://tedu.com.vn/khoa-hoc/lap-trinh-blazor-can-ban-44.html 
+
+Có thể sử dụng pj .net core web api và pj Blazor cùng nhau (tham khảo TEDU)
+kết nối Blazor và .net core web api bằng cách (trong pj tham khảo từ tedu)
+đầu tiên vào appseting.json trong wwwroot khai báo đường dẫn đến api -> sau đó vào trong program.cs để thêm vào
+
+sử dụng service để thao tác trực tiếp với api rồi sau đó ở file razor sẽ chia 3 phần
++ phần trên cùng sẽ là router và import sau đó sẽ là giao diện, 
++ Phần giữa sẽ là UI
++ ở dưới là sử lý logic gọi từ service (bắt đầu sau @code)
+
+có thể tách nó nhỏ hơn bằng cách sử dụng code behind. - routing được khai báo ngay ở đầu với @page với những trang đặc biệt cần ID thì lấy id từ parameter từ @Code
+service thao tác chính với API thông qua HTTP client (Component hiểu như cách để dùng chung trong các trang --phân trang, search dùng cho nhiều pages...--)
+Để dùng các thư viện hỗ trợ thì cài qua nuget sau đó import vào _import sau đó khai báo ở Program.CS và cuối dùng dùng ở các chỗ cần thiết
