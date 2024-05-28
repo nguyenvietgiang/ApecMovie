@@ -7,9 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="IgniteUI.Blazor.Trial" Version="22.2.65" />
+  
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.27" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.27" PrivateAssets="all" />
+    <PackageReference Include="Radzen.Blazor" Version="4.32.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Services\" />
   </ItemGroup>
 
 </Project>

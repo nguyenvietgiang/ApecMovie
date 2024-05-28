@@ -1,6 +1,6 @@
 ﻿Blazor đơn giản là một FE framework như angular nhung dùng thuần C#
 
-UI cho blazor: https://www.infragistics.com/ 
+UI cho blazor: https://www.infragistics.com/ hoặc https://blazor.radzen.com/ 
 Khóa học Blazor căn bản: https://tedu.com.vn/khoa-hoc/lap-trinh-blazor-can-ban-44.html 
 
 Có thể sử dụng pj .net core web api và pj Blazor cùng nhau (tham khảo TEDU)
