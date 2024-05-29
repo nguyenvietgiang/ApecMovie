@@ -1,11 +1,42 @@
 ﻿@page "/about"
+@using Radzen
 
 <h3>About</h3>
 
 <h5>This is my Apec blazer app created by @Name</h5>
-<RadzenButton Text="@text"></RadzenButton>
+
+<RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="1rem" Wrap="FlexWrap.Wrap">
+    <RadzenButton Text="Primary" ButtonStyle="ButtonStyle.Primary" />
+    <RadzenButton Text="Secondary" ButtonStyle="ButtonStyle.Secondary" />
+    <RadzenButton Text="Info" ButtonStyle="ButtonStyle.Info" />
+    <RadzenButton Text="Success" ButtonStyle="ButtonStyle.Success" />
+    <RadzenButton Text="Warning" ButtonStyle="ButtonStyle.Warning" />
+    <RadzenButton Text="Danger" ButtonStyle="ButtonStyle.Danger" />
+</RadzenStack>
+
+<div>
+    <RadzenStack AlignItems="AlignItems.Center" Class="rz-m-12" Gap="2rem">
+        <RadzenProgressBarCircular Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
+        <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">ProgressBarCircular with <strong>ProgressBarStyle</strong> property</RadzenText>
+        <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Center" Wrap="FlexWrap.Wrap">
+            <RadzenProgressBarCircular ProgressBarStyle="ProgressBarStyle.Primary" Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
+            <RadzenProgressBarCircular ProgressBarStyle="ProgressBarStyle.Secondary" Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
+            <RadzenProgressBarCircular ProgressBarStyle="ProgressBarStyle.Light" Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
+            <RadzenProgressBarCircular ProgressBarStyle="ProgressBarStyle.Dark" Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
+            <RadzenProgressBarCircular ProgressBarStyle="ProgressBarStyle.Success" Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
+            <RadzenProgressBarCircular ProgressBarStyle="ProgressBarStyle.Danger" Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
+            <RadzenProgressBarCircular ProgressBarStyle="ProgressBarStyle.Warning" Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
+            <RadzenProgressBarCircular ProgressBarStyle="ProgressBarStyle.Info" Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
+        </RadzenStack>
+    </RadzenStack>
+</div>
+
+<div class="rz-p-12 rz-text-align-center">
+    <RadzenRating @bind-Value=@value />
+</div>
 
 @code {
     string Name = "Giang";
     string text = "Hi";
+    int value;
 }

@@ -1,9 +1,46 @@
 ﻿@page "/login"
- @* Đánh dấu là trang này không sử dụng layout *@
+@* Đánh dấu là trang này không sử dụng layout *@
 @layout NoMenuLayout
 
-<h3>Login</h3>
+@inject NavigationManager Navigation
+
+<RadzenCard class="rz-my-12 rz-mx-auto rz-p-4 rz-p-md-12" style="max-width: 600px;">
+    <RadzenTemplateForm Data=@("LoginWithDefaultValues")>
+        <RadzenLogin AllowRegister="true" AllowResetPassword="true" Username=@userName Password=@password
+                     AllowRememberMe="true" RememberMe="@rememberMe"
+                     Login=@(args => OnLogin(args, "Login with default values"))
+                     ResetPassword=@(args => OnResetPassword(args, "Login with default values"))
+                     Register=@(args => OnRegister("Login with default values")) />
+    </RadzenTemplateForm>
+</RadzenCard>
 
 @code {
+    string userName = "admin";
+    string password = "admin";
+    bool rememberMe = true;
 
+    void OnLogin(LoginArgs args, string name)
+    {
+        if (args.Username == userName && args.Password == password)
+        {
+            // Logic xác thực thành công, chuyển hướng đến trang chủ
+            Navigation.NavigateTo("/");
+        }
+        else
+        {
+            // Logic xác thực thất bại, có thể thêm thông báo lỗi tại đây
+            Console.WriteLine("Invalid credentials");
+        }
+    }
+
+    void OnRegister(string name)
+    {
+        Console.WriteLine($"{name} -> Register");
+    }
+
+    void OnResetPassword(string value, string name)
+    {
+        Console.WriteLine($"{name} -> ResetPassword for user: {value}");
+    }
 }
+

@@ -9,7 +9,18 @@
         <div class="top-row px-4">
             <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
         </div>
-
+        <div class="rz-m-12">
+            <RadzenBreadCrumb>
+                <Template Context="item">
+                    <RadzenBadge Text="@item.Text" IsPill="true" />
+                </Template>
+                <ChildContent>
+                    <RadzenBreadCrumbItem Path="/" Text="Apec Movie Managerment" />
+                    <RadzenBreadCrumbItem Path="/badge" Text="Home" />
+                    <RadzenBreadCrumbItem Icon="add" Text="Add" />
+                </ChildContent>
+            </RadzenBreadCrumb>
+        </div>
         <article class="content px-4">
             @Body
         </article>

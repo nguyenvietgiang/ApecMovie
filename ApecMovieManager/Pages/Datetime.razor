@@ -1,5 +1,79 @@
 ﻿@page "/date-time"
 
-@code {
+<RadzenDataGrid AllowFiltering="true" AllowColumnResize="true" AllowAlternatingRows="false" FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="5" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
+                Data="@employees" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or" SelectionMode="DataGridSelectionMode.Single" @bind-Value="@selectedEmployees">
+    <Columns>
+        <RadzenDataGridColumn Property="EmployeeID" Filterable="false" Title="ID" Frozen="true" Width="80px" TextAlign="TextAlign.Center" />
+        <RadzenDataGridColumn Title="Photo" Frozen="true" Sortable="false" Filterable="false" Width="80px" TextAlign="TextAlign.Center">
+            <Template Context="data">
+                <RadzenImage Path="@data.Photo" class="rz-gravatar" AlternateText="@(data.FirstName + " " + data.LastName)" />
+            </Template>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn Property="FirstName" Title="First Name" Frozen="true" Width="160px" />
+        <RadzenDataGridColumn Property="LastName" Title="Last Name" Width="160px" />
+        <RadzenDataGridColumn Property="Title" Title="Job Title" Width="200px" />
+        <RadzenDataGridColumn Property="TitleOfCourtesy" Title="Title" Width="120px" />
+        <RadzenDataGridColumn Property="BirthDate" Title="Birth Date" FormatString="{0:d}" Width="160px" />
+        <RadzenDataGridColumn Property="HireDate" Title="Hire Date" FormatString="{0:d}" Width="160px" />
+        <RadzenDataGridColumn Property="Address" Title="Address" Width="200px" />
+        <RadzenDataGridColumn Property="City" Title="City" Width="160px" />
+        <RadzenDataGridColumn Property="Region" Title="Region" Width="160px" />
+        <RadzenDataGridColumn Property="PostalCode" Title="Postal Code" Width="160px" />
+        <RadzenDataGridColumn Property="Country" Title="Country" Width="160px" />
+        <RadzenDataGridColumn Property="HomePhone" Title="Home Phone" Width="160px" />
+        <RadzenDataGridColumn Property="Extension" Title="Extension" Width="160px" />
+        <RadzenDataGridColumn Property="Notes" Title="Notes" Width="300px" />
+    </Columns>
+</RadzenDataGrid>
 
+@code {
+    public class Employee
+    {
+        public int EmployeeID { get; set; }
+        public string Photo { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Title { get; set; }
+        public string TitleOfCourtesy { get; set; }
+        public DateTime? BirthDate { get; set; }
+        public DateTime? HireDate { get; set; }
+        public string Address { get; set; }
+        public string City { get; set; }
+        public string Region { get; set; }
+        public string PostalCode { get; set; }
+        public string Country { get; set; }
+        public string HomePhone { get; set; }
+        public string Extension { get; set; }
+        public string Notes { get; set; }
+    }
+    IEnumerable<Employee> employees = new List<Employee>
+    {
+        new Employee
+        {
+            EmployeeID = 1,
+            Photo = "https://apecgroup.net/upload/news/Yc1i_logo-apec-group.jpg",
+            FirstName = "John",
+            LastName = "Doe",
+            Title = "Sales Manager",
+            TitleOfCourtesy = "Mr.",
+            BirthDate = new DateTime(1980, 5, 15),
+            HireDate = new DateTime(2005, 3, 1),
+            Address = "123 Main St.",
+            City = "New York",
+            Region = "NY",
+            PostalCode = "10001",
+            Country = "USA",
+            HomePhone = "555-1234",
+            Extension = "5678",
+            Notes = "Lorem ipsum dolor sit amet."
+        },
+        // Thêm các đối tượng Employee khác tại đây
+    };
+
+    IList<Employee> selectedEmployees;
+
+    protected override void OnInitialized()
+    {
+        selectedEmployees = new List<Employee> { employees.FirstOrDefault() };
+    }
 }
