@@ -97,7 +97,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GrpcServiceCore", "GrpcServ
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApecMoviePortal", "ApecMoviePortal\ApecMoviePortal.csproj", "{1B104ECF-C93F-4118-8C8B-FAF3891755B7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApecMovieManager", "ApecMovieManager\ApecMovieManager.csproj", "{EFCF6C72-E157-44B8-92E4-D48031DC1344}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApecMovieManager", "ApecMovieManager\ApecMovieManager.csproj", "{EFCF6C72-E157-44B8-92E4-D48031DC1344}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{0574D6C4-7BFE-4E78-854D-7C3693DA72F3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -205,6 +207,10 @@ Global
 		{EFCF6C72-E157-44B8-92E4-D48031DC1344}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EFCF6C72-E157-44B8-92E4-D48031DC1344}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EFCF6C72-E157-44B8-92E4-D48031DC1344}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0574D6C4-7BFE-4E78-854D-7C3693DA72F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0574D6C4-7BFE-4E78-854D-7C3693DA72F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0574D6C4-7BFE-4E78-854D-7C3693DA72F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0574D6C4-7BFE-4E78-854D-7C3693DA72F3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

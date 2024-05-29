@@ -1,0 +1,15 @@
+{
+  "profiles": {
+    "Docker Compose": {
+      "commandName": "DockerCompose",
+      "commandVersion": "1.0",
+      "serviceActions": {
+        "movieservices.api": "StartDebugging",
+        "emailservices.api": "StartDebugging",
+        "ticketservices.api": "StartDebugging",
+        "userservices.api": "StartDebugging",
+        "apecmoviegateway": "StartDebugging"
+      }
+    }
+  }
+}

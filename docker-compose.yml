@@ -1,0 +1,36 @@
+version: '3.4'
+
+services:
+  movieservices.api:
+    image: ${DOCKER_REGISTRY-}movieservicesapi
+    build:
+      context: .
+      dockerfile: MovieServices.Api/Dockerfile
+
+  emailservices.api:
+    image: ${DOCKER_REGISTRY-}emailservicesapi
+    build:
+      context: .
+      dockerfile: EmailServices.Api/Dockerfile
+
+
+  ticketservices.api:
+    image: ${DOCKER_REGISTRY-}ticketservicesapi
+    build:
+      context: .
+      dockerfile: TicketServices.Api/Dockerfile
+
+
+  userservices.api:
+    image: ${DOCKER_REGISTRY-}userservicesapi
+    build:
+      context: .
+      dockerfile: UserServices.Api/Dockerfile
+
+
+  apecmoviegateway:
+    image: ${DOCKER_REGISTRY-}apecmoviegateway
+    build:
+      context: .
+      dockerfile: ApecMovieGateWay/Dockerfile
+
