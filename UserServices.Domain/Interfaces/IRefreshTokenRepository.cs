@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UserServices.Domain.Models;
+﻿using UserServices.Domain.Models;
 
 namespace UserServices.Domain.Interfaces
 {
@@ -13,5 +8,7 @@ namespace UserServices.Domain.Interfaces
         Task RemoveRefreshTokenAsync(Guid refreshTokenId);
         Task<RefreshToken> GetRefreshTokenAsync(string refreshToken);
         Task UpdateRefreshTokenAsync(RefreshToken refreshToken);
+        Task<RefreshToken> GetRefreshTokenByUserIdAsync(Guid userId); // xem refesh token dựa trên id người dùng
+        Task DeleteRefreshTokenByUserIdAsync(Guid userId); // khóa khỏi CSDL
     }
 }

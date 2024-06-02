@@ -7,8 +7,8 @@ namespace ApecCoreIdentity
 {
     public class JwtTokenService
     {
-        public const double AccessTokenExpirationMinutes = 60; // Thời gian hết hạn của access token
-        public const double RefreshTokenExpirationDays = 7; // Thời gian hết hạn của refresh token
+        public const double AccessTokenExpirationMinutes = 30; // Thời gian hết hạn của access token
+        public const double RefreshTokenExpirationDays = 10; // Thời gian hết hạn của refresh token
 
         public (string accessToken, string refreshToken) GenerateTokens(ClaimsIdentity claimsIdentity)
         {
@@ -19,7 +19,7 @@ namespace ApecCoreIdentity
             var refreshToken = GenerateRefreshToken();
 
             return (accessToken, refreshToken);
-        }
+        } 
 
         private string GenerateAccessToken(ClaimsIdentity claimsIdentity, SigningCredentials credentials)
         {
@@ -46,6 +46,32 @@ namespace ApecCoreIdentity
                 return Convert.ToBase64String(randomNumber);
             }
         }
+
+        public ClaimsPrincipal GetPrincipalFromToken(string token)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var tokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = false, //kiểm tra thời hạn token
+                ValidateIssuerSigningKey = true,
+                ValidIssuer = JwtConfig.Issuer,
+                ValidAudience = JwtConfig.Audience,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JwtConfig.SecretKey))
+            };
+
+            var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out SecurityToken validatedToken);
+            return principal;
+        }
+
+        public DateTime GetExpiryFromToken(string token)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var jwtToken = tokenHandler.ReadJwtToken(token);
+            return jwtToken.ValidTo;
+        }
+
     }
 }
 

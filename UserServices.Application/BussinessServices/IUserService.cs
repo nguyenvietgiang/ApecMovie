@@ -12,6 +12,7 @@ namespace UserServices.Application.BussinessServices
         Task DeleteAsync(Guid id);
         Task<Response<LoginResponse>> LoginAsync(LoginRequest loginRequest);
         Task<Response<LoginResponse>> RefreshTokensAsync(string refreshToken);
+        Task<Response<string>> LogoutAsync(string accessToken);
     }
 
 }

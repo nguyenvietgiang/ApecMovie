@@ -39,7 +39,7 @@ builder.Services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
 
 builder.Services.AddAutoMapper(typeof(MappingUserProfile));
 
-
+builder.Services.AddScoped<BlacklistTokenService>();
 builder.Services.AddScoped<IUserService, UserServiceImplementation>();
 
 builder.Services.AddSingleton(services =>
@@ -51,6 +51,14 @@ builder.Services.AddSingleton(services =>
 // Đăng ký EmailSenderClient
 builder.Services.AddScoped<EmailSenderClient>();
 
+// Đọc cấu hình Redis từ appsettings.json
+var redisConfiguration = builder.Configuration.GetSection("RedisCache");
+
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = redisConfiguration["Server"];
+    options.InstanceName = redisConfiguration["InstanceName"];
+});
 
 var app = builder.Build();
 

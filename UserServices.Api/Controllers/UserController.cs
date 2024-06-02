@@ -18,12 +18,14 @@ namespace UserServices.Api.Controllers
         private readonly IMessageProducer _producer;
         private readonly EmailSenderClient _emailSenderClient;
         private readonly ILogger<UserController> _logger;
-        public UserController(IUserService userService , IMessageProducer messageProducer, EmailSenderClient emailSenderClient, ILogger<UserController> logger)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public UserController(IUserService userService , IMessageProducer messageProducer, EmailSenderClient emailSenderClient, ILogger<UserController> logger, IHttpContextAccessor httpContextAccessor)
         {
             _userService = userService;
             _producer = messageProducer;
             _emailSenderClient = emailSenderClient;
             _logger = logger;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         [HttpGet("{id}")]
@@ -157,6 +159,31 @@ namespace UserServices.Api.Controllers
             catch (Exception ex)
             {
                 return StatusCode(500, new Response<LoginResponse>(500, $"Internal server error: {ex.Message}", null));
+            }
+        }
+
+        [HttpPost("logout")]
+        [Authorize]
+        public async Task<IActionResult> Logout()
+        {
+            // Lấy access token từ header
+            var accessToken = _httpContextAccessor.HttpContext.Request.Headers["Authorization"];
+
+            if (string.IsNullOrEmpty(accessToken))
+            {
+                return BadRequest("Access token is missing");
+            }
+
+            // Gọi phương thức logout
+            var response = await _userService.LogoutAsync(accessToken);
+
+            if (response.StatusCode == 200)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return StatusCode(response.StatusCode, response);
             }
         }
 

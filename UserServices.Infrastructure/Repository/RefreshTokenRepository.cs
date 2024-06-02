@@ -40,5 +40,20 @@ namespace UserServices.Infrastructure.Repository
             _context.RefreshTokens.Update(refreshToken);
             await _context.SaveChangesAsync();
         }
+
+        public async Task<RefreshToken> GetRefreshTokenByUserIdAsync(Guid userId) 
+        {
+            return await _context.RefreshTokens.FirstOrDefaultAsync(rt => rt.UserId == userId);
+        }
+
+        public async Task DeleteRefreshTokenByUserIdAsync(Guid userId) 
+        {
+            var refreshToken = await _context.RefreshTokens.FirstOrDefaultAsync(rt => rt.UserId == userId);
+            if (refreshToken != null)
+            {
+                _context.RefreshTokens.Remove(refreshToken);
+                await _context.SaveChangesAsync();
+            }
+        }
     }
 }

@@ -15,12 +15,14 @@ namespace UserServices.Application.BussinessServices
         private readonly IMapper _mapper;
         private readonly JwtTokenService _jwtTokenService;
         private readonly IRefreshTokenRepository _refreshTokenRepository;
-        public UserServiceImplementation(IUserRepository userRepository, IMapper mapper, IRefreshTokenRepository refreshTokenRepository)
+        private readonly BlacklistTokenService _blacklistTokenService;
+        public UserServiceImplementation(IUserRepository userRepository, IMapper mapper, IRefreshTokenRepository refreshTokenRepository, BlacklistTokenService blacklistTokenService)
         {
             _userRepository = userRepository;
             _mapper = mapper;
             _jwtTokenService = new JwtTokenService();
             _refreshTokenRepository = refreshTokenRepository;
+            _blacklistTokenService = blacklistTokenService;
         }
 
         public async Task<UserDTO> GetByIdAsync(Guid id)
@@ -161,10 +163,46 @@ namespace UserServices.Application.BussinessServices
             return responseModel;
         }
 
-
         private bool IsRefreshTokenValid(RefreshToken refreshToken)
         {
             return refreshToken != null && refreshToken.ExpirationTime > DateTime.UtcNow;
+        }
+
+        public async Task<Response<string>> LogoutAsync(string accessToken)
+        {
+            try
+            {
+                // kiểm tra token
+                var claimsPrincipal = _jwtTokenService.GetPrincipalFromToken(accessToken);
+                if (claimsPrincipal == null)
+                {
+                    return new Response<string>(401, "Invalid access token", null);
+                }
+                // lấy id người dùng từ token
+                var userIdClaim = claimsPrincipal.FindFirst(ClaimTypes.NameIdentifier);
+                if (userIdClaim == null || !Guid.TryParse(userIdClaim.Value, out Guid userId))
+                {
+                    return new Response<string>(401, "Invalid access token", null);
+                }
+                var accessTokenExpiry = _jwtTokenService.GetExpiryFromToken(accessToken);
+                // Tìm refresh token trong cơ sở dữ liệu
+                var refreshTokenEntity = await _refreshTokenRepository.GetRefreshTokenByUserIdAsync(userId);
+                if (refreshTokenEntity == null)
+                {
+                    return new Response<string>(401, "Invalid refresh token", null);
+                }
+                // Thêm access token và refresh token vào danh sách đen
+                await _blacklistTokenService.AddToBlacklistAsync(accessToken, accessTokenExpiry - DateTime.UtcNow);
+                await _blacklistTokenService.AddToBlacklistAsync(refreshTokenEntity.RefeshToken, refreshTokenEntity.ExpirationTime - DateTime.UtcNow);
+                // Xóa refresh token khỏi cơ sở dữ liệu
+                await _refreshTokenRepository.DeleteRefreshTokenByUserIdAsync(userId);
+
+                return new Response<string>(200, "Successfully logged out", null);
+            }
+            catch (Exception ex)
+            {
+                return new Response<string>(500, $"Internal server error: {ex.Message}", null);
+            }
         }
     }
 }
