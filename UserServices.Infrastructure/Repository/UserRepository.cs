@@ -38,6 +38,11 @@ namespace UserServices.Infrastructure.Repository
 
         public async Task UpdateAsync(User entity)
         {
+            var trackedEntity = _context.Users.Local.FirstOrDefault(e => e.Id == entity.Id);
+            if (trackedEntity != null)
+            {
+                _context.Entry(trackedEntity).State = EntityState.Detached;
+            }
             _context.Users.Update(entity);
             await _context.SaveChangesAsync();
         }

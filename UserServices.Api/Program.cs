@@ -14,6 +14,7 @@ using IoCmanage;
 using GrpcEmailService;
 using Grpc.Net.Client;
 using Syncfusion.Licensing;
+using UserServices.Api.Services;
 
 
 
@@ -63,7 +64,7 @@ builder.Services.AddStackExchangeRedisCache(options =>
 
 SyncfusionLicenseProvider.RegisterLicense("MTQwNUAzMTM4MmUzNDJlMzBGT29sdENza2kyME1jUHpPNVd5enVXY1AvNVZ1SVdPQlVMNUE4R1c1M0FvPQ==");
 
-
+builder.Services.AddScoped<ExcelTemplateService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

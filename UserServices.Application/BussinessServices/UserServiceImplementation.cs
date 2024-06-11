@@ -57,10 +57,17 @@ namespace UserServices.Application.BussinessServices
                 throw new Exception("User not found");
             }
 
-            var user = _mapper.Map<User>(userDTO);
-            user.Id = id;
-            await _userRepository.UpdateAsync(user);
+            // Update only the changed fields
+            existingUser.Name = userDTO.Name ?? existingUser.Name;
+            existingUser.Email = userDTO.Email ?? existingUser.Email;
+            if (!string.IsNullOrEmpty(userDTO.Password))
+            {
+                existingUser.Password = Encrypt.HashingCore(userDTO.Password);
+            }
+
+            await _userRepository.UpdateAsync(existingUser);
         }
+
 
         public async Task DeleteAsync(Guid id)
         {

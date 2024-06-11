@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using RabbitMQ.Event;
 using Syncfusion.XlsIO;
 using System.Security.Claims;
+using UserServices.Api.Services;
 using UserServices.Application.BussinessServices;
 using UserServices.Application.ModelsDTO;
 
@@ -19,13 +20,15 @@ namespace UserServices.Api.Controllers
         private readonly EmailSenderClient _emailSenderClient;
         private readonly ILogger<UserController> _logger;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        public UserController(IUserService userService , IMessageProducer messageProducer, EmailSenderClient emailSenderClient, ILogger<UserController> logger, IHttpContextAccessor httpContextAccessor)
+        private readonly ExcelTemplateService _excelTemplateService;
+        public UserController(IUserService userService , IMessageProducer messageProducer, EmailSenderClient emailSenderClient, ILogger<UserController> logger, IHttpContextAccessor httpContextAccessor, ExcelTemplateService excelTemplateService)
         {
             _userService = userService;
             _producer = messageProducer;
             _emailSenderClient = emailSenderClient;
             _logger = logger;
             _httpContextAccessor = httpContextAccessor;
+            _excelTemplateService = excelTemplateService;
         }
 
         [HttpGet("{id}")]
@@ -216,6 +219,21 @@ namespace UserServices.Api.Controllers
             return Ok(users.Count + " users have been added successfully.");
         }
 
+        [HttpGet("download/{templateName}")]
+        public IActionResult DownloadTemplate(string templateName)
+        {
+            try
+            {
+                byte[] fileContents = _excelTemplateService.GetExcelTemplate(templateName);
+                return File(fileContents, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", templateName + ".xlsx");
+            }
+            catch (FileNotFoundException)
+            {
+                return NotFound("Template not found.");
+            }
+        }
+
+        // dùng để đọc khi thêm mới bản ghi
         private List<UserDTO> ReadUsersFromExcel(Stream stream)
         {
             List<UserDTO> users = new List<UserDTO>();
@@ -238,6 +256,57 @@ namespace UserServices.Api.Controllers
                         Password = worksheet[row, 3].Text
                     };
                     users.Add(user);
+                }
+            }
+            return users;
+        }
+
+
+        [HttpPost("update")]
+        public async Task<IActionResult> Update(IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+                return BadRequest("File không hợp lệ.");
+
+            List<(Guid Id, UserDTO UserDTO)> users;
+            using (var stream = new MemoryStream())
+            {
+                await file.CopyToAsync(stream);
+                users = ReadUsersForUpdateFromExcel(stream);
+            }
+
+            foreach (var (id, user) in users)
+            {
+                await _userService.UpdateAsync(id, user);
+            }
+
+            return Ok(users.Count + " users have been updated successfully.");
+        }
+
+        // dùng để đọc khi thay đổi bản ghi
+        private List<(Guid Id, UserDTO UserDTO)> ReadUsersForUpdateFromExcel(Stream stream)
+        {
+            List<(Guid, UserDTO)> users = new List<(Guid, UserDTO)>();
+            using (ExcelEngine excelEngine = new ExcelEngine())
+            {
+                IApplication application = excelEngine.Excel;
+                application.DefaultVersion = ExcelVersion.Excel2016;
+
+                stream.Position = 0;
+                IWorkbook workbook = application.Workbooks.Open(stream);
+                IWorksheet worksheet = workbook.Worksheets[0];
+
+                int rowCount = worksheet.Rows.Length;
+                for (int row = 2; row <= rowCount; row++) // Assuming first row is header
+                {
+                    Guid id = Guid.Parse(worksheet[row, 1].Text);
+                    UserDTO user = new UserDTO
+                    {
+                        Name = worksheet[row, 2].Text,
+                        Email = worksheet[row, 3].Text,
+                        Password = worksheet[row, 4].Text
+                    };
+                    users.Add((id, user));
                 }
             }
             return users;
