@@ -1,9 +1,9 @@
 ﻿using ApecMovieCore.BaseResponse;
 using Grpc.Core;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RabbitMQ.Event;
+using Syncfusion.XlsIO;
 using System.Security.Claims;
 using UserServices.Application.BussinessServices;
 using UserServices.Application.ModelsDTO;
@@ -194,6 +194,55 @@ namespace UserServices.Api.Controllers
                 throw new UnauthorizedAccessException();
             return Id;
         }
+
+        [HttpPost("upload")]
+        public async Task<IActionResult> Upload(IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+                return BadRequest("File không hợp lệ.");
+
+            List<UserDTO> users;
+            using (var stream = new MemoryStream())
+            {
+                await file.CopyToAsync(stream);
+                users = ReadUsersFromExcel(stream);
+            }
+
+            foreach (var user in users)
+            {
+                await _userService.AddAsync(user);
+            }
+
+            return Ok(users.Count + " users have been added successfully.");
+        }
+
+        private List<UserDTO> ReadUsersFromExcel(Stream stream)
+        {
+            List<UserDTO> users = new List<UserDTO>();
+            using (ExcelEngine excelEngine = new ExcelEngine())
+            {
+                IApplication application = excelEngine.Excel;
+                application.DefaultVersion = ExcelVersion.Excel2016;
+
+                stream.Position = 0;
+                IWorkbook workbook = application.Workbooks.Open(stream);
+                IWorksheet worksheet = workbook.Worksheets[0];
+
+                int rowCount = worksheet.Rows.Length;
+                for (int row = 2; row <= rowCount; row++) // hàng đầu tiền là header
+                {
+                    UserDTO user = new UserDTO
+                    {
+                        Name = worksheet[row, 1].Text,
+                        Email = worksheet[row, 2].Text,
+                        Password = worksheet[row, 3].Text
+                    };
+                    users.Add(user);
+                }
+            }
+            return users;
+        }
+
 
     }
 }

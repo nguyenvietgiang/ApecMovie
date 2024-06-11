@@ -13,6 +13,7 @@ using SwaggerDoc;
 using IoCmanage;
 using GrpcEmailService;
 using Grpc.Net.Client;
+using Syncfusion.Licensing;
 
 
 
@@ -59,6 +60,9 @@ builder.Services.AddStackExchangeRedisCache(options =>
     options.Configuration = redisConfiguration["Server"];
     options.InstanceName = redisConfiguration["InstanceName"];
 });
+
+SyncfusionLicenseProvider.RegisterLicense("MTQwNUAzMTM4MmUzNDJlMzBGT29sdENza2kyME1jUHpPNVd5enVXY1AvNVZ1SVdPQlVMNUE4R1c1M0FvPQ==");
+
 
 var app = builder.Build();
 
