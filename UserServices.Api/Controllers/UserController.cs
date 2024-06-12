@@ -69,7 +69,6 @@ namespace UserServices.Api.Controllers
 
 
         [HttpGet]
-        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<Response<IEnumerable<UserDTO>>>> GetAll()
         {
             var users = await _userService.GetAllAsync();
