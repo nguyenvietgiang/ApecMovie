@@ -103,13 +103,17 @@ Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-co
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FoodServies", "FoodServies", "{A9578BC4-FA47-4871-BEA8-6FD1361ACEE0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApecFoodService.Domain", "ApecFoodService.Domain\ApecFoodService.Domain.csproj", "{5EC443F5-0DA7-4DDC-94D4-214F6822D952}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApecFoodService.Domain", "ApecFoodService.Domain\ApecFoodService.Domain.csproj", "{5EC443F5-0DA7-4DDC-94D4-214F6822D952}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApecFoodService.Infrastructure", "ApecFoodService.Infrastructure\ApecFoodService.Infrastructure.csproj", "{BBDF9ADD-868C-45F0-B2CD-356EBBEF516D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApecFoodService.Infrastructure", "ApecFoodService.Infrastructure\ApecFoodService.Infrastructure.csproj", "{BBDF9ADD-868C-45F0-B2CD-356EBBEF516D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApecFoodService.Application", "ApecFoodService.Application\ApecFoodService.Application.csproj", "{5896D161-1999-4595-8AF4-232A0ECBB3F1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApecFoodService.Application", "ApecFoodService.Application\ApecFoodService.Application.csproj", "{5896D161-1999-4595-8AF4-232A0ECBB3F1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApecFoodService.API", "ApecFoodService.API\ApecFoodService.API.csproj", "{67116EDA-A849-4BE7-B0FF-B1C20FBCBF4A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApecFoodService.API", "ApecFoodService.API\ApecFoodService.API.csproj", "{67116EDA-A849-4BE7-B0FF-B1C20FBCBF4A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LogServices", "LogServices", "{42AB75E7-7688-4162-9436-E2771D7CA596}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogServices.API", "LogServices.API\LogServices.API.csproj", "{1E53D3E0-8F9E-4093-AAAF-76D4FB042276}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -237,6 +241,10 @@ Global
 		{67116EDA-A849-4BE7-B0FF-B1C20FBCBF4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{67116EDA-A849-4BE7-B0FF-B1C20FBCBF4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{67116EDA-A849-4BE7-B0FF-B1C20FBCBF4A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E53D3E0-8F9E-4093-AAAF-76D4FB042276}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E53D3E0-8F9E-4093-AAAF-76D4FB042276}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E53D3E0-8F9E-4093-AAAF-76D4FB042276}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E53D3E0-8F9E-4093-AAAF-76D4FB042276}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -284,6 +292,8 @@ Global
 		{BBDF9ADD-868C-45F0-B2CD-356EBBEF516D} = {A9578BC4-FA47-4871-BEA8-6FD1361ACEE0}
 		{5896D161-1999-4595-8AF4-232A0ECBB3F1} = {A9578BC4-FA47-4871-BEA8-6FD1361ACEE0}
 		{67116EDA-A849-4BE7-B0FF-B1C20FBCBF4A} = {A9578BC4-FA47-4871-BEA8-6FD1361ACEE0}
+		{42AB75E7-7688-4162-9436-E2771D7CA596} = {4C7E27D1-8984-4D76-9990-BD1769862EBF}
+		{1E53D3E0-8F9E-4093-AAAF-76D4FB042276} = {42AB75E7-7688-4162-9436-E2771D7CA596}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {779AF1C2-4212-456D-87EB-454DD8205177}
