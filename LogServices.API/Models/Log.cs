@@ -1,23 +1,58 @@
-﻿using MongoDB.Bson;
-using System.Globalization;
+﻿using LogServices.API.Common;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+using System;
+using System.Collections.Generic;
 
 namespace LogServices.API.Models
 {
+    [BsonIgnoreExtraElements]
     public class Log
     {
-        public ObjectId? Id { get; set; }
-        public DateTime Timestamp { get; set; } // Giữ nguyên kiểu DateTime
-        public string Level { get; set; }
-        public string MessageTemplate { get; set; }
-        public string RenderedMessage { get; set; }
-        public Dictionary<string, object>? Properties { get; set; }
+        [BsonId]
+        public ObjectId Id { get; set; }
 
-        public DateTime ParseTimestampFromString(string timestampString)
-        {
-            // Logic xử lý chuyển đổi chuỗi timestamp sang DateTime
-            // Bạn có thể sử dụng thư viện DateTime.ParseExact hoặc các phương thức khác
-            return DateTime.ParseExact(timestampString, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture); // Định dạng cần điều chỉnh cho phù hợp với MongoDB
-        }
+        [BsonElement("Timestamp")]
+        public DateTime Timestamp { get; set; }
+
+        [BsonElement("Level")]
+        public string Level { get; set; }
+
+        [BsonElement("MessageTemplate")]
+        public string MessageTemplate { get; set; }
+
+        [BsonElement("RenderedMessage")]
+        public string RenderedMessage { get; set; }
+
+        [BsonElement("Properties")]
+        public Properties Properties { get; set; }
+
+        [BsonElement("UtcTimestamp")]
+        [BsonSerializer(typeof(CustomDateTimeSerializer))]
+        public DateTime UtcTimestamp { get; set; }
     }
 
+    [BsonIgnoreExtraElements]
+    public class Properties
+    {
+        [BsonElement("FullName")]
+        public string FullName { get; set; }
+
+        [BsonElement("EventId")]
+        public EventId EventId { get; set; }
+
+        [BsonElement("SourceContext")]
+        public string SourceContext { get; set; }
+    }
+
+    [BsonIgnoreExtraElements]
+    public class EventId
+    {
+        [BsonElement("Id")]
+        public int Id { get; set; }
+
+        [BsonElement("Name")]
+        public string Name { get; set; }
+    }
 }
+

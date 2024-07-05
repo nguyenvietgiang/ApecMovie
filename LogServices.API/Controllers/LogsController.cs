@@ -54,12 +54,5 @@ namespace LogServices.API.Controllers
             await _logService.DeleteLogAsync(collectionName, id);
             return NoContent();
         }
-
-        [HttpPost]
-        public async Task<ActionResult<Log>> CreateLog(string collectionName, Log log)
-        {
-            await _logService.CreateLogAsync(collectionName, log);
-            return CreatedAtAction(nameof(GetLogById), new { collectionName, id = log.Id.ToString() }, log);
-        }
     }
 }
