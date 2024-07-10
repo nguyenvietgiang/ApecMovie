@@ -21,3 +21,26 @@ B1: Triển khai gRPC core server trong hệ thống core
 B2: 
 + Triển khai services và khai báo trong server với file proto
 + Triển khai ở client để gọi và giao tiếp với server thông qua port https của server
++ Port của server sẽ được khai báo trong client (tham khảo trong file program.cs của UserServices gọi Email)
+
+Lý thuyết chi tiết (tham khảo code ở gRPC server và các services sử dụng nó như UserServices và EmailServices)
++Trong gRPC, các số 1, 2, 3 xuất hiện ở các trường trong thông điệp (message) trong file .proto 
+là số định danh trường (field numbers). Đây là các số nguyên dương duy nhất được sử dụng để xác định các
+trường trong một thông điệp. Mỗi trường trong thông điệp phải có một số định danh duy nhất.
+
+Các số định danh trường đóng vai trò quan trọng trong quá trình tuần tự hóa (serialization) 
+và giải tuần tự hóa (deserialization) dữ liệu. Khi một thông điệp được tuần tự hóa để gửi qua mạng, 
+các số định danh trường được sử dụng thay vì tên trường để giảm kích thước của dữ liệu và tăng tốc độ xử lý.
+Khi thông điệp được giải tuần tự hóa tại phía nhận, các số định danh này được sử dụng để ánh xạ trở lại 
+các trường tương ứng trong thông điệp.
+
+tức là với sendmessage trong ví dụ của code hiện tại đang triển khai nó sẽ chuyển
+
+{
+  "to": "example@example.com",                        1: example@example.com
+  "subject": "Hello",                      =====>     2: Hello
+  "body": "This is a test email."                     3: This is a test email.
+}
+
+Điều này không chỉ giảm kích thước dữ liệu mà còn giúp gRPC xử lý các thông điệp nhanh hơn, 
+do không phải làm việc với tên trường dài hơn và dễ gặp lỗi.

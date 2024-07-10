@@ -57,6 +57,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+// đăng ký dịch vụ và tự động kích hoạt khi có cuộc gọi đến
 app.MapGrpcService<EmailSenderService>();
 
 app.UseHangfireServer();

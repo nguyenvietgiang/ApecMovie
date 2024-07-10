@@ -13,6 +13,7 @@ namespace EmailServices.Api.Services
             _logger = logger;
         }
 
+        // ServerCallContext context: Bối cảnh của cuộc gọi gRPC.
         public override Task<EmailResponse> SendEmail(EmailRequest request, ServerCallContext context)
         {
             _logger.LogInformation("Received email request: To={To}, Subject={Subject}, Body={Body}", request.To, request.Subject, request.Body);

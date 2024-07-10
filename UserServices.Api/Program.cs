@@ -44,6 +44,7 @@ builder.Services.AddAutoMapper(typeof(MappingUserProfile));
 builder.Services.AddScoped<BlacklistTokenService>();
 builder.Services.AddScoped<IUserService, UserServiceImplementation>();
 
+// client gọi đến port của server (ở đây là port của email service)
 builder.Services.AddSingleton(services =>
 {
     var channel = GrpcChannel.ForAddress("https://localhost:7277"); 
