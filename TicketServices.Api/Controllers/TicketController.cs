@@ -98,6 +98,9 @@ namespace TicketServices.Api.Controllers
             var confirmationResult = await _ticketService.ConfirmTicketAsync(confirmation.TicketId, confirmation.Token, userId);
             if (confirmationResult)
             {
+                var date = DateTime.UtcNow;
+                var message = $"NewTicket is payed {date}";
+                _producer.SendMessage(message, "financeUpdate");
                 return Ok("Ticket confirmed successfully");
             }
             else

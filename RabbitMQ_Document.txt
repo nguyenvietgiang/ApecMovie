@@ -44,4 +44,15 @@ Topic exchange: Gửi tin nhắn đến nhiều queue dựa trên một tiêu ch
 Fanout exchange: Broadcast tin nhắn đến tất cả các queue.
 Headers exchange: Gửi tin nhắn đến các queue dựa trên các thuộc tính cụ thể của tin nhắn.
 
+Trong dự án này có một phần chạy bằng Django thông qua thư viện pika
+để có thể thực hiện consume từ ứng dụng này, sử dụng lệnh: python manage.py run_rabbitmq_consumer
+có thể chạy riêng ko cần chạy cùng manage.py runserver
+URL của các API finance: 
+GET /api/apec-finance/: Lấy danh sách tất cả các bản ghi
+POST /api/apec-finance/: Tạo bản ghi mới
+GET /api/apec-finance/{id}/: Lấy chi tiết một bản ghi
+PUT /api/apec-finance/{id}/: Cập nhật toàn bộ một bản ghi
+PATCH /api/apec-finance/{id}/: Cập nhật một phần bản ghi
+DELETE /api/apec-finance/{id}/: Xóa một bản ghi
+
 

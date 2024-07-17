@@ -87,6 +87,21 @@
       "UpstreamHttpMethod": [ "Get" ],
       "SwaggerKey": "authentication"
     },
+
+    {
+      "DownstreamPathTemplate": "/api/apec-finance/",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 8000
+        }
+      ],
+      "UpstreamPathTemplate": "/v1/api/finance",
+      "UpstreamHttpMethod": [ "Get" ],
+      "SwaggerKey": "finance"
+    },
+
     {
       "DownstreamPathTemplate": "/api/Ticket/confirm",
       "DownstreamScheme": "https",
