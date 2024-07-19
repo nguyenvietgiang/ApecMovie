@@ -9,7 +9,7 @@ using TicketServices.Infrastructure.Context;
 using TicketServices.Infrastructure.Repository;
 using SwaggerDoc;
 using IoCmanage;
-
+using ApecMovieCore.Middlewares;
 var builder = WebApplication.CreateBuilder(args);
 
 // Thêm customservices từ IocManager.
@@ -43,7 +43,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors("_myAllowSpecificOrigins");
 
-
+app.UseErrorHandlingMiddleware();
 app.UseHttpsRedirection();
 
 app.UseAuthentication(); // Thêm middleware xác thực

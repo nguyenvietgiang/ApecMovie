@@ -11,11 +11,10 @@ using UserServices.Infrastructure.Context;
 using UserServices.Infrastructure.Repository;
 using SwaggerDoc;
 using IoCmanage;
-using GrpcEmailService;
 using Grpc.Net.Client;
 using Syncfusion.Licensing;
 using UserServices.Api.Services;
-
+using ApecMovieCore.Middlewares;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -76,6 +75,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors("_myAllowSpecificOrigins");
+
+app.UseErrorHandlingMiddleware();
 
 app.UseHttpsRedirection();
 app.UseAuthentication();
