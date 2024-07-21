@@ -122,6 +122,17 @@ namespace TicketServices.Api.Controllers
             return Ok(tickets);
         }
 
+        [HttpGet("movie-ticket/{id}")]
+        public async Task<IActionResult> GetTicketByMovie(Guid id)
+        {
+            var tickets = await _ticketService.GetTicketByMovieID(id);
+            if (tickets == null)
+            {
+                return NotFound();
+            }
+            return Ok(tickets);
+        }
+
         [HttpPost("markAsPaid/{ticketId}")]
         public async Task<IActionResult> MarkTicketAsPaid(Guid ticketId)
         {

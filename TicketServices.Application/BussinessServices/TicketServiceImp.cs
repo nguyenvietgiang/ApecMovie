@@ -119,6 +119,11 @@ namespace TicketServices.Application.BussinessServices
             return await _ticketRepository.GetUnpaidTicketsByUserAsync(userId);
         }
 
+        public async Task<IEnumerable<Ticket>> GetTicketByMovieID(Guid movieId)
+        {
+            return await _ticketRepository.GetTicketbyMovie(movieId);
+        }
+
         public async Task<bool> MarkTicketAsPaidAsync(Guid ticketId)
         {
             return await _ticketRepository.UpdatePaymentStatusAsync(ticketId, PaymentStatus.Paid);

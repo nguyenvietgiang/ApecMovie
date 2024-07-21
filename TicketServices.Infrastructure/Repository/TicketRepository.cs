@@ -66,6 +66,13 @@ namespace TicketServices.Infrastructure.Repository
                 .ToListAsync();
         }
 
+        public async Task<IEnumerable<Ticket>> GetTicketbyMovie(Guid movieId)
+        {
+            return await _context.Set<Ticket>()
+                .Where(t => t.MovieID == movieId)
+                .ToListAsync();
+        }
+
         public async Task<bool> UpdatePaymentStatusAsync(Guid ticketId, PaymentStatus newStatus)
         {
             var ticket = await _context.Set<Ticket>().FindAsync(ticketId);

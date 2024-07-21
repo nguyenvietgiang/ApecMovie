@@ -13,6 +13,7 @@ namespace TicketServices.Domain.Interface
         Task<Ticket?> GetAvailableTicketAsync(Guid movieId, int seatNumber, DateTime showTime);
         Task<Ticket?> GetPendingTicketAsync(Guid movieId, int seatNumber, DateTime showTime);
         Task<IEnumerable<Ticket>> GetUnpaidTicketsByUserAsync(Guid userId);
+        Task<IEnumerable<Ticket>> GetTicketbyMovie(Guid movieId);
         Task<bool> UpdatePaymentStatusAsync(Guid ticketId, PaymentStatus newStatus);
     }
 }

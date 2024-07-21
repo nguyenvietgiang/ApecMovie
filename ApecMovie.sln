@@ -113,7 +113,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApecFoodService.API", "Apec
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LogServices", "LogServices", "{42AB75E7-7688-4162-9436-E2771D7CA596}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogServices.API", "LogServices.API\LogServices.API.csproj", "{1E53D3E0-8F9E-4093-AAAF-76D4FB042276}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LogServices.API", "LogServices.API\LogServices.API.csproj", "{1E53D3E0-8F9E-4093-AAAF-76D4FB042276}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AggregatorService", "AggregatorService", "{4216B55C-60E1-406F-A20C-E95C7F240A01}"
+	ProjectSection(SolutionItems) = preProject
+		JoinTableInMicroServices.txt = JoinTableInMicroServices.txt
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AggregatorService.API", "AggregatorService.API\AggregatorService.API.csproj", "{F333FAD5-D65B-4F5C-AA2E-DD1ADEAF41EE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -245,6 +252,10 @@ Global
 		{1E53D3E0-8F9E-4093-AAAF-76D4FB042276}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1E53D3E0-8F9E-4093-AAAF-76D4FB042276}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1E53D3E0-8F9E-4093-AAAF-76D4FB042276}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F333FAD5-D65B-4F5C-AA2E-DD1ADEAF41EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F333FAD5-D65B-4F5C-AA2E-DD1ADEAF41EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F333FAD5-D65B-4F5C-AA2E-DD1ADEAF41EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F333FAD5-D65B-4F5C-AA2E-DD1ADEAF41EE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -294,6 +305,8 @@ Global
 		{67116EDA-A849-4BE7-B0FF-B1C20FBCBF4A} = {A9578BC4-FA47-4871-BEA8-6FD1361ACEE0}
 		{42AB75E7-7688-4162-9436-E2771D7CA596} = {4C7E27D1-8984-4D76-9990-BD1769862EBF}
 		{1E53D3E0-8F9E-4093-AAAF-76D4FB042276} = {42AB75E7-7688-4162-9436-E2771D7CA596}
+		{4216B55C-60E1-406F-A20C-E95C7F240A01} = {4C7E27D1-8984-4D76-9990-BD1769862EBF}
+		{F333FAD5-D65B-4F5C-AA2E-DD1ADEAF41EE} = {4216B55C-60E1-406F-A20C-E95C7F240A01}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {779AF1C2-4212-456D-87EB-454DD8205177}
