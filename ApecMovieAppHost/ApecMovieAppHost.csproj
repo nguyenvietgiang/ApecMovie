@@ -18,6 +18,7 @@
     <ProjectReference Include="..\ApecFoodService.API\ApecFoodService.API.csproj" />
     <ProjectReference Include="..\ApecMovieManager\ApecMovieManager.csproj" />
     <ProjectReference Include="..\ApecMoviePortal\ApecMoviePortal.csproj" />
+    <ProjectReference Include="..\BlogServices\BlogServices.csproj" />
     <ProjectReference Include="..\EmailServices.Api\EmailServices.Api.csproj" />
     <ProjectReference Include="..\LogServices.API\LogServices.API.csproj" />
     <ProjectReference Include="..\MovieServices.Api\MovieServices.Api.csproj" />

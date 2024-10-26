@@ -16,13 +16,17 @@ namespace BlogServices.Common
             string originalSlug = slug;
             int counter = 1;
 
-            while (_dataContext.Set<T>().Any(p => slugPropertySelector(p) == slug))
+            // Tải toàn bộ dữ liệu vào bộ nhớ và sau đó thực hiện kiểm tra slug
+            var existingSlugs = _dataContext.Set<T>().AsEnumerable().Select(slugPropertySelector).ToList();
+
+            while (existingSlugs.Any(existingSlug => existingSlug == slug))
             {
                 slug = $"{originalSlug}-{counter++}";
             }
 
             return slug;
         }
+
 
     }
 }
