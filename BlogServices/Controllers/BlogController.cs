@@ -1,9 +1,7 @@
-﻿using ApecMovieCore.Common;
-using BlogServices.Common;
+﻿using BlogServices.Common;
 using BlogServices.Models;
 using BlogServices.Models.DTO;
 using BlogServices.Models.Entity;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,16 +22,26 @@ namespace BlogServices.Controllers
 
         // GET: api/blog
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<BlogPost>>> GetBlogs(string? authorName = null, bool isActiveOnly = true)
+        public async Task<ActionResult<IEnumerable<BlogPost>>> GetBlogs(
+            string? authorName = null,
+            bool isActiveOnly = true,
+            int pageNumber = 1,
+            int pageSize = 10,
+            bool orderByTitle = false)
         {
             var query = _context.BlogPosts.AsQueryable();
-            // sử dụng custiomize query trong Common
+
+            // Sử dụng các extension methods để lọc, sắp xếp, và phân trang
             query = query
                 .WhereIf(!string.IsNullOrEmpty(authorName), b => b.AuthorName.Contains(authorName))
-                .WhereIf(isActiveOnly, b => b.IsActive);
+                .WhereIf(isActiveOnly, b => b.IsActive)
+                .OrderByIf(orderByTitle, b => b.Title)
+                .DistinctByCustom(b => b.Title) // Lọc trùng theo Title
+                .Paginate(pageNumber, pageSize); // Phân trang
 
             return await query.ToListAsync();
         }
+
 
         // GET: api/blog/{id}
         [HttpGet("{id}")]
