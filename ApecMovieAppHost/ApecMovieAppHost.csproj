@@ -16,6 +16,7 @@
   <ItemGroup>
     <ProjectReference Include="..\AggregatorService.API\AggregatorService.API.csproj" />
     <ProjectReference Include="..\ApecFoodService.API\ApecFoodService.API.csproj" />
+    <ProjectReference Include="..\ApecMovieGateWay\ApecMovieGateWay.csproj" />
     <ProjectReference Include="..\ApecMovieManager\ApecMovieManager.csproj" />
     <ProjectReference Include="..\ApecMoviePortal\ApecMoviePortal.csproj" />
     <ProjectReference Include="..\BlogServices\BlogServices.csproj" />
