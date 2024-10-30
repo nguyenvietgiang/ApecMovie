@@ -1,7 +1,9 @@
 ﻿var builder = DistributedApplication.CreateBuilder(args);
-// api
-// đối với Movie API nên chạy riêng vì đang cần chạy nhiều port để load balancer
-//var movieApi = builder.AddProject<Projects.MovieServices_Api>("MovieServices-Api");
+// api ->với MovieAPI chạy 3 port để load balancer, 7207 đc aspire tự động nhận nên chỉ cần cấu hình 7205, 7206
+var movieApi = builder.AddProject<Projects.MovieServices_Api>("MovieServices-Api")
+                      .WithHttpsEndpoint(port: 7205, name: "https1")
+                      .WithHttpsEndpoint(port: 7206, name: "https2");
+
 
 var userApi = builder.AddProject<Projects.UserServices_Api>("UserServices-Api");
 var ticketApi = builder.AddProject<Projects.TicketServices_Api>("TicketServices-Api");
